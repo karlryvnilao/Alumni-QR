@@ -23,15 +23,15 @@ if (isset($_SESSION['username'])) {
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no">
-    <title>Dashboard - Alumni Management System for Yllana Bay View College</title>
-    <meta name="twitter:image" content="assets/img/logo3.webp">
-    <meta name="description" content="Web-Based Alumni Management System for Yllana Bay View College">
-    <link rel="icon" type="image/webp" sizes="450x450" href="assets/img/logo3.webp">
-    <link rel="icon" type="image/webp" sizes="450x450" href="assets/img/logo3.webp" media="(prefers-color-scheme: dark)">
-    <link rel="icon" type="image/webp" sizes="450x450" href="assets/img/logo3.webp">
-    <link rel="icon" type="image/webp" sizes="450x450" href="assets/img/logo3.webp" media="(prefers-color-scheme: dark)">
-    <link rel="icon" type="image/webp" sizes="450x450" href="assets/img/logo3.webp">
-    <link rel="icon" type="image/webp" sizes="450x450" href="assets/img/logo3.webp">
+    <title>Alumni Management System</title>
+    <meta name="twitter:image" content="https://student.lemerycolleges.edu.ph/images/favicon.png">
+    <meta name="description" content="Web-Based Alumni Management System">
+    <link rel="icon" type="image/webp" sizes="450x450" href="https://student.lemerycolleges.edu.ph/images/favicon.png">
+    <link rel="icon" type="image/webp" sizes="450x450" href="https://student.lemerycolleges.edu.ph/images/favicon.png" media="(prefers-color-scheme: dark)">
+    <link rel="icon" type="image/webp" sizes="450x450" href="https://student.lemerycolleges.edu.ph/images/favicon.png">
+    <link rel="icon" type="image/webp" sizes="450x450" href="https://student.lemerycolleges.edu.ph/images/favicon.png" media="(prefers-color-scheme: dark)">
+    <link rel="icon" type="image/webp" sizes="450x450" href="https://student.lemerycolleges.edu.ph/images/favicon.png">
+    <link rel="icon" type="image/webp" sizes="450x450" href="https://student.lemerycolleges.edu.ph/images/favicon.png">
     <link rel="stylesheet" href="assets/bootstrap/css/bootstrap.min.css">
     <link rel="stylesheet" href="assets/css/Nunito.css">
     <link rel="stylesheet" href="assets/fonts/fontawesome-all.min.css">
@@ -56,8 +56,7 @@ if (isset($_SESSION['username'])) {
     <nav id="navbar" class="navbar">
         <ul>
           <li><a class="nav-link scrollto active" href="#hero">Home</a></li>
-          <li><a class="nav-link scrollto" href="#about">Announcement</a></li>
-          <li><a class="nav-link scrollto" href="#services">Contact Us</a></li>
+          <li><a class="nav-link scrollto" href="#contact">Contact Us</a></li>
         </ul>
         <button class="btn btn-primary rounded-3 ms-4 shadow-sm" data-bss-hover-animate="pulse" type="button" data-bs-target="#login" data-bs-toggle="modal">&nbsp;Login</button>
         <i class="bi bi-list mobile-nav-toggle"></i>
@@ -77,22 +76,6 @@ if (isset($_SESSION['username'])) {
   <main id="main">
 
    
-
-    <!-- ======= Call To Action Section ======= -->
-    <section id="call-to-action">
-      <div class="container">
-        <div class="row" data-aos="zoom-in">
-          <div class="col-lg-9 text-center text-lg-start">
-            <h3 class="cta-title">Facts</h3>
-            <p class="cta-text"> The Technical Education and Skills Development Authority (TESDA) was established through the enactment of Republic Act No. 7796 otherwise known as the "Technical Education and Skills Development Act of 1994", which was signed into law by President Fidel V. Ramos on August 25, 1994. This Act aims to encourage the full participation of and mobilize the industry, labor, local government units and technical-vocational institutions in the skills development of the country's human resources.</p>
-          </div>
-          <div class="col-lg-3 cta-btn-container text-center">
-            <a class="cta-btn align-middle" href="https://www.tesda.gov.ph/about/tesda/10">Read more</a>
-          </div>
-        </div>
-
-      </div>
-    </section><!-- End Call To Action Section -->
 
     
 <section id="contact" class="contact">

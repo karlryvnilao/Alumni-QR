@@ -16,9 +16,9 @@ if (!isset($_SESSION['username'])) {
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no">
-    <title>Alumni - Alumni Management System for Yllana Bay View College</title>
+    <title>Alumni - Alumni Management System</title>
     <meta name="twitter:image" content="https://student.lemerycolleges.edu.ph/images/favicon.png">
-    <meta name="description" content="Web-Based Alumni Management System for Yllana Bay View College">
+    <meta name="description" content="Web-Based Alumni Management System">
     <link rel="icon" type="image/webp" sizes="450x450" href="https://student.lemerycolleges.edu.ph/images/favicon.png">
     <link rel="icon" type="image/webp" sizes="450x450" href="https://student.lemerycolleges.edu.ph/images/favicon.png" media="(prefers-color-scheme: dark)">
     <link rel="icon" type="image/webp" sizes="450x450" href="https://student.lemerycolleges.edu.ph/images/favicon.png">
@@ -52,25 +52,26 @@ if (!isset($_SESSION['username'])) {
                         <div class="card-body">
                             <div class="table-responsive table mt-2" id="dataTable-1" role="grid" aria-describedby="dataTable_info">
                                 <table class="table display my-0" id="dataTable">
-                                    <thead>
-                                        <tr>
-                                            <th>Fullname</th>
-                                            <th>Course</th>
-                                            <th>Email</th>
-                                            <th>Civil Status</th>
-                                            <th>Age</th>
-                                            <th>Birthdate</th>
-                                            <th>Year Graduated</th>
-                                            <th>Status</th>
-                                            <th class="text-center">Action</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        <?php get_students_pending(); ?>
-                                    </tbody>
-                                    <tfoot>
-                                        <tr></tr>
-                                    </tfoot>
+                                <thead>
+                                    <tr>
+                                        <th>Fullname</th>
+                                        <th>Course</th>
+                                        <th>Email</th>
+                                        <th>Civil Status</th>
+                                        <th>Age</th>
+                                        <th>Birthdate</th>
+                                        <th>Year Graduated</th>
+                                        <th>Status</th>
+                                        <th class="text-center">Action</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <?php get_students_pending(); ?>
+                                </tbody>
+                                <tfoot>
+                                    <tr></tr>
+                                </tfoot>
+
                                 </table>
                             </div>
                         </div>
@@ -290,7 +291,6 @@ if (!isset($_SESSION['username'])) {
     <script src="../assets/js/Lightbox-Gallery.js"></script>
     <script src="../assets/js/Lightbox-Gallery-baguetteBox.min.js"></script>
     <script src="../assets/js/sweetalert2.all.min.js"></script>
-    <script src="../assets/js/vanta.fog.min.js"></script>
     <script src="../assets/js/main.js"></script>
     <script>
         $("#dataTable").DataTable({
@@ -298,15 +298,6 @@ if (!isset($_SESSION['username'])) {
         dom: "Bfrtip",
         responsive: true,
         buttons: [
-          {
-            extend: "excel",
-            title: "ALUMNI ASSOCIATION",
-            className: "btn btn-primary text-primary",
-            text: '<i class="fa fa-file-excel"></i> EXCEL',
-            exportOptions: {
-              columns: [0, 1, 2, 3, 4, 5, 6, 7, 8],
-            },
-          },
           {
             extend: "pdf",
             title: "ALUMNI ASSOCIATION",

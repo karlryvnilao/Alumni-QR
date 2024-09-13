@@ -14,8 +14,8 @@ function get_course_datatable(){
             <td class="text-center">
                 <button class="btn btn-outline-warning mx-1" type="button" data-bs-target="#update" data-bs-toggle="modal" 
                     data-id="<?php echo $course['id']?>"
-                    data-name="<?php echo $course['name']?>">Update</button>
-                <button class="btn btn-outline-danger mx-1" type="button" data-bs-target="#delete" data-bs-toggle="modal" data-id="<?php echo $course['id']?>">Delete</button>
+                    data-name="<?php echo $course['name']?>"><i class="fas fa-edit"></i></button>
+                <button class="btn btn-outline-danger mx-1" type="button" data-bs-target="#delete" data-bs-toggle="modal" data-id="<?php echo $course['id']?>"><i class="fas fa-trash"></i></button>
             </td>
         </tr>
     <?php
@@ -50,8 +50,8 @@ function get_batch_datatable(){
             <td class="text-center">
                 <button class="btn btn-outline-warning mx-1" type="button" data-bs-target="#update" data-bs-toggle="modal" 
                     data-id="<?php echo $batch['id']?>"
-                    data-name="<?php echo $batch['year']?>">Update</button>
-                <button class="btn btn-outline-danger mx-1" type="button" data-bs-target="#delete" data-bs-toggle="modal" data-id="<?php echo $batch['id']?>">Delete</button>
+                    data-name="<?php echo $batch['year']?>"><i class="fas fa-edit"></i></button>
+                <button class="btn btn-outline-danger mx-1" type="button" data-bs-target="#delete" data-bs-toggle="modal" data-id="<?php echo $batch['id']?>"><i class="fas fa-trash"></i></button>
             </td>
         </tr>
     <?php
@@ -92,10 +92,10 @@ function get_students(){
                 data-graduated="<?php echo $student['graduated']?>"
                 data-phone="<?php echo $student['phone']?>"
                 data-present="<?php echo $student['present_address']?>"
-                >Update</button>
+                ><i class="fas fa-edit"></i></button>
                 <button class="btn btn-outline-danger mx-1" type="button" data-bs-target="#delete" data-bs-toggle="modal" 
                 data-id="<?php echo $student['user_id']?>"
-                >Delete</button></td>
+                ><i class="fas fa-trash"></i></button></td>
         </tr>
     <?php
     }
@@ -126,7 +126,7 @@ function get_students_pending(){
             <td class="text-center">
                 <button class="btn btn-outline-info mx-1 mb-1" type="button" data-bs-target="#approve" data-bs-toggle="modal" 
                 data-id="<?php echo $student['user_id']?>"
-                >Approve</button>
+                ><i class="fas fa-check"></i></button>
                 <button class="btn btn-outline-warning mx-1" type="button" data-bs-target="#update" data-bs-toggle="modal" 
                 data-id="<?php echo $student['user_id']?>"
                 data-username="<?php echo $student['username']?>"
@@ -139,10 +139,10 @@ function get_students_pending(){
                 data-graduated="<?php echo $student['graduated']?>"
                 data-phone="<?php echo $student['phone']?>"
                 data-present="<?php echo $student['present_address']?>"
-                >Update</button>
+                ><i class="fas fa-edit"></i></button>
                 <button class="btn btn-outline-danger mx-1" type="button" data-bs-target="#delete" data-bs-toggle="modal" 
                 data-id="<?php echo $student['user_id']?>"
-                >Delete</button></td>
+                ><i class="fas fa-trash"></i></button></td>
         </tr>
     <?php
     }
@@ -167,10 +167,10 @@ function get_students_graduated(){
                 data-fullname="<?php echo $student['fullname']?>"
                 data-course="<?php echo $student['course_name']?>"
                 data-graduated="<?php echo $student['graduated']?>"
-                >Update</button>
+                ><i class="fas fa-edit"></i></button>
                 <button class="btn btn-outline-danger mx-1" type="button" data-bs-target="#delete" data-bs-toggle="modal" 
                 data-id="<?php echo $student['id']?>"
-                >Delete</button></td>
+                ><i class="fas fa-trash"></i></button></td>
         </tr>
     <?php
     }
@@ -192,8 +192,8 @@ function get_announcements(){
                 <a class="btn btn-outline-danger mx-1" type="button" href="comment.php?id=<?php echo $announcement['id']?>">View</a>
                 <button class="btn btn-outline-warning mx-1" type="button" data-bs-target="#update" data-bs-toggle="modal" 
                     data-id="<?php echo $announcement['id']?>"
-                    data-description="<?php echo $announcement['description']?>">Update</button>
-                <button class="btn btn-outline-danger mx-1" type="button" data-bs-target="#delete" data-bs-toggle="modal" data-id="<?php echo $announcement['id']?>">Delete</button>
+                    data-description="<?php echo $announcement['description']?>"><i class="fas fa-edit"></i></button>
+                <button class="btn btn-outline-danger mx-1" type="button" data-bs-target="#delete" data-bs-toggle="modal" data-id="<?php echo $announcement['id']?>"><i class="fas fa-trash"></i></button>
             </td>
         </tr>
     <?php
@@ -208,7 +208,7 @@ function get_gallery(){
         <tr>
             <td><img class="rounded-circle me-2" width="30" height="30" src="<?php echo $file?>"><?php echo basename($file)?></td>
             <td class="text-center">
-                <button class="btn btn-outline-danger mx-1" type="button" data-bs-target="#delete" data-bs-toggle="modal" data-id="<?php echo $file?>">Delete</button>
+                <button class="btn btn-outline-danger mx-1" type="button" data-bs-target="#delete" data-bs-toggle="modal" data-id="<?php echo $file?>"><i class="fas fa-trash"></i></button>
             </td>
         </tr>
         <?php

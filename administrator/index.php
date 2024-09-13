@@ -44,21 +44,6 @@ if (!isset($_SESSION['username'])) {
                 </div>
                 <div class="row">
                     <div class="col-md-6 col-xl-3 mb-4">
-                        <a class="text-decoration-none" href="students.php">
-                            <div class="card shadow border-start-success py-2">
-                                <div class="card-body">
-                                    <div class="row align-items-center no-gutters">
-                                        <div class="col me-2">
-                                            <div class="text-uppercase text-success fw-bold text-xs mb-1"><span>GRADUATE STUDENTS</span></div>
-                                            <div class="fs-2 text-success fw-bold h5 mb-0"><span><?php get_graduate_students_count() ?></span></div>
-                                        </div>
-                                        <div class="col-auto"><i class="fas fa-user-graduate text-success fa-2x"></i></div>
-                                    </div>
-                                </div>
-                            </div>
-                        </a>
-                    </div>
-                    <div class="col-md-6 col-xl-3 mb-4">
                         <a class="text-decoration-none" href="alumni.php">
                             <div class="card shadow border-start-primary py-2">
                                 <div class="card-body">
@@ -120,45 +105,6 @@ if (!isset($_SESSION['username'])) {
                                 </div>
                             </div>
                         </a>
-                    </div>
-                </div>
-                <div class="row row-cols-2 row-cols-sm-1 row-cols-md-1 row-cols-lg-2 row-cols-xl-2 row-cols-xxl-2">
-                    <div class="col">
-                        <div class="card shadow mb-4">
-                            <div class="card-header d-flex justify-content-between align-items-center">
-                                <h6 class="text-primary fw-bold m-0">Montly Alumni</h6>
-                                <div class="dropdown no-arrow"><button class="btn btn-link btn-sm dropdown-toggle" aria-expanded="false" data-bs-toggle="dropdown" type="button"><i class="fas fa-ellipsis-v text-gray-400"></i></button>
-                                    <div class="dropdown-menu shadow dropdown-menu-end animated--fade-in">
-                                        <p class="text-center dropdown-header">dropdown header:</p><a class="dropdown-item" href="#">&nbsp;Action</a><a class="dropdown-item" href="#">&nbsp;Another action</a>
-                                        <div class="dropdown-divider"></div><a class="dropdown-item" href="#">&nbsp;Something else here</a>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="card-body">
-                                <div class="chart-area">
-                                    <?php get_students_monthly(); ?>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    
-                    <div class="col">
-                        <div class="card shadow mb-4">
-                            <div class="card-header d-flex justify-content-between align-items-center">
-                                <h6 class="text-primary fw-bold m-0">Annual Alumni</h6>
-                                <div class="dropdown no-arrow"><button class="btn btn-link btn-sm dropdown-toggle" aria-expanded="false" data-bs-toggle="dropdown" type="button"><i class="fas fa-ellipsis-v text-gray-400"></i></button>
-                                    <div class="dropdown-menu shadow dropdown-menu-end animated--fade-in">
-                                        <p class="text-center dropdown-header">dropdown header:</p><a class="dropdown-item" href="#">&nbsp;Action</a><a class="dropdown-item" href="#">&nbsp;Another action</a>
-                                        <div class="dropdown-divider"></div><a class="dropdown-item" href="#">&nbsp;Something else here</a>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="card-body">
-                                <div class="chart-area">
-                                    <?php get_students_annual(); ?>
-                                </canvas></div>
-                            </div>
-                        </div>
                     </div>
                 </div>
                 

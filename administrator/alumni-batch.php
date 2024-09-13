@@ -16,15 +16,15 @@ if (!isset($_SESSION['username'])) {
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no">
-    <title>Alumni - Alumni Management System for Yllana Bay View College</title>
-    <meta name="twitter:image" content="../assets/img/logo3.webp">
-    <meta name="description" content="Web-Based Alumni Management System for Yllana Bay View College">
-    <link rel="icon" type="image/webp" sizes="450x450" href="../assets/img/logo3.webp">
-    <link rel="icon" type="image/webp" sizes="450x450" href="../assets/img/logo3.webp" media="(prefers-color-scheme: dark)">
-    <link rel="icon" type="image/webp" sizes="450x450" href="../assets/img/logo3.webp">
-    <link rel="icon" type="image/webp" sizes="450x450" href="../assets/img/logo3.webp" media="(prefers-color-scheme: dark)">
-    <link rel="icon" type="image/webp" sizes="450x450" href="../assets/img/logo3.webp">
-    <link rel="icon" type="image/webp" sizes="450x450" href="../assets/img/logo3.webp">
+    <title>Alumni - Alumni Management System</title>
+    <meta name="twitter:image" content="https://student.lemerycolleges.edu.ph/images/favicon.png">
+    <meta name="description" content="Web-Based Alumni Management System">
+    <link rel="icon" type="image/webp" sizes="450x450" href="https://student.lemerycolleges.edu.ph/images/favicon.png">
+    <link rel="icon" type="image/webp" sizes="450x450" href="https://student.lemerycolleges.edu.ph/images/favicon.png" media="(prefers-color-scheme: dark)">
+    <link rel="icon" type="image/webp" sizes="450x450" href="https://student.lemerycolleges.edu.ph/images/favicon.png">
+    <link rel="icon" type="image/webp" sizes="450x450" href="https://student.lemerycolleges.edu.ph/images/favicon.png" media="(prefers-color-scheme: dark)">
+    <link rel="icon" type="image/webp" sizes="450x450" href="https://student.lemerycolleges.edu.ph/images/favicon.png">
+    <link rel="icon" type="image/webp" sizes="450x450" href="https://student.lemerycolleges.edu.ph/images/favicon.png">
     <link rel="stylesheet" href="../assets/bootstrap/css/bootstrap.min.css">
     <link rel="stylesheet" href="../assets/css/Nunito.css">
     <link rel="stylesheet" href="../assets/fonts/fontawesome-all.min.css">
@@ -71,7 +71,6 @@ if (!isset($_SESSION['username'])) {
     <script src="../assets/js/Lightbox-Gallery.js"></script>
     <script src="../assets/js/Lightbox-Gallery-baguetteBox.min.js"></script>
     <script src="../assets/js/sweetalert2.all.min.js"></script>
-    <script src="../assets/js/vanta.fog.min.js"></script>
     <script src="../assets/js/main.js"></script>
     <script>
         new DataTable('table.display', {
