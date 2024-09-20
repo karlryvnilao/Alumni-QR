@@ -1,8 +1,12 @@
 <?php
 include_once '../connection.php';
-require_once 'phpqrcode/qrlib.php';
+require_once 'phpqrcode/qrlib.php'; 
 
 $path = 'qrcodes/';
+if (!is_dir($path)) {
+    mkdir($path, 0777, true); // Ensure the directory exists
+}
+
 $qrcode = $path . time() . ".png";
 $qrimage = time() . ".png";
 
@@ -11,14 +15,41 @@ $username = trim(filter_var($_POST['username'], FILTER_SANITIZE_SPECIAL_CHARS));
 $password = password_hash($_POST['password'], PASSWORD_DEFAULT);
 $firstname = trim(filter_var($_POST['firstname'], FILTER_SANITIZE_SPECIAL_CHARS));
 $lastname = trim(filter_var($_POST['lastname'], FILTER_SANITIZE_SPECIAL_CHARS));
-$birthdate = $_POST['birthdate']; // Assuming valid date format is already ensured by the form
+$birthdate = $_POST['birthdate'];
 $email = filter_var($_POST['email'], FILTER_VALIDATE_EMAIL);
 $course = intval($_POST['course']);
 $civil = trim(filter_var($_POST['civil'], FILTER_SANITIZE_SPECIAL_CHARS));
 $batch = intval($_POST['batch']);
 $phone = trim(filter_var($_POST['phone'], FILTER_SANITIZE_SPECIAL_CHARS));
-$status = 'pending';
 
+// Handle file upload
+$file = $_FILES['file'];
+$allowedTypes = ['image/jpeg', 'image/png', 'image/gif'];
+$maxSize = 2 * 1024 * 1024; // 2 MB
+
+if ($file['error'] === UPLOAD_ERR_OK) {
+    if (in_array($file['type'], $allowedTypes) && $file['size'] <= $maxSize) {
+        $uploadDir = 'files/';
+        if (!is_dir($uploadDir)) {
+            mkdir($uploadDir, 0777, true); // Ensure the directory exists
+        }
+        $filePath = $uploadDir . basename($file['name']);
+        if (move_uploaded_file($file['tmp_name'], $filePath)) {
+            $file = basename($file['name']);
+        } else {
+            echo "Error moving uploaded file.";
+            exit;
+        }
+    } else {
+        echo "Invalid file type or file too large.";
+        exit;
+    }
+} else {
+    echo "File upload error.";
+    exit;
+}
+
+$status = 'pending';
 
 $sql = "SELECT * FROM `users` WHERE `username` = :username";
 $stmt = $db->prepare($sql);
@@ -29,28 +60,26 @@ if ($stmt->rowCount() > 0) {
     exit;
 }
 
-// Debugging: Check if we reach this point
-echo "Inserting into users table...<br>";
-
 // Insert into users table
 $sql = "INSERT INTO `users` (`username`, `password`) VALUES (:username, :password)";
 $stmt = $db->prepare($sql);
 $stmt->bindParam(':username', $username);
 $stmt->bindParam(':password', $password);
 
-// Check if the execution is successful
 if ($stmt->execute()) {
     $user_id = $db->lastInsertId();
-    echo "User inserted successfully with ID: $user_id <br>";
 } else {
     $errorInfo = $stmt->errorInfo();
     echo "Error inserting user: " . $errorInfo[2];
     exit;
 }
 
-// Insert into students table (the same logic applies for debugging here)
-$sql = "INSERT INTO `students` (user_id, `firstname`, `lastname`, `birthdate`, `email`, `course`, `civil`, `batch`, `phone`, `qrimage`) 
-        VALUES (:user_id, :firstname, :lastname, :birthdate, :email, :course, :civil, :batch, :phone, :qrimage)";
+// Get the selected major ID from the form
+$major_id = isset($_POST['majors']) ? intval($_POST['majors'][0]) : null; // Get the first selected major ID
+
+// Insert into students table
+$sql = "INSERT INTO `students` (user_id, `firstname`, `lastname`, `birthdate`, `email`, `course`, `civil`, `batch`, `phone`, `file`, `qrimage`, `major_id`) 
+        VALUES (:user_id, :firstname, :lastname, :birthdate, :email, :course, :civil, :batch, :phone, :file, :qrimage, :major_id)";
 $stmt = $db->prepare($sql);
 $stmt->bindParam(':user_id', $user_id);
 $stmt->bindParam(':firstname', $firstname);
@@ -61,7 +90,9 @@ $stmt->bindParam(':course', $course);
 $stmt->bindParam(':civil', $civil);
 $stmt->bindParam(':batch', $batch);
 $stmt->bindParam(':phone', $phone);
+$stmt->bindParam(':file', $file);
 $stmt->bindParam(':qrimage', $qrimage);
+$stmt->bindParam(':major_id', $major_id);
 
 if ($stmt->execute()) {
     QRcode::png($username, $qrcode, 'H', 4, 4);

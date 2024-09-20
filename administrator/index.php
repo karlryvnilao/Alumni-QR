@@ -123,6 +123,7 @@ if (!isset($_SESSION['username'])) {
     <script src="../assets/js/Lightbox-Gallery-baguetteBox.min.js"></script>
     <script src="../assets/js/sweetalert2.all.min.js"></script>
     <script src="../assets/js/main.js"></script>
+    <script src="../assets/js/vanta.fog.min.js"></script>
 </body>
 
 </html>

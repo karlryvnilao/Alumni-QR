@@ -242,16 +242,22 @@ if (isset($_SESSION['username'])) {
                         </div>
                     </div>
                     <div class="row">
-                        <div class="col">
-                            <div class="form-floating mb-3">
-                                <select class="form-select" required name="course">
-                                    <optgroup label="Course">
-                                        <?php get_courses(); ?>
-                                    </optgroup>
-                                </select>
-                                <label class="form-label">Course:</label>
-                            </div>
+                    <div class="col">
+                        <div class="form-floating mb-3">
+                            <select class="form-select" required name="course" id="course">
+                                  <optgroup label="Course">
+                                      <?php get_courses(); ?>
+                                  </optgroup>
+                              </select>
+                            <label class="form-label">Course:</label>
                         </div>
+                      </div>
+                      <div class="col">
+                      <label class="form-label">Majors:</label>
+                        <div id="majors-container">
+                              <!-- Checkboxes for majors will be populated dynamically -->
+                        </div>
+                      </div>
                     </div>
                     <div class="row">
                         <div class="col">
@@ -285,6 +291,14 @@ if (isset($_SESSION['username'])) {
                             </div>
                         </div>
                     </div>
+                    <div class="row">
+                        <div class="col">
+                            <div class="form-floating mb-3">
+                                <input class="form-control" type="file" name="file" required>
+                                <label class="form-label">Authorization : </label>
+                            </div>
+                        </div>
+                    </div>
                     <button class="btn btn-primary w-100 mb-3" type="submit">Sign up</button>
                     <div class="d-flex flex-column align-items-center mb-4"></div>
                 </form>
@@ -313,6 +327,30 @@ if (isset($_SESSION['username'])) {
               document.getElementById('text').value=c;
               document.forms[0].submit();
           });
+
+          //majors
+          document.getElementById('course').addEventListener('change', function() {
+    var courseId = this.value;
+    console.log("Course ID selected: " + courseId);  // Debugging line
+
+    var majorsContainer = document.getElementById('majors-container');
+    majorsContainer.innerHTML = '';  // Clear majors container
+
+    if (courseId !== "") {
+        var xhr = new XMLHttpRequest();
+        xhr.open("POST", "functions/get-majors.php", true);
+        xhr.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+        xhr.onreadystatechange = function() {
+            if (xhr.readyState == 4 && xhr.status == 200) {
+                console.log("Response from server: " + xhr.responseText);  // Debugging line
+                majorsContainer.innerHTML = xhr.responseText;
+            }
+        };
+        xhr.send("course_id=" + courseId);
+    }
+});
+
+
     </script>
     <script src="assets/js/jquery.min.js"></script>
     <script src="assets/bootstrap/js/bootstrap.min.js"></script>

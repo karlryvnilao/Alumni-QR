@@ -90,20 +90,34 @@ if (!isset($_SESSION['username'])) {
         </div>
     </div>
     <div class="modal fade" role="dialog" tabindex="-1" id="update">
-        <div class="modal-dialog modal-lg modal-dialog-centered modal-dialog-scrollable" role="document">
-            <div class="modal-content">
-                <div class="modal-header"><img src="../assets/img/navbar.jpg" style="width: 10em;"><button class="btn-close" type="button" aria-label="Close" data-bs-dismiss="modal"></button></div>
-                <div class="modal-body">
-                    <form action="../functions/administrator/update-batch.php" method="post">
-                        <input type="hidden" name="id">
-                        <div class="form-floating mb-3"><input class="form-control form-control" type="text" name="name" placeholder="" required=""><label class="form-label" for="floatingInput">Batch Year :</label></div><button class="btn btn-primary w-100" type="submit">Update Course</button>
-                        <div class="d-flex flex-column align-items-center mb-4"></div>
-                    </form>
-                </div>
-                <div class="modal-footer"><button class="btn btn-light" type="button" data-bs-dismiss="modal">Close</button></div>
+    <div class="modal-dialog modal-lg modal-dialog-centered modal-dialog-scrollable" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <img src="../assets/img/navbar.jpg" style="width: 10em;">
+                <button class="btn-close" type="button" aria-label="Close" data-bs-dismiss="modal"></button>
+            </div>
+            <div class="modal-body">
+                <form action="../functions/administrator/update-batch.php" method="post">
+                    <!-- Hidden input for ID -->
+                    <input type="hidden" name="id" value="<?php echo $batch_id; ?>">
+
+                    <!-- Input for Batch Year -->
+                    <div class="form-floating mb-3">
+                        <input class="form-control" type="text" name="year" placeholder="Batch Year" required="">
+                        <label class="form-label" for="floatingInput">Batch Year :</label>
+                    </div>
+
+                    <!-- Submit Button -->
+                    <button class="btn btn-primary w-100" type="submit">Update Course</button>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-light" type="button" data-bs-dismiss="modal">Close</button>
             </div>
         </div>
     </div>
+</div>
+
     <div class="modal fade" role="dialog" tabindex="-1" id="delete">
         <div class="modal-dialog" role="document">
             <div class="modal-content">
@@ -131,6 +145,7 @@ if (!isset($_SESSION['username'])) {
     <script src="../assets/js/Lightbox-Gallery.js"></script>
     <script src="../assets/js/Lightbox-Gallery-baguetteBox.min.js"></script>
     <script src="../assets/js/sweetalert2.all.min.js"></script>
+    <script src="../assets/js/vanta.fog.min.js"></script>
     <script src="../assets/js/main.js"></script>
 </body>
 

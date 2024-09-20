@@ -285,7 +285,7 @@ max-width: 150px;
                     <?php foreach ($batches as $batch) : ?>
                         <div class="batch-card">
                             <p><strong>Batch ID:</strong> <?= $batch['id'] ?></p>
-                            <p><strong>Start Year:</strong> <?= $batch['year'] ?></p>
+                            <p><strong>Batch Year</strong> <?= $batch['year'] ?></p>
                             <a href="yearbook.php?batch=<?= $batch['id'] ?>" class="view-yearbook-btn">View Yearbook</a>
                         </div>
                     <?php endforeach; ?>

@@ -17,14 +17,7 @@ if (!$conn) {
 $batch_id = isset($_GET['batch']) ? intval($_GET['batch']) : 0;
 
 // Query to get batch information
-$batchStmt = $conn->prepare("
-    SELECT year
-    FROM batch
-    WHERE id = ?
-");
-if ($batchStmt === false) {
-    die("Prepare failed: " . $conn->error);
-}
+$batchStmt = $conn->prepare("SELECT year FROM batch WHERE id = ?");
 $batchStmt->bind_param("i", $batch_id);
 $batchStmt->execute();
 $batchResult = $batchStmt->get_result();
@@ -36,143 +29,128 @@ if ($batchResult && $batchResult->num_rows > 0) {
     $startYear = 'Not Available';
 }
 
-// Query to get students in the selected batch who are approved, including course names
+// Query to get students in the selected batch who are approved
 $studentsStmt = $conn->prepare("
-    SELECT s.*, u.username, c.name AS course_name
+    SELECT s.*, u.username, c.name AS course_name, m.major_name AS major_name
     FROM students s
     JOIN users u ON s.user_id = u.id
     JOIN courses c ON s.course = c.id
+    LEFT JOIN majors m ON s.major_id = m.id
     WHERE s.batch = ? AND u.status = 'approved'
+    ORDER BY c.name, s.lastname ASC
 ");
-if ($studentsStmt === false) {
-    die("Prepare failed: " . $conn->error);
-}
+
 $studentsStmt->bind_param("i", $batch_id);
 $studentsStmt->execute();
 $studentsResult = $studentsStmt->get_result();
 
-$students = [];
+$studentsByCourse = []; // Initialize the array
 if ($studentsResult && $studentsResult->num_rows > 0) {
     while ($row = $studentsResult->fetch_assoc()) {
-        $students[] = $row;
+        // Group students by course name
+        $studentsByCourse[$row['course_name']][] = $row;
     }
 }
 
 $studentsStmt->close();
 $batchStmt->close();
 mysqli_close($conn);
+
+// Pagination for courses
+$coursesPerPage = 1; // Number of courses per page
+$currentPage = isset($_GET['page']) ? intval($_GET['page']) : 1; // Get the current page number
+$totalCourses = count($studentsByCourse);
+$totalPages = ceil($totalCourses / $coursesPerPage);
+
+// Slice courses for current page
+$courseKeys = array_keys($studentsByCourse);
+$currentCourses = array_slice($courseKeys, ($currentPage - 1) * $coursesPerPage, $coursesPerPage);
 ?>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <title>Yearbook - <?= htmlspecialchars($startYear) ?></title>
     <style>
-        .container {
-            width: 90%;
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 20px;
-        }
+        /* Custom Card Styles */
         .card {
-            width: 100%;
-            max-width: 300px;
-            margin: 10px;
-            border: 1px solid #ddd;
             border-radius: 8px;
             box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-            overflow: hidden;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
         }
-        .card-img {
-            width: 200px;
-            height: 200px;
-            background-color: #f9f9f9;
-            background-size: cover;
-            background-position: center;
-            border-radius: 50%;
-        }
-        .card-content {
-            padding: 15px;
+        .card-body {
+            padding: 1.5rem;
             text-align: center;
         }
-        .card-content h3 {
-            margin: 10px 0;
-            font-size: 1.2em;
+        .card-title {
+            margin-bottom: 0.5rem;
+            font-size: 1.25rem;
+            font-weight: bold;
         }
-        .card-content p {
-            margin: 5px 0;
+        .card-text {
             color: #555;
+            margin-bottom: 0.25rem;
         }
-        .view-yearbook-btn, .print-btn {
-            display: block;
-            width: 100%;
-            text-align: center;
-            padding: 10px;
+        .wrapper {
+            padding: 20px;
+        }
+        /* Custom Print Button */
+        .print-btn {
             background-color: #007bff;
             color: #fff;
             border: none;
             border-radius: 5px;
+            padding: 0.75rem 1rem;
             cursor: pointer;
-            text-decoration: none;
-            margin-top: 10px;
         }
-        .view-yearbook-btn:hover, .print-btn:hover {
+        .print-btn:hover {
             background-color: #0056b3;
         }
-        @media (max-width: 768px) {
-            .container {
-                width: 95%;
+        /* Print Styles */
+        @media print {
+            /* Add specific styles for print view */
+            body {
+                margin: 0;
+                padding: 0;
+            }
+            .wrapper {
+                padding: 0;
             }
             .card {
-                max-width: 100%;
-                margin: 10px 0;
+                width: auto;
+                height: auto;
+                border: 1px solid #000;
+                padding: 10px;
+                background-color: #fff;
+                box-sizing: border-box;
+                page-break-inside: avoid;
+            }
+            .course-section {
+                page-break-before: always; /* Start each course on a new page */
             }
         }
-        .grid-container {
-            display: grid;
-            grid-template-columns: repeat(4, 1fr); /* 4 cards per row */
-            gap: 20px; /* Space between cards */
-        }
-        @media (max-width: 1200px) {
-            .grid-container {
-                grid-template-columns: repeat(3, 1fr); /* 3 cards per row for medium screens */
-            }
-        }
-        @media (max-width: 768px) {
-            .grid-container {
-                grid-template-columns: repeat(2, 1fr); /* 2 cards per row for small screens */
-            }
-        }
-        @media (max-width: 480px) {
-            .grid-container {
-                grid-template-columns: 1fr; /* 1 card per row for extra small screens */
-            }
-        }
-        .card-header {
-            text-align: center;
-        }
+        .d-flex {
+    margin: 20px 0; /* Adjust as necessary */
+}
 
-        /* Print styles */
-        @media print {
-            body * {
-                visibility: hidden;
-            }
-            .container, .container * {
-                visibility: visible;
-            }
-            .container {
-                position: absolute;
-                left: 0;
-                top: 0;
-            }
-            .print-btn, .view-yearbook-btn {
-                display: none;
-            }
-        }
+.btn-link {
+    color: #007bff; /* Customize your link color */
+    text-decoration: none;
+}
+
+.btn-link.disabled {
+    color: #ccc; /* Color for disabled state */
+    pointer-events: none; /* Prevent click */
+}
+
+.text-center {
+    flex: 1; /* Take remaining space for centering */
+    text-align: center;
+}
+
     </style>
     <script>
         function printYearbook() {
@@ -181,25 +159,78 @@ mysqli_close($conn);
     </script>
 </head>
 <body>
-<div class="container">
-    <div class="card-header">
+<div class="wrapper">
+    <div class="container">
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <button onclick="window.location.href='home.php'" class="btn btn-link text-primary">
+            <i class="fas fa-arrow-left"></i>
+        </button>
         <h1>Yearbook for Batch (<?= htmlspecialchars($startYear) ?>)</h1>
-        <!-- Print button -->
-        <button class="print-btn" onclick="printYearbook()">Print Yearbook</button>
+        <!-- <button class="btn btn-primary" onclick="printYearbook()">Print Yearbook</button> -->
+        <div class="mt-4 text-center">
+        <a href="print_all.php?batch=<?= $batch_id ?>" class="btn btn-secondary">Print All Data</a>
+        </div>
     </div>
-    <div class="grid-container">
-        <?php foreach ($students as $student) : ?>
-            <div class="card">
-                <div class="card-img" style="background-image: url('<?= preg_match('/data:image/i', $student['profile_pic']) ? $student['profile_pic'] : '../student/images/'.$student['profile_pic'] ?>');"></div>
-                <div class="card-content">
-                    <h3><?= htmlspecialchars($student['firstname'] . ' ' . $student['lastname']) ?></h3>
-                    <p><?= htmlspecialchars($student['username']) ?></p>
-                    <p><?= htmlspecialchars($startYear) ?></p>
-                    <p><?= htmlspecialchars($student['course_name']) ?></p>
-                </div>
+
+    <?php foreach ($currentCourses as $courseName): ?>
+        <div class="course-section">
+            <h2 class="mt-4"><?= htmlspecialchars($courseName) ?></h2>
+            <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-lg-5 g-4">
+                <?php foreach ($studentsByCourse[$courseName] as $student): ?>
+                    <div class="col">
+                        <div class="card h-100">
+                            <div class="card-img-top img-fluid" style="background-image: url('<?= !empty($student['profile_pic']) ? (preg_match('/data:image/i', $student['profile_pic']) ? $student['profile_pic'] : '../student/images/'.$student['profile_pic']) : 'default-avatar.jpg' ?>'); background-size: cover; background-position: center; height: 250px;"></div>
+                            <div class="card-body text-center">
+                                <h5 class="card-title"><?= htmlspecialchars($student['lastname'] . ' ' . $student['firstname']) ?></h5>
+                                <p class="card-text"><?= htmlspecialchars($student['major_name']) ?></p>
+                            </div>
+                        </div>
+                    </div>
+                <?php endforeach; ?>
             </div>
-        <?php endforeach; ?>
+        </div>
+    <?php endforeach; ?>
+
+    <!-- Pagination Controls -->
+    
+
+
+    <!-- Print All Data Button -->
+    
+</div>
+<div class="d-flex justify-content-between align-items-center">
+    <!-- Previous button on the left -->
+    <div class="d-flex align-items-center">
+        <?php if ($currentPage > 1): ?>
+            <a class="btn btn-link" href="?batch=<?= $batch_id ?>&page=<?= $currentPage - 1 ?>">
+                <i class="fas fa-angle-left" style="font-size: 1.5rem;"></i> Previous
+            </a>
+        <?php else: ?>
+            <span class="btn btn-link disabled">
+                <i class="fas fa-angle-left" style="font-size: 1.5rem;"></i> Previous
+            </span>
+        <?php endif; ?>
     </div>
+
+    <div class="text-center">
+        <span>Page <?= $currentPage ?> of <?= $totalPages ?></span>
+    </div>
+
+    <!-- Next button on the right -->
+    <div class="d-flex align-items-center">
+        <?php if ($currentPage < $totalPages): ?>
+            <a class="btn btn-link" href="?batch=<?= $batch_id ?>&page=<?= $currentPage + 1 ?>">
+                Next <i class="fas fa-angle-right" style="font-size: 1.5rem;"></i>
+            </a>
+        <?php else: ?>
+            <span class="btn btn-link disabled">
+                Next <i class="fas fa-angle-right" style="font-size: 1.5rem;"></i>
+            </span>
+        <?php endif; ?>
+    </div>
+</div>
+
+
 </div>
 </body>
 </html>

@@ -76,31 +76,68 @@ if (!isset($_SESSION['username'])) {
         <div class="modal-dialog modal-lg modal-dialog-centered modal-dialog-scrollable" role="document">
             <div class="modal-content">
                 <div class="modal-header"><img src="../assets/img/navbar.jpg" style="width: 10em;"><button class="btn-close" type="button" aria-label="Close" data-bs-dismiss="modal"></button></div>
-                <div class="modal-body">
-                    <form action="../functions/administrator/add-course.php" method="post">
-                        <div class="form-floating mb-3"><input class="form-control form-control" type="text" name="name" placeholder="Course :" required=""><label class="form-label" for="floatingInput">Course :</label></div><button class="btn btn-primary w-100" type="submit">Add Course</button>
-                        <div class="d-flex flex-column align-items-center mb-4"></div>
-                    </form>
-                </div>
+                    <div class="modal-body">
+                        <form id="course-form" action="../functions/administrator/add-course.php" method="post">
+                            <div class="form-floating mb-3">
+                                <input class="form-control" type="text" name="name" placeholder="Course Name" required>
+                                <label for="course_name">Course Name:</label>
+                            </div>
+
+                            <button type="button" class="btn btn-secondary" id="add-major">Add+</button>
+                            <div id="majors-container">
+                                <!-- Initial major input field -->
+                                <div class="form-floating mb-3">
+                                    <input class="form-control" type="text" name="majors[]" placeholder="Major 1" required>
+                                    <label for="major-1">Major 1:</label>
+                                </div>
+                            </div>
+                            
+                            <button class="btn btn-primary w-100" type="submit">Add Course</button>
+                        </form>
+                    </div>
                 <div class="modal-footer"><button class="btn btn-light" type="button" data-bs-dismiss="modal">Close</button></div>
             </div>
         </div>
     </div>
-    <div class="modal fade" role="dialog" tabindex="-1" id="update">
-        <div class="modal-dialog modal-lg modal-dialog-centered modal-dialog-scrollable" role="document">
-            <div class="modal-content">
-                <div class="modal-header"><img src="../assets/img/navbar.jpg" style="width: 10em;"><button class="btn-close" type="button" aria-label="Close" data-bs-dismiss="modal"></button></div>
-                <div class="modal-body">
-                    <form action="../functions/administrator/update-course.php" method="post">
-                        <input type="hidden" name="id">
-                        <div class="form-floating mb-3"><input class="form-control form-control" type="text" name="name" placeholder="Course :" required=""><label class="form-label" for="floatingInput">Course :</label></div><button class="btn btn-primary w-100" type="submit">Update Course</button>
-                        <div class="d-flex flex-column align-items-center mb-4"></div>
-                    </form>
-                </div>
-                <div class="modal-footer"><button class="btn btn-light" type="button" data-bs-dismiss="modal">Close</button></div>
+        <!-- Update Modal -->
+        <div class="modal fade" role="dialog" tabindex="-1" id="update">
+    <div class="modal-dialog modal-lg modal-dialog-centered modal-dialog-scrollable" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <img src="../assets/img/navbar.jpg" style="width: 10em;">
+                <button class="btn-close" type="button" aria-label="Close" data-bs-dismiss="modal"></button>
+            </div>
+            <div class="modal-body">
+                <form id="update-course-form" action="../functions/administrator/update-course.php" method="post">
+                    <input type="hidden" name="id" id="course-id">
+                    
+                    <div class="form-floating mb-3">
+                        <select id="course-select" class="form-control" name="course" required>
+                            <!-- Options will be populated via AJAX -->
+                        </select>
+                        <label class="form-label" for="course-select">Course</label>
+                    </div>
+
+                    <div id="majors-container">
+                        <!-- Majors will be populated here via AJAX -->
+                    </div>
+
+                    <div class="form-floating mb-3">
+                        <input class="form-control form-control" type="text" name="name" placeholder="Course :" required="">
+                        <label class="form-label" for="floatingInput">Course :</label>
+                    </div>
+
+                    <button class="btn btn-primary w-100" type="submit">Update Course</button>
+                    <div class="d-flex flex-column align-items-center mb-4"></div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-light" type="button" data-bs-dismiss="modal">Close</button>
             </div>
         </div>
     </div>
+</div>
+
     <div class="modal fade" role="dialog" tabindex="-1" id="delete">
         <div class="modal-dialog" role="document">
             <div class="modal-content">
@@ -129,6 +166,91 @@ if (!isset($_SESSION['username'])) {
     <script src="../assets/js/Lightbox-Gallery-baguetteBox.min.js"></script>
     <script src="../assets/js/sweetalert2.all.min.js"></script>
     <script src="../assets/js/main.js"></script>
+    <script src="../assets/js/vanta.fog.min.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+    const addMajorButton = document.getElementById('add-major');
+    const majorsContainer = document.getElementById('majors-container');
+    
+    let majorCount = 1; // Start from 1, as we already have one major input field initially
+
+    addMajorButton.addEventListener('click', function() {
+        majorCount++;
+        const majorInput = document.createElement('div');
+        majorInput.classList.add('form-floating', 'mb-3');
+        majorInput.innerHTML = `
+            <input class="form-control" type="text" name="majors[]" placeholder="Major ${majorCount}" required>
+            <label for="major-${majorCount}">Major ${majorCount}:</label>
+        `;
+        majorsContainer.appendChild(majorInput);
+    });
+    });
+    
+
+    $(document).ready(function() {
+    // Function to load courses and majors
+    function loadCourseData(courseId) {
+        $.ajax({
+            url: '../functions/administrator/get-course-data.php',
+            type: 'GET',
+            dataType: 'json',
+            success: function(data) {
+                // Populate course select box
+                let courseSelect = $('#course-select');
+                courseSelect.empty(); // Clear existing options
+                $.each(data.courses, function(index, course) {
+                    courseSelect.append($('<option>', {
+                        value: course.id,
+                        text: course.name
+                    }));
+                });
+
+                // Populate majors container if a courseId is provided
+                if (courseId) {
+                    $.ajax({
+                        url: '../functions/administrator/get-majors.php',
+                        type: 'GET',
+                        data: { course_id: courseId },
+                        dataType: 'json',
+                        success: function(data) {
+                            let majorsContainer = $('#majors-container');
+                            majorsContainer.empty(); // Clear existing majors
+                            $.each(data.majors, function(index, major) {
+                                majorsContainer.append(`
+                                    <div class="form-floating mb-3">
+                                        <input class="form-control form-control" type="text" name="majors[]" value="${major.name}" placeholder="Major" required>
+                                        <label class="form-label" for="floatingInput">Major :</label>
+                                    </div>
+                                `);
+                            });
+                        }
+                    });
+                }
+            }
+        });
+    }
+
+    // When the modal is shown
+    $('#update').on('shown.bs.modal', function(event) {
+        let button = $(event.relatedTarget); // Button that triggered the modal
+        let courseId = button.data('id'); // Extract course ID from data-* attributes
+        $('#course-id').val(courseId); // Set hidden input value
+
+        loadCourseData(courseId); // Load course and major data
+    });
+
+    // On course select change, update majors
+    $('#course-select').on('change', function() {
+        let selectedCourseId = $(this).val();
+        if (selectedCourseId) {
+            loadCourseData(selectedCourseId);
+        }
+    });
+});
+
+
+
+    </script>
 </body>
 
 </html>

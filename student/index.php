@@ -54,11 +54,41 @@ try {
     <link rel="stylesheet" href="../assets/css/Lightbox-Gallery-baguetteBox.min.css">
     <link rel="stylesheet" href="../assets/css/Login-Form-Basic-icons.css">
 </head>
+<style>
+    /* Basic Reset */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
 
+body {
+    font-family: Arial, sans-serif;
+}
+
+.container {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    gap: 20px; /* Adjust the space between the containers as needed */
+    padding: 20px;
+}
+
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    .container {
+        flex-direction: column;
+    }
+}
+
+</style>
 <body id="page-top">
     <?php include_once '../functions/student/navbar-menu.php'; ?>
     <div class="d-flex flex-column" id="content-wrapper">
-        <div id="content">
+    <div class="container">
+        <div class="left-container">
+            <div id="content">
             <section id="contact" class="py-4 py-xl-5">
                 <div class="container">
                     <div class="text-dark bg-light border rounded border-0 border-light d-flex flex-column justify-content-between align-items-center flex-lg-row p-4 p-lg-5 shadow-sm" data-bs-theme="light">
@@ -98,6 +128,42 @@ try {
                 </div>
             </section>
     </div>
+        </div>
+        <div class="right-container">
+        <div id="content">
+            <section id="contact" class="py-4 py-xl-5">
+                <div class="container">
+        <div class="text-dark bg-light border rounded border-0 border-light d-flex flex-column justify-content-between align-items-center flex-lg-row p-4 p-lg-5 shadow-sm" data-bs-theme="light">
+            <h2>Instructions</h2>
+            <p>Please follow the instructions below:</p>
+            <div class="instructions-template">
+                <h3>Step 1: Preparation</h3>
+                <ul>
+                    <li>Ensure all materials are ready.</li>
+                    <li>Read the instructions carefully.</li>
+                </ul>
+                
+                <h3>Step 2: Execution</h3>
+                <ul>
+                    <li>Start with the first step of the process.</li>
+                    <li>Follow the steps in the given order.</li>
+                </ul>
+                
+                <h3>Step 3: Completion</h3>
+                <ul>
+                    <li>Review the results.</li>
+                    <li>Ensure all tasks are completed.</li>
+                </ul>
+            </div>
+
+        </div>
+    </div>
+        </section>
+    </div>
+        </div>
+    </div>
+
+    
     <div class="modal fade" role="dialog" tabindex="-1" id="sign-out">
             <div class="modal-dialog" role="document">
                 <div class="modal-content">

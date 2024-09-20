@@ -43,11 +43,8 @@
                 birthdate DATE,
                 email VARCHAR(255),
                 civil VARCHAR(16),
-                graduated DATE,
-                children INT,
                 phone VARCHAR(16),
                 present_address VARCHAR(255),
-                work_address VARCHAR(255),
                 FOREIGN KEY (course) REFERENCES courses(id) ON DELETE CASCADE,
                 FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE,
                 created_at DATETIME DEFAULT CURRENT_TIMESTAMP

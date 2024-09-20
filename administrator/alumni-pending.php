@@ -3,6 +3,7 @@ require_once '../functions/connection.php';
 include_once '../functions/get-data.php';
 include_once '../functions/administrator/get-data-table.php';
 include_once '../functions/get-announcement.php';
+include_once '../functions/get-batch.php';
 if (session_start() === PHP_SESSION_NONE) {
     session_start();
 }
@@ -33,7 +34,13 @@ if (!isset($_SESSION['username'])) {
     <link rel="stylesheet" href="../assets/css/Lightbox-Gallery-baguetteBox.min.css">
     <link rel="stylesheet" href="../assets/css/Login-Form-Basic-icons.css">
 </head>
+<style>
+    img#view-profile-pic {
+    height: 100%;
+    width: 100%;
+}
 
+</style>
 <body id="page-top">
 <?php
     include_once '../functions/administrator/navbar.php';
@@ -56,11 +63,7 @@ if (!isset($_SESSION['username'])) {
                                     <tr>
                                         <th>Fullname</th>
                                         <th>Course</th>
-                                        <th>Email</th>
-                                        <th>Civil Status</th>
-                                        <th>Age</th>
-                                        <th>Birthdate</th>
-                                        <th>Year Graduated</th>
+                                        <th>Batch</th>
                                         <th>Status</th>
                                         <th class="text-center">Action</th>
                                     </tr>
@@ -148,19 +151,35 @@ if (!isset($_SESSION['username'])) {
             </div>
         </div>
     </div>
-    <div class="modal fade" role="dialog" tabindex="-1" id="update">
+    <!-- View Modal -->
+    <div class="modal fade" role="dialog" tabindex="-1" id="view">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <!-- <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Student Picture</h5>
+                <button class="btn-close" type="button" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body text-center"> -->
+                <img id="view-profile-pic" src="" alt="Profile Picture" width="100" height="100">
+            <!-- </div>
+            <div class="modal-footer">
+                <button class="btn btn-light" type="button" data-bs-dismiss="modal">Close</button>
+                </div>
+            </div> -->
+        </div>
+    </div>
+    <div class="modal fade" role="dialog" tabindex="-1" id="add">
         <div class="modal-dialog modal-lg modal-dialog-centered modal-dialog-scrollable" role="document">
             <div class="modal-content">
                 <div class="modal-header"><img src="../assets/img/navbar.jpg" style="width: 10em;"><button class="btn-close" type="button" aria-label="Close" data-bs-dismiss="modal"></button></div>
                 <div class="modal-body">
-                    <form class="needs-validation" action="../functions/administrator/update-student.php" method="post" novalidate>
-                        <input type="hidden" name="id">
+                    <form class="needs-validation" action="../functions/administrator/add-student.php" method="post" novalidate>
                         <div class="row">
                             <div class="col">
-                                <div class="form-floating mb-3"><input class="form-control form-control" type="text" name="username" placeholder="Username" required><label class="form-label" for="floatingInput">Username : </label></div>
+                                <div class="form-floating mb-3"><input class="form-control form-control" type="text" name="username" placeholder="Username" required><label class="form-label" for="floatingInput">Student Number : </label></div>
                             </div>
                             <div class="col">
-                                <div class="form-floating mb-3"><input class="form-control form-control" type="password" name="password" placeholder="Password"><label class="form-label" for="floatingInput">Password : </label></div>
+                                <div class="form-floating mb-3"><input class="form-control form-control" type="password" name="password" placeholder="Password" required><label class="form-label" for="floatingInput">Password : </label></div>
                             </div>
                         </div>
                         <div class="row">
@@ -198,17 +217,15 @@ if (!isset($_SESSION['username'])) {
                                         </optgroup>
                                     </select><label class="form-label" for="floatingInput">Civil Status : </label></div>
                             </div>
-                            <div class="col">
-                                <div class="form-floating mb-3"><input class="form-control form-control" type="date" name="graduated" placeholder="graudate" required><label class="form-label" for="floatingInput">Graduated at: </label></div>
-                            </div>
                         </div>
                         <div class="row">
+                            
                             <div class="col">
                                 <div class="form-floating mb-3"><input class="form-control form-control" type="tel" name="phone" placeholder="phone" required><label class="form-label" for="floatingInput">Contact #: </label></div>
                             </div>
                         </div>
                         <div class="form-floating mb-3"><input class="form-control form-control" type="text" name="present_address" placeholder="Present Address" required><label class="form-label" for="floatingInput">Present Address : </label></div>
-                        <button class="btn btn-primary w-100 mb-3" type="submit">Update Student</button>
+                        <button class="btn btn-primary w-100 mb-3" type="submit">Add Student</button>
                         <div class="d-flex flex-column align-items-center mb-4"></div>
                     </form>
                 </div>
@@ -216,6 +233,134 @@ if (!isset($_SESSION['username'])) {
             </div>
         </div>
     </div>
+    <div class="modal fade" role="dialog" tabindex="-1" id="update">
+    <div class="modal-dialog modal-lg modal-dialog-centered modal-dialog-scrollable" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <img src="../assets/img/navbar.jpg" style="width: 10em;">
+                <button class="btn-close" type="button" aria-label="Close" data-bs-dismiss="modal"></button>
+            </div>
+            <div class="modal-body">
+                <form class="needs-validation" action="../functions/administrator/update-student.php" method="post" enctype="multipart/form-data" novalidate>
+                    <input type="hidden" name="id">
+                    <!-- Username and Password -->
+                    <div class="row">
+                        <div class="col">
+                            <div class="form-floating mb-3">
+                                <input class="form-control" type="text" name="username" placeholder="Username">
+                                <label class="form-label">Student Number : </label>
+                            </div>
+                        </div>
+                        <div class="col">
+                            <div class="form-floating mb-3">
+                                <input class="form-control" type="password" name="password" placeholder="Password">
+                                <label class="form-label">Password : </label>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Firstname and Lastname -->
+                    <div class="row">
+                        <div class="col">
+                            <div class="form-floating mb-3">
+                                <input class="form-control" type="text" name="firstname" placeholder="Firstname" >
+                                <label class="form-label">Firstname : </label>
+                            </div>
+                        </div>
+                        <div class="col">
+                            <div class="form-floating mb-3">
+                                <input class="form-control" type="text" name="lastname" placeholder="Lastname" >
+                                <label class="form-label">Lastname : </label>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Birthdate and Email -->
+                    <div class="row">
+                        <div class="col">
+                            <div class="form-floating mb-3">
+                                <input class="form-control" name="birthdate" type="date" >
+                                <label class="form-label">Birthdate : </label>
+                            </div>
+                        </div>
+                        <div class="col">
+                            <div class="form-floating mb-3">
+                                <input class="form-control" type="email" name="email" placeholder="Email" >
+                                <label class="form-label">Email : </label>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Course and Civil Status -->
+                    <div class="row">
+                        <div class="col">
+                            <div class="form-floating mb-3">
+                                <select class="form-select" name="course">
+                                    <optgroup label="Course">
+                                        <?php get_courses(); ?>
+                                    </optgroup>
+                                </select>
+                                <label class="form-label">Course : </label>
+                            </div>
+                        </div>
+                        <div class="col">
+                            <div class="form-floating mb-3">
+                                <select class="form-select" name="civil">
+                                    <optgroup label="Status">
+                                        <option value="Single" selected>Single</option>
+                                        <option value="Married">Married</option>
+                                        <option value="Widow">Widow</option>
+                                    </optgroup>
+                                </select>
+                                <label class="form-label">Civil Status : </label>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col">
+                            <div class="form-floating mb-3">
+                                <input class="form-control" type="tel" name="phone" placeholder="Phone">
+                                <label class="form-label">Contact # : </label>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Present Address -->
+                    <div class="form-floating mb-3">
+                        <input class="form-control" type="text" name="present_address" placeholder="Present Address">
+                        <label class="form-label">Present Address : </label>
+                    </div>
+                    <!-- Batch -->
+                    <!-- Add this select input for batch in your form -->
+                    <div class="row">
+                        <div class="col">
+                            <div class="form-floating mb-3">
+                                <select class="form-select" name="batch">
+                                    <optgroup label="Batch">
+                                        <?php get_batches(); ?>
+                                    </optgroup>
+                                </select>
+                                <label class="form-label" for="floatingInput">Batch :&nbsp;</label>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Profile Picture and QR Image -->
+                    <div class="row">
+                        <div class="col">
+                            <div class="form-floating mb-3">
+                                <input class="form-control" type="file" name="profile_pic">
+                                <label class="form-label">Profile Picture : </label>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Submit Button -->
+                    <button class="btn btn-primary w-100 mb-3" type="submit">Update Student</button>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-light" type="button" data-bs-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+    
     <div class="modal fade" role="dialog" tabindex="-1" id="delete">
         <div class="modal-dialog" role="document">
             <div class="modal-content">
@@ -234,21 +379,25 @@ if (!isset($_SESSION['username'])) {
             </div>
         </div>
     </div>
-    <div class="modal fade" role="dialog" tabindex="-1" id="approve">
-        <div class="modal-dialog" role="document">
+   <!-- Approve Modal -->
+    <div class="modal fade" id="approveModal" tabindex="-1" aria-labelledby="approveModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
             <div class="modal-content">
-                <div class="modal-header">
-                    <h4 class="modal-title">Approve</h4><button class="btn-close" type="button" aria-label="Close" data-bs-dismiss="modal"></button>
-                </div>
-                <div class="modal-body">
-                    <p>Are you sure you want to approve this alumni?</p>
-                </div>
-                <div class="modal-footer"><button class="btn btn-light" type="button" data-bs-dismiss="modal">Close</button>
-                <form class="needs-validation" action="../functions/administrator/approve-student.php" method="post" method="post" novalidate>
-                        <input type="hidden" name="id">
-                        <button class="btn btn-primary" type="submit">Approve</button>
+                <form action="../functions/administrator/approvestudent.php" method="POST">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="approveModalLabel">Approve Student</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <p>Are you sure you want to approve this student?</p>
+                        <input type="hidden" name="user_id" id="user_id">
+                        <input type="hidden" name="email" id="email">
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                        <button type="submit" class="btn btn-primary">Approve</button>
+                    </div>
                 </form>
-            </div>
             </div>
         </div>
     </div>
@@ -292,52 +441,42 @@ if (!isset($_SESSION['username'])) {
     <script src="../assets/js/Lightbox-Gallery-baguetteBox.min.js"></script>
     <script src="../assets/js/sweetalert2.all.min.js"></script>
     <script src="../assets/js/main.js"></script>
+    <script src="../assets/js/vanta.fog.min.js"></script>
     <script>
-        $("#dataTable").DataTable({
-        // dom: 'Blfrtip',
-        dom: "Bfrtip",
-        responsive: true,
-        buttons: [
-          {
-            extend: "pdf",
-            title: "ALUMNI ASSOCIATION",
-            className: "btn btn-primary text-danger",
-            text: '<i class="fa fa-file-pdf"></i> PDF',
-            exportOptions: {
-              columns: [0, 1, 2, 3, 4, 5, 6, 7, 8],
-            },
-          },
-          {
-            extend: "print",
-            className: "btn btn-primary text-info",
-            text: '<i class="fa fa-print"></i> Print',
-            title: "ALUMNI ASSOCIATION",
-            autoPrint: true,
-            exportOptions: {
-              columns: ":visible",
-              columns: [0, 1, 2, 3, 4, 5, 6, 7, 8],
-            },
-            customize: function (win) {
-              $(win.document.body)
-                .find("table")
-                .addClass("display")
-                .css("font-size", "9px");
-              $(win.document.body)
-                .find("tr:nth-child(odd) td")
-                .each(function (index) {
-                  $(this).css("background-color", "#D0D0D0");
-                });
-              $(win.document.body).find("h1").css("text-align", "center");
-            },
-          },
-        ],
-      });
       $('button[data-bs-target="#approve"]').on("click", function () {
         var id = $(this).data("id");
         $('input[name="id"]').val(id);
         console.log(id);
-      });  
+      });
+      $('#view').on('show.bs.modal', function (event) {
+    var button = $(event.relatedTarget); // Button that triggered the modal
+    var file = button.data('file'); // Extract the image URL
+
+    // Check if the file URL is correct
+    console.log(file);
+
+    var modal = $(this);
+    // Update the image src attribute inside the modal
+    modal.find('#view-profile-pic').attr('src', file);
+    });
+    document.addEventListener('DOMContentLoaded', function () {
+    var approveModal = document.getElementById('approveModal');
+    approveModal.addEventListener('show.bs.modal', function (event) {
+        var button = event.relatedTarget; // Button that triggered the modal
+        var userId = button.getAttribute('data-id');
+        var email = button.getAttribute('data-email');
+
+        // Populate the hidden input fields in the modal
+        var modalUserId = approveModal.querySelector('#user_id');
+        var modalEmail = approveModal.querySelector('#email');
+
+        modalUserId.value = userId;
+        modalEmail.value = email;
+    });
+    });
+
     </script>
+
 </body>
 
 </html>
