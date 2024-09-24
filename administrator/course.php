@@ -87,7 +87,7 @@ if (!isset($_SESSION['username'])) {
                             <div id="majors-container">
                                 <!-- Initial major input field -->
                                 <div class="form-floating mb-3">
-                                    <input class="form-control" type="text" name="majors[]" placeholder="Major 1" required>
+                                    <input class="form-control" type="text" name="majors[]" placeholder="Major 1">
                                     <label for="major-1">Major 1:</label>
                                 </div>
                             </div>
