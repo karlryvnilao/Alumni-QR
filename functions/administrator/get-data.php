@@ -22,7 +22,7 @@ function get_courses_count(){
 
 function get_students_count(){
     global $db;
-    $sql = "SELECT s.*, u.status FROM `students` s LEFT JOIN `users` u ON s.user_id = u.id WHERE `status` = 'approved'";
+    $sql = "SELECT COUNT(*) FROM students INNER JOIN users ON students.user_id = users.id WHERE users.status = 'approved'";
     $stmt = $db->prepare($sql);
     $stmt->execute();
     $result = $stmt->fetchAll(PDO::FETCH_ASSOC);
@@ -40,7 +40,7 @@ function get_graduate_students_count(){
 
 function get_students_pending_count(){
     global $db;
-    $sql = "SELECT s.*, u.status FROM `students` s LEFT JOIN `users` u ON s.user_id = u.id WHERE `status` = 'pending'";
+    $sql = "SELECT COUNT(*) FROM students INNER JOIN users ON students.user_id = users.id WHERE users.status = 'pending'";
     $stmt = $db->prepare($sql);
     $stmt->execute();
     $result = $stmt->fetchAll(PDO::FETCH_ASSOC);

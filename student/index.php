@@ -15,7 +15,7 @@ try {
 
     // Fetch user data from the students table
     $stmt = $pdo->prepare("
-        SELECT s.firstname, s.lastname, s.email, s.phone, s.profile_pic, s.present_address ,s.qrimage
+        SELECT s.firstname, s.lastname, s.email, s.phone, s.profile_pic, s.present_address, s.work, s.company ,s.qrimage
         FROM students s
         JOIN users u ON s.user_id = u.id
         WHERE u.username = :username
@@ -110,6 +110,14 @@ body {
                                 <input type="text" class="form-control" id="phone" name="phone" value="<?php echo htmlspecialchars($student['phone'] ?? ''); ?>" required>
                             </div>
                             <div class="form-group">
+                                <label for="phone">Work</label>
+                                <input type="text" class="form-control" id="work" name="work" value="<?php echo htmlspecialchars($student['work'] ?? ''); ?>" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="phone">Company Name</label>
+                                <input type="text" class="form-control" id="company" name="company" value="<?php echo htmlspecialchars($student['company'] ?? ''); ?>" required>
+                            </div>
+                            <div class="form-group">
                                 <label for="phone">Address</label>
                                 <input type="text" class="form-control" id="present_address" name="present_address" value="<?php echo htmlspecialchars($student['present_address'] ?? ''); ?>" required>
                             </div>
@@ -117,11 +125,11 @@ body {
                                 <label for="profile_pic">Profile Picture</label>
                                 <input type="file" class="form-control-file" id="profile_pic" name="profile_pic">
                                 <?php if (!empty($student['profile_pic'])): ?>
-                                    <img src="<?php echo htmlspecialchars($student['profile_pic']); ?>" alt="Profile Picture" style="width: 100px; height: 100px;">
+                                    <img src="images/<?php echo htmlspecialchars($student['profile_pic']); ?>" alt="Profile Picture" style="width: 100px; height: 100px;">
                                 <?php endif; ?>
                             </div>
                             <button type="submit" class="btn btn-primary mt-3">Update</button>
-                            <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">Generate QR</button>
+                            <button type="button" class="btn btn-primary mt-3" data-bs-toggle="modal" data-bs-target="#exampleModal">Generate QR</button>
                         </form>
                         
                     </div>

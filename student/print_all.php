@@ -66,8 +66,8 @@ mysqli_close($conn);
     <title>Print Yearbook - <?= htmlspecialchars($startYear) ?></title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/css/bootstrap.min.css">
     <style>
-         /* Custom Card Styles */
-         .card {
+        /* Custom Card Styles */
+        .card {
             border-radius: 8px;
             box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
         }
@@ -142,11 +142,57 @@ mysqli_close($conn);
                 display: none;
             }
         }
+
+        /* Center the Mission and Vision section */
+        .mission-vision {
+            text-align: center; /* Center align the text */
+            margin: 20px 0; /* Add some vertical spacing */
+        }
+        .mission-vision ol {
+            list-style-position: inside; /* Position the numbers/dots inside */
+            padding: 0; /* Remove default padding */
+        }
+
+        .mission-vision li {
+            text-align: center; /* Center align the text of each list item */
+        }
+        .mission-vision ul {
+            list-style-position: inside; /* Position the dots inside */
+            padding: 0; /* Remove default padding */
+        }
+
+        .mission-vision ul li {
+            text-align: center; /* Center align the text of each list item */
+        }
     </style>
 </head>
 <body>
     <div class="wrapper">
         <h1 class="mt-4">Yearbook for Batch (<?= htmlspecialchars($startYear) ?>)</h1>
+        <!-- Mission and Vision Section -->
+        <div class="mission-vision mb-4">
+            <h2>Vision</h2>
+            <p>Expanding the Right Choice for Real-Life Education in Southern Luzon.</p>
+            
+            <h2>Mission</h2>
+            <ol>
+                <li>Provide holistic higher education and technical-vocational programs which are valued by the stakeholders.</li>
+                <li>Transform the youth into world-class professionals who creatively respond to the ever-changing world of works.</li>
+                <li>Advance research production to improve human life and address societal needs.</li>
+                <li>Engage in various projects that aim to build strong community relations and involvement.</li>
+                <li>Promote compliance with quality assurance in both service delivery and program development.</li>
+            </ol>
+
+            <h2>Core Values</h2>
+            <ul>
+                <li><strong>L</strong> - Love of God</li>
+                <li><strong>C</strong> - C's (Competent, Committed, and Compassionate) in service</li>
+                <li><strong>I</strong> - Innovative Minds</li>
+                <li><strong>A</strong> - Aspiring People</li>
+                <li><strong>N</strong> - Noble Dreams</li>
+            </ul>
+        </div>
+
         <?php foreach ($studentsByCourse as $courseName => $students): ?>
             <div class="course-section">
                 <h2><?= htmlspecialchars($courseName) ?></h2>

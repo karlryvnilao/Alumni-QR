@@ -27,15 +27,15 @@ if (isset($_SESSION['id']) && isset($_SESSION['username'])) {
         $age =  date_diff(date_create($student['birthdate']), date_create('now'))->y;
 
         // Fetch batch information using the batch from the students table
+        $batch = $student['batch'];
         $batchStmt = $conn->prepare("
-        SELECT id, year
-        FROM batch
-        WHERE id = ?
+            SELECT year
+            FROM batch
+            WHERE id = ?
         ");
-        $batchStmt->bind_param("i", $batch); // Use the student's batch id
+        $batchStmt->bind_param("i", $batch); // Bind the integer parameter
         $batchStmt->execute();
         $batchResult = $batchStmt->get_result();
-
         
         if ($batchResult && $batchResult->num_rows > 0) {
             $batch = $batchResult->fetch_assoc();
@@ -276,24 +276,25 @@ max-width: 150px;
     </div>
 
     <div class="card">
-    <div class="card-header">
-        <div class="card-title">Batch Information</div>
-    </div>
-    <div class="card-body">
-        <div class="batch-container">
-            <?php if (!empty($batch)) : ?>
-                <div class="batch-card">
-                    <p><strong>Batch ID:</strong> <?= $batch['id'] ?></p>
-                    <p><strong>Batch Year:</strong> <?= $batch['year'] ?></p>
-                    <a href="yearbook.php?batch=<?= $batch['id'] ?>" class="view-yearbook-btn">View Yearbook</a>
-                </div>
-            <?php else : ?>
-                <p>No batch information is available at the moment.</p>
-            <?php endif; ?>
+        <div class="card-header">
+            <div class="card-title">Batch Information</div>
+        </div>
+        <div class="card-body">
+            <div class="batch-container">
+                <?php if (!empty($batches)) : ?>
+                    <?php foreach ($batches as $batch) : ?>
+                        <div class="batch-card">
+                            <p><strong>Batch ID:</strong> <?= $batch['id'] ?></p>
+                            <p><strong>Batch Year</strong> <?= $batch['year'] ?></p>
+                            <a href="yearbook.php?batch=<?= $batch['id'] ?>" class="view-yearbook-btn">View Yearbook</a>
+                        </div>
+                    <?php endforeach; ?>
+                <?php else : ?>
+                    <p>No batch information is available at the moment.</p>
+                <?php endif; ?>
+            </div>
         </div>
     </div>
-    </div>
-
 
     <a href="logout.php" class="nav__link nav__logout">
         <i class='bx bx-log-out nav__icon'></i>

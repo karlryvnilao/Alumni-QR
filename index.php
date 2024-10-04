@@ -75,6 +75,17 @@ if (isset($_SESSION['username'])) {
 
   <main id="main">
 
+  <section id="mission">
+    <div class="section-header">
+      <h3 class="section-title mt-3">Welcome</h3>
+      <!-- <p class="section-description">Feel free to reach out to us with any questions or inquiries.</p> -->
+    </div>
+    <div class="container text-center mt-5">
+    <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Unde tempora non corporis nihil? Veniam quasi provident cum aspernatur? Id assumenda nesciunt aliquam amet necessitatibus quis vitae repellendus a voluptatem eaque.</p>
+    </div>
+
+    
+  </section><!-- End Hero Section -->
    
 
     

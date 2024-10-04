@@ -257,19 +257,42 @@ function get_announcements(){
     }
 }
 
-function get_gallery(){
-    $path = "../functions/images/gallery/*.*";
-    $files = glob($path);
-    foreach ($files as $file) {
+function get_gallery() {
+    global $db; // Ensure $db is available
+
+    $sql = 'SELECT s.*, c.name AS course_name, b.year AS batch_name 
+            FROM `students` s
+            LEFT JOIN `courses` c ON s.course = c.id
+            LEFT JOIN `batch` b ON s.batch = b.id
+            WHERE s.status = "active"';
+
+    $stmt = $db->prepare($sql);
+    $stmt->execute();
+    $students = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+    foreach ($students as $student) {
         ?>
         <tr>
-            <td><img class="rounded-circle me-2" width="30" height="30" src="<?php echo $file?>"><?php echo basename($file)?></td>
+            <td><img class="rounded-circle me-2" width="30" height="30" src="https://student.lemerycolleges.edu.ph/images/favicon.png"><?php echo htmlspecialchars($student['firstname'].' '.$student['lastname']); ?></td>
+            <td><?php echo htmlspecialchars($student['course_name']); ?></td>
+            <td><?php echo htmlspecialchars($student['batch_name']); ?></td>
+            <td><?php echo htmlspecialchars($student['status']); ?></td>
             <td class="text-center">
-                <button class="btn btn-outline-danger mx-1" type="button" data-bs-target="#delete" data-bs-toggle="modal" data-id="<?php echo $file?>"><i class="fas fa-trash"></i></button>
+                <!-- Your action buttons here -->
             </td>
         </tr>
         <?php
     }
 }
 
+function getAchievements() {
+    global $db; // Your PDO connection
+    $query = "SELECT id, name FROM achievements"; // Adjust the query as needed
+    
+    $stmt = $db->prepare($query);
+    $stmt->execute();
+    
+    return $stmt->fetchAll(PDO::FETCH_ASSOC); // Fetch all results as an associative array
+}
 
+ 

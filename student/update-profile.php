@@ -16,6 +16,8 @@ try {
     $lastname = trim($_POST['lastname']);
     $email = trim($_POST['email']);
     $phone = trim($_POST['phone']);
+    $work = trim($_POST['work']);  // New field
+    $company = trim($_POST['company']);  // New field
     $present_address = trim($_POST['present_address']);
     $profilePic = $_FILES['profile_pic'];
 
@@ -46,6 +48,8 @@ try {
             lastname = :lastname, 
             email = :email, 
             phone = :phone, 
+            work = :work,   -- New field
+            company = :company,   -- New field
             present_address = :present_address" . 
             ($profilePicPath ? ", profile_pic = :profile_pic" : "") . 
         " WHERE user_id = (SELECT id FROM users WHERE username = :username)
@@ -58,6 +62,8 @@ try {
         'lastname' => $lastname,
         'email' => $email,
         'phone' => $phone,
+        'work' => $work,  // New field
+        'company' => $company,  // New field
         'present_address' => $present_address,
         'username' => $_SESSION['username']
     ];
