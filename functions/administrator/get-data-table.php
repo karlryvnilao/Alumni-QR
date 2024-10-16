@@ -274,17 +274,25 @@ function get_gallery() {
     foreach ($students as $student) {
         ?>
         <tr>
-            <td><img class="rounded-circle me-2" width="30" height="30" src="https://student.lemerycolleges.edu.ph/images/favicon.png"><?php echo htmlspecialchars($student['firstname'].' '.$student['lastname']); ?></td>
+            <td>
+                <img class="rounded-circle me-2" width="30" height="30" src="https://student.lemerycolleges.edu.ph/images/favicon.png">
+                <?php echo htmlspecialchars($student['firstname'].' '.$student['lastname']); ?>
+            </td>
             <td><?php echo htmlspecialchars($student['course_name']); ?></td>
             <td><?php echo htmlspecialchars($student['batch_name']); ?></td>
             <td><?php echo htmlspecialchars($student['status']); ?></td>
             <td class="text-center">
-                <!-- Your action buttons here -->
+                <!-- Update Button -->
+                <button class="btn btn-warning" type="button" data-bs-toggle="modal" data-bs-target="#update" onclick="updateModal(<?= $student['id'] ?>)"><i class="fas fa-edit"></i></button>
+
+                <!-- Delete Button -->
+                <button class="btn btn-danger" type="button" data-bs-toggle="modal" data-bs-target="#delete" onclick="setDeleteId(<?= $student['id'] ?>)"><i class="fas fa-trash"></i></button>
             </td>
         </tr>
         <?php
     }
 }
+
 
 function getAchievements() {
     global $db; // Your PDO connection
