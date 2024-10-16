@@ -210,7 +210,7 @@ mysqli_close($conn);
             
             <h1>Yearbook for Batch (<?= htmlspecialchars($startYear) ?>)</h1>
             <div class="mt-4 text-center">
-            <button onclick="window.location.href='gallery.php'" class="btn btn-link text-primary">
+            <button onclick="window.location.href='home.php'" class="btn btn-link text-primary">
                 <i class="fas fa-arrow-left" style="font-size: 1.5rem;"></i>
             </button>
                 <a href="print_all.php?batch=<?= $batch_id ?>" class="btn btn-secondary">Print All Data</a>

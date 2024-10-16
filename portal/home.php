@@ -27,6 +27,7 @@ if (isset($_SESSION['id']) && isset($_SESSION['username'])) {
         $age =  date_diff(date_create($student['birthdate']), date_create('now'))->y;
 
         // Fetch batch information using the batch from the students table
+        $batch = $student['batch'];
         $batchStmt = $conn->prepare("
         SELECT id, year
         FROM batch
@@ -71,6 +72,14 @@ if (isset($_SESSION['id']) && isset($_SESSION['username'])) {
 <html lang="en">
 <head>
 	<title>Generate student Profile -  Barangay Management System</title>
+    <link rel="stylesheet" href="../assets/bootstrap/css/bootstrap.min.css">
+    <link rel="stylesheet" href="../assets/css/Nunito.css">
+    <link rel="stylesheet" href="../assets/fonts/fontawesome-all.min.css">
+    <link rel="stylesheet" href="../assets/css/animate.min.css">
+    <link rel="stylesheet" href="../assets/css/datatables.min.css">
+    <link rel="stylesheet" href="../assets/css/Hero-Clean-images.css">
+    <link rel="stylesheet" href="../assets/css/Lightbox-Gallery-baguetteBox.min.css">
+    <link rel="stylesheet" href="../assets/css/Login-Form-Basic-icons.css">
 </head>
 <style>
     .card {
@@ -137,7 +146,6 @@ if (isset($_SESSION['id']) && isset($_SESSION['username'])) {
 .modal {
 display: none; /* Hidden by default */
 position: fixed; /* Stay in place */
-z-index: 1; /* Sit on top */
 left: 0;
 top: 0;
 width: 100%; /* Full width */
@@ -244,6 +252,7 @@ max-width: 150px;
         }
 </style>
 <body>
+<div class="d-flex flex-column" id="content-wrapper">
     <div class="card">
         <div class="card-header">
             <div class="card-title">Student Profile</div>
@@ -268,10 +277,15 @@ max-width: 150px;
                     <p>Address - <?= ucwords(trim($student['present_address'])) ?></p>
                     <p>Contact - <?= $student['phone'] ?></p>
                 </div>
+                
                 <div class="grid-item">
                 <img src="<?= preg_match('/data:image/i', $student['qrimage']) ? $student['qrimage'] : '../functions/student/qrcodes/'.$student['qrimage'] ?>" alt="Student Profile" class="img-fluid">
                 </div>
             </div>
+            <a href="logout.php" class="nav__link nav__logout">
+        <i class='bx bx-log-out nav__icon'></i>
+        <span class="nav__name" id="log_out">Logout</span>
+    </a>
         </div>
     </div>
 
@@ -283,23 +297,48 @@ max-width: 150px;
         <div class="batch-container">
             <?php if (!empty($batch)) : ?>
                 <div class="batch-card">
-                    <p><strong>Batch ID:</strong> <?= $batch['id'] ?></p>
-                    <p><strong>Batch Year:</strong> <?= $batch['year'] ?></p>
-                    <a href="yearbook.php?batch=<?= $batch['id'] ?>" class="view-yearbook-btn">View Yearbook</a>
+                    <p><strong></strong> <?= $batch['year'] ?></p>
+                    <a href="yearbook.php?batch=<?= $batch['id'] ?>" class="view-yearbook-btn mt-3">View Yearbook</a>
                 </div>
             <?php else : ?>
                 <p>No batch information is available at the moment.</p>
             <?php endif; ?>
         </div>
-    </div>
+        </div>
     </div>
 
 
-    <a href="logout.php" class="nav__link nav__logout">
-        <i class='bx bx-log-out nav__icon'></i>
-        <span class="nav__name" id="log_out">Logout</span>
-    </a>
-					
+    <footer class="bg-white sticky-footer shadow-sm shadow-sm">
+            <div class="container my-auto">
+                <div class="text-center my-auto copyright"><span>Copyright © Alumni Management System for Yllana Bay View College 2023</span></div>
+            </div>
+        </footer>
+        <div class="modal fade" role="dialog" tabindex="-1" id="sign-out">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h4 class="modal-title">Sign out</h4><button class="btn-close" type="button" aria-label="Close" data-bs-dismiss="modal"></button>
+                    </div>
+                    <div class="modal-body">
+                        <p>Are you sure you want to sign out?</p>
+                    </div>
+                    <div class="modal-footer"><button class="btn btn-light" type="button" data-bs-dismiss="modal">Close</button>
+                    <a class="btn btn-danger" type="button" href="../functions/logout.php">Sign out</a></div>
+                </div>
+            </div>
+        </div>
+                </div>
+        <script src="../assets/js/jquery.min.js"></script>
+        <script src="../assets/bootstrap/js/bootstrap.min.js"></script>
+        <script src="../assets/js/bs-init.js"></script>
+        <script src="../assets/js/datatables.min.js"></script>
+        <script src="../assets/js/three.min.js"></script>
+        <script src="../assets/js/theme.js"></script>
+        <script src="../assets/js/Lightbox-Gallery.js"></script>
+        <script src="../assets/js/Lightbox-Gallery-baguetteBox.min.js"></script>
+        <script src="../assets/js/sweetalert2.all.min.js"></script>
+        <script src="../assets/js/vanta.fog.min.js"></script>
+        <script src="../assets/js/main.js"></script>		
     <script>
          function printDiv(divName) {
         var printContents = document.getElementById(divName).innerHTML;
