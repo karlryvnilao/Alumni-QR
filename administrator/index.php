@@ -59,22 +59,6 @@ if (!isset($_SESSION['username'])) {
                         </a>
                     </div>
                     <div class="col-md-6 col-xl-3 mb-4">
-                        <a class="text-decoration-none" href="announcement.php">
-
-                            <div class="card shadow border-start-success py-2">
-                                <div class="card-body">
-                                    <div class="row align-items-center no-gutters">
-                                        <div class="col me-2">
-                                            <div class="text-uppercase text-info fw-bold text-xs mb-1"><span class="text-info">Announcement</span></div>
-                                            <div class="fs-2 text-info fw-bold h5 mb-0"><span><?php get_announcements_count() ?></span></div>
-                                        </div>
-                                        <div class="col-auto"><i class="fas fa-info-circle text-info fa-2x"></i></div>
-                                    </div>
-                                </div>
-                            </div>
-                        </a>
-                    </div>
-                    <div class="col-md-6 col-xl-3 mb-4">
                         <a class="text-decoration-none" href="course.php">
 
                             <div class="card shadow border-start-success py-2">
@@ -101,6 +85,22 @@ if (!isset($_SESSION['username'])) {
                                             <div class="fs-2 text-warning fw-bold h5 mb-0"><span><?php get_students_pending_count(); ?></span></div>
                                         </div>
                                         <div class="col-auto"><i class="fas fa-info-circle text-warning fa-2x"></i></div>
+                                    </div>
+                                </div>
+                            </div>
+                        </a>
+                    </div>
+                    <div class="col-md-6 col-xl-3 mb-4">
+                        <a class="text-decoration-none" href="announcement.php">
+
+                            <div class="card shadow border-start-success py-2">
+                                <div class="card-body">
+                                    <div class="row align-items-center no-gutters">
+                                        <div class="col me-2">
+                                            <div class="text-uppercase text-info fw-bold text-xs mb-1"><span class="text-danger">Declined Students</span></div>
+                                            <div class="fs-2 text-danger fw-bold h5 mb-0"><span><?php get_students_declined_count() ?></span></div>
+                                        </div>
+                                        <div class="col-auto"><i class="fas fa-times-circle text-danger fa-2x"></i></div>
                                     </div>
                                 </div>
                             </div>

@@ -29,7 +29,7 @@ $maxSize = 2 * 1024 * 1024; // 2 MB
 
 if ($file['error'] === UPLOAD_ERR_OK) {
     if (in_array($file['type'], $allowedTypes) && $file['size'] <= $maxSize) {
-        $uploadDir = 'files/';
+        $uploadDir = '../../administrator/files/';
         if (!is_dir($uploadDir)) {
             mkdir($uploadDir, 0777, true); // Ensure the directory exists
         }

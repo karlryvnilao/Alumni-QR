@@ -81,7 +81,14 @@ if (isset($_SESSION['username'])) {
       <!-- <p class="section-description">Feel free to reach out to us with any questions or inquiries.</p> -->
     </div>
     <div class="container text-center mt-5">
-    <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Unde tempora non corporis nihil? Veniam quasi provident cum aspernatur? Id assumenda nesciunt aliquam amet necessitatibus quis vitae repellendus a voluptatem eaque.</p>
+    <p>Lemery Colleges is one of the performing tertiary institutions on the first district of Batangas. 
+      It was established on 1994, and founded by Mr. Oscarlito M. Hernandez together with his wife Mrs. 
+      Filomena Hernandez. It is located at Brgy. Bagong Sikat, Lemery, Batangas. Lemery Colleges offers 
+      different college courses and Junior High School. But because of the new curriculum kindergarten to 
+      Grade 12, also known as K-12, Lemery Colleges is also now offering Senior High School.</p>
+      <p>At present , Lemery Colleges continues to achieve continuous increase in enrollment. Lemery Colleges 
+        were recognized to operate degree courses and has the ability to sustain the growth it has achieved
+         in the past and will continue to strive in the coming years.</p>
     </div>
 
     
@@ -325,24 +332,18 @@ if (isset($_SESSION['username'])) {
         </div>
     </div>
 </div>
-
+<script src="assets/js/jquery.min.js"></script>
+    <script src="assets/bootstrap/js/bootstrap.min.js"></script>
+    <script src="assets/js/bs-init.js"></script>
+    <script src="assets/js/datatables.min.js"></script>
+    <script src="assets/js/three.min.js"></script>
+    <script src="assets/js/theme.js"></script>
+    <script src="assets/js/Lightbox-Gallery.js"></script>
+    <script src="assets/js/Lightbox-Gallery-baguetteBox.min.js"></script>
+    <script src="assets/js/sweetalert2.all.min.js"></script>
+    <script src="assets/js/main.js"></script>
+    <script src="assets/js/script.js"></script>
     <script>
-          let scanner = new Instascan.Scanner({ video: document.getElementById('preview')});
-          Instascan.Camera.getCameras().then(function(cameras){
-              if(cameras.length > 0 ){
-                  scanner.start(cameras[0]);
-              } else{
-                  alert('No cameras found');
-              }
-
-          }).catch(function(e) {
-              console.error(e);
-          });
-
-          scanner.addListener('scan',function(c){
-              document.getElementById('text').value=c;
-              document.forms[0].submit();
-          });
 
           //majors
           document.getElementById('course').addEventListener('change', function() {
@@ -366,19 +367,19 @@ if (isset($_SESSION['username'])) {
     }
 });
 
-
+$(document).ready(function() {
+            <?php if (isset($_SESSION['error'])): ?>
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Oops...',
+                    text: '<?php echo $_SESSION['error']; ?>',
+                    confirmButtonText: 'Close'
+                });
+                <?php unset($_SESSION['error']); // Clear the message after displaying ?>
+            <?php endif; ?>
+        });
     </script>
-    <script src="assets/js/jquery.min.js"></script>
-    <script src="assets/bootstrap/js/bootstrap.min.js"></script>
-    <script src="assets/js/bs-init.js"></script>
-    <script src="assets/js/datatables.min.js"></script>
-    <script src="assets/js/three.min.js"></script>
-    <script src="assets/js/theme.js"></script>
-    <script src="assets/js/Lightbox-Gallery.js"></script>
-    <script src="assets/js/Lightbox-Gallery-baguetteBox.min.js"></script>
-    <script src="assets/js/sweetalert2.all.min.js"></script>
-    <script src="assets/js/main.js"></script>
-    <script src="assets/js/script.js"></script>
+    
 </body>
 
 </html>

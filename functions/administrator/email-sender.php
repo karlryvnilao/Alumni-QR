@@ -17,17 +17,17 @@ function send_mail($email, $start, $end, $title, $description){
         $mail->Password   = $password;                               
         $mail->SMTPSecure = PHPMailer::ENCRYPTION_SMTPS;           
         $mail->Port       = 465;         
-        $mail->setFrom($username, 'YBVC ALUMNI ASSOCIATION');
+        $mail->setFrom($username, 'lc ALUMNI ASSOCIATION');
         $mail->addAddress($email);       
         $mail->isHTML(true);                                  
-        $mail->Subject = 'YBVC ALUMNI ASSOCIATION';
+        $mail->Subject = 'lc ALUMNI ASSOCIATION';
         $mail->Body    = "
         <!DOCTYPE html>
             <html lang='en'>
             <head>
                 <meta charset='UTF-8'>
                 <meta name='viewport' content='width=device-width, initial-scale=1.0'>
-                <title>YBVC ALUMNI ASSOCIATION</title>
+                <title>lc ALUMNI ASSOCIATION</title>
                 <style>
                     body {
                         font-family: Arial, sans-serif;
@@ -67,7 +67,7 @@ function send_mail($email, $start, $end, $title, $description){
                     <div class='container'>
                         <div class='card'>
                             <div class='card-body'>
-                                <h5 class='card-title'>YBVC ALUMNI ASSOCIATION</h5>
+                                <h5 class='card-title'>lc ALUMNI ASSOCIATION</h5>
                                 <h4>$title</h4>
                                 <div>
                                     <p>$description</p>

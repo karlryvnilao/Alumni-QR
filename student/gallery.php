@@ -2,7 +2,7 @@
 session_start();
 if (isset($_SESSION['id']) && isset($_SESSION['username'])) {
     // Database connection
-    $conn = mysqli_connect("localhost", "root", "", "ybvc");
+    $conn = mysqli_connect("localhost", "root", "", "lc");
 
     if (!$conn) {
         die("Connection failed: " . mysqli_connect_error());

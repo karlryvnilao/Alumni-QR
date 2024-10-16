@@ -7,7 +7,7 @@ if (!isset($_SESSION['username'])) {
 }
 
 try {
-    $pdo = new PDO('mysql:host=localhost;dbname=ybvc', 'root', '');
+    $pdo = new PDO('mysql:host=localhost;dbname=lc', 'root', '');
     $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 
     $stmt = $pdo->prepare("

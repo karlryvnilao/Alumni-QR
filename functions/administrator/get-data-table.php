@@ -179,9 +179,10 @@ function get_students_pending(){
 
                 <!-- View Button (New) -->
                 <button class="btn btn-outline-primary mx-1" type="button" data-bs-toggle="modal" data-bs-target="#view"
-                    data-file="images/<?php echo htmlspecialchars($student['profile_pic']); ?>">
+                    data-file="files/<?php echo htmlspecialchars($student['file']); ?>">
                     <i class="fas fa-eye"></i>
                 </button>
+
 
                 <!-- Edit Button -->
                 <button class="btn btn-outline-warning mx-1" type="button" data-bs-target="#update" data-bs-toggle="modal" 

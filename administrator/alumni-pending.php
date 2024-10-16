@@ -154,20 +154,21 @@ if (!isset($_SESSION['username'])) {
     <!-- View Modal -->
     <div class="modal fade" role="dialog" tabindex="-1" id="view">
     <div class="modal-dialog modal-dialog-centered" role="document">
-        <!-- <div class="modal-content">
+        <div class="modal-content">
             <div class="modal-header">
                 <h5 class="modal-title">Student Picture</h5>
                 <button class="btn-close" type="button" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
-            <div class="modal-body text-center"> -->
-                <img id="view-profile-pic" src="" alt="Profile Picture" width="100" height="100">
-            <!-- </div>
+            <div class="modal-body text-center">
+                <img id="view-file-pic" src="" alt="File Picture" width="100" height="100">
+            </div>
             <div class="modal-footer">
                 <button class="btn btn-light" type="button" data-bs-dismiss="modal">Close</button>
-                </div>
-            </div> -->
+            </div>
         </div>
     </div>
+</div>
+
     <div class="modal fade" role="dialog" tabindex="-1" id="add">
         <div class="modal-dialog modal-lg modal-dialog-centered modal-dialog-scrollable" role="document">
             <div class="modal-content">
@@ -495,6 +496,25 @@ if (!isset($_SESSION['username'])) {
         modalUserId.value = userId;
         modalEmail.value = email;
     });
+});
+
+// Get the modal element
+// Get the modal element
+var viewModal = document.getElementById('view');
+
+// Add event listener when the modal is triggered
+viewModal.addEventListener('show.bs.modal', function (event) {
+    // Get the button that triggered the modal
+    var button = event.relatedTarget;
+    
+    // Extract the file path from data-file attribute
+    var file = button.getAttribute('data-file');
+    
+    // Get the image element inside the modal
+    var filePic = document.getElementById('view-file-pic');
+    
+    // Update the src of the image with the file path
+    filePic.src = file;
 });
 
 

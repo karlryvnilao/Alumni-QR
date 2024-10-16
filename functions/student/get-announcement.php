@@ -20,7 +20,7 @@ function get_announcement()
                     <div class="d-flex"><img class="rounded-circle flex-shrink-0 me-3 fit-cover" width="50" height="50" src="../assets/img/logo3.webp">
                         <div>
                             <p class="fw-bold mb-0">Administrator</p>
-                            <p class="text-muted mb-0">YBVC - Announcement</p>
+                            <p class="text-muted mb-0">lc - Announcement</p>
                         </div>
                     </div>
                 </div>

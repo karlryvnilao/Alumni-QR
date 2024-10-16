@@ -10,7 +10,7 @@ if (!isset($_SESSION['username'])) {
 
 try {
     // Database connection
-    $pdo = new PDO('mysql:host=localhost;dbname=ybvc', 'root', '');
+    $pdo = new PDO('mysql:host=localhost;dbname=lc', 'root', '');
     $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 
     // Fetch user data from the students table

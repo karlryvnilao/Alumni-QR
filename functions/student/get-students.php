@@ -1,7 +1,7 @@
 <?php
 // Database connection
 $host = 'localhost';
-$dbname = 'ybvc';
+$dbname = 'lc';
 $username = 'root';
 $password = '';
 

@@ -41,7 +41,7 @@ if (!isset($_SESSION['username'])) {
                     <div class="text-dark bg-light border rounded border-0 border-light d-flex flex-column justify-content-between align-items-center flex-lg-row p-4 p-lg-5 shadow-sm" data-bs-theme="light">
                         <div class="text-center text-lg-start py-3 py-lg-1">
                             <h2 class="fw-bold mb-2">Alumni</h2>
-                            <p class="mb-0">YBVC ALUMNI ASSOCIATION -
+                            <p class="mb-0">lc ALUMNI ASSOCIATION -
 "THE BUILDER OF FUTURE LEADERS"</p>
                         </div>
                     </div>

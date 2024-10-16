@@ -22,11 +22,11 @@ function get_courses_count(){
 
 function get_students_count(){
     global $db;
-    $sql = "SELECT COUNT(*) FROM students INNER JOIN users ON students.user_id = users.id WHERE users.status = 'approved'";
+    $sql = "SELECT COUNT(*) as count FROM users WHERE status = 'approved'";
     $stmt = $db->prepare($sql);
     $stmt->execute();
-    $result = $stmt->fetchAll(PDO::FETCH_ASSOC);
-    echo count($result);
+    $result = $stmt->fetch(PDO::FETCH_ASSOC); // Fetch the single row
+    echo $result['count']; // Output the count
 }
 
 function get_graduate_students_count(){
@@ -38,22 +38,23 @@ function get_graduate_students_count(){
     echo count($result);
 }
 
-function get_students_pending_count(){
+function get_students_pending_count() {
     global $db;
-    $sql = "SELECT COUNT(*) FROM students INNER JOIN users ON students.user_id = users.id WHERE users.status = 'pending'";
+    $sql = "SELECT COUNT(*) as count FROM users WHERE status = 'pending'";
     $stmt = $db->prepare($sql);
     $stmt->execute();
-    $result = $stmt->fetchAll(PDO::FETCH_ASSOC);
-    echo count($result);
+    $result = $stmt->fetch(PDO::FETCH_ASSOC); // Fetch the single row
+    echo $result['count']; // Output the count
 }
 
-function get_announcements_count(){
+
+function get_students_declined_count(){
     global $db;
-    $sql = "SELECT * FROM `announcements`";
+    $sql = "SELECT COUNT(*) as count FROM users WHERE status = 'declined'";
     $stmt = $db->prepare($sql);
     $stmt->execute();
-    $result = $stmt->fetchAll(PDO::FETCH_ASSOC);
-    echo count($result);
+    $result = $stmt->fetch(PDO::FETCH_ASSOC); // Fetch the single row
+    echo $result['count']; // Output the count
 }
 
 
