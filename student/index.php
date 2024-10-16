@@ -55,33 +55,95 @@ try {
     <link rel="stylesheet" href="../assets/css/Login-Form-Basic-icons.css">
 </head>
 <style>
-    /* Basic Reset */
-* {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-}
-
-body {
-    font-family: Arial, sans-serif;
-}
-
-.container {
-    display: flex;
-    flex-direction: row;
-    justify-content: space-between;
-    gap: 20px; /* Adjust the space between the containers as needed */
-    padding: 20px;
-}
-
-
-/* Responsive Design */
-@media (max-width: 768px) {
-    .container {
-        flex-direction: column;
+ /* Basic Reset */
+ * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
     }
+
+    body {
+        font-family: Arial, sans-serif;
+    }
+
+    .container {
+        display: flex;
+        flex-direction: row;
+        justify-content: space-between;
+        gap: 20px;
+        padding: 20px;
+    }
+
+    .left-container {
+        flex: 1;
+    }
+
+    .right-container {
+        flex: 1;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        padding: 20px;
+        height: 100vh; /* Full height to ensure vertical centering */
+    }
+
+    .right-container img {
+        max-width: 100%;
+        height: auto;
+    }
+
+    /* Responsive Design */
+    @media (max-width: 768px) {
+        .container {
+            flex-direction: column;
+        }
+
+        .right-container {
+            height: auto; /* Remove height constraint on smaller screens */
+        }
+    }
+    input.form-control{
+    background: #171717;
+    padding: 1.5em 20px;
+    width: 100%;
+    border: 0;
+    outline: 0;
+    background: transparent;
+    border-bottom: 2px solid #d3d3d3;
+    color: #000;
+    margin: 10px 0;
+    line-height: 14px;
 }
 
+textarea.form-control{
+    background: #171717;
+    padding: 1.5em 20px;
+    width: 100%;
+    border: 0;
+    outline: 0;
+    background: transparent;
+    border-bottom: 2px solid #d3d3d3;
+    color: #000;
+    margin: 10px 0;
+    line-height: 14px;
+}
+
+input.form-control:focus {
+    border-bottom: 2px solid #007bff; /* Underline color on focus */
+    box-shadow: none;
+    outline: none;
+}
+
+button.btn.btn-primary.form-control {
+    color: #fff;
+    background-color: #000;
+    border-color: #000;
+}
+
+button.btn.btn-primary.form-control:hover {
+    color: #000;
+    background-color: #fff;
+}
 </style>
 <body id="page-top">
     <?php include_once '../functions/student/navbar-menu.php'; ?>
@@ -91,15 +153,15 @@ body {
             <div id="content">
             <section id="contact" class="py-4 py-xl-5">
                 <div class="container">
-                    <div class="text-dark bg-light border rounded border-0 border-light d-flex flex-column justify-content-between align-items-center flex-lg-row p-4 p-lg-5 shadow-sm" data-bs-theme="light">
+                    <div class="text-dark bg-light border rounded border-0 border-light  flex-column justify-content-between align-items-center flex-lg-row p-4 p-lg-5 shadow-sm" data-bs-theme="light">
                         <form action="update-profile.php" method="post" enctype="multipart/form-data">
                             <div class="form-group">
                                 <label for="firstname">First Name</label>
-                                <input type="text" class="form-control" id="firstname" name="firstname" value="<?php echo htmlspecialchars($student['firstname'] ?? ''); ?>" required>
+                                <input type="text" class="form-control form-control" id="firstname" name="firstname" value="<?php echo htmlspecialchars($student['firstname'] ?? ''); ?>" required>
                             </div>
                             <div class="form-group">
                                 <label for="lastname">Last Name</label>
-                                <input type="text" class="form-control" id="lastname" name="lastname" value="<?php echo htmlspecialchars($student['lastname'] ?? ''); ?>" required>
+                                <input type="text" class="form-control form-control" id="lastname" name="lastname" value="<?php echo htmlspecialchars($student['lastname'] ?? ''); ?>" required>
                             </div>
                             <div class="form-group">
                                 <label for="email">Email</label>
@@ -130,48 +192,58 @@ body {
                             </div>
                             <button type="submit" class="btn btn-primary mt-3">Update</button>
                             <button type="button" class="btn btn-primary mt-3" data-bs-toggle="modal" data-bs-target="#exampleModal">Generate QR</button>
+                            <button type="button" class="btn btn-light mt-3 float-end" data-bs-toggle="modal" data-bs-target="#instructionsModal">instructions
+                            ?
+                        </button>
                         </form>
-                        
                     </div>
                 </div>
             </section>
     </div>
         </div>
         <div class="right-container">
-        <div id="content">
-            <section id="contact" class="py-4 py-xl-5">
-                <div class="container">
-        <div class="text-dark bg-light border rounded border-0 border-light d-flex flex-column justify-content-between align-items-center flex-lg-row p-4 p-lg-5 shadow-sm" data-bs-theme="light">
-            <h2>Instructions</h2>
-            <p>Please follow the instructions below:</p>
-            <div class="instructions-template">
-                <h3>Step 1: Preparation</h3>
-                <ul>
-                    <li>Ensure all materials are ready.</li>
-                    <li>Read the instructions carefully.</li>
-                </ul>
-                
-                <h3>Step 2: Execution</h3>
-                <ul>
-                    <li>Start with the first step of the process.</li>
-                    <li>Follow the steps in the given order.</li>
-                </ul>
-                
-                <h3>Step 3: Completion</h3>
-                <ul>
-                    <li>Review the results.</li>
-                    <li>Ensure all tasks are completed.</li>
-                </ul>
+                <img src="../assets/img/navbar.png" alt="Student Image">
             </div>
-
-        </div>
-    </div>
-        </section>
-    </div>
-        </div>
     </div>
 
-    
+    <!-- Modal for Instructions -->
+<div class="modal fade" id="instructionsModal" tabindex="-1" aria-labelledby="instructionsModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="instructionsModalLabel">Instructions</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <h2>Instructions</h2>
+                <p>Please follow the instructions below:</p>
+                <div class="instructions-template">
+                    <h3>Step 1: Update</h3>
+                    <ul>
+                        <li>Update your information.</li>
+                        <li>Double check.</li>
+                    </ul>
+                    
+                    <h3>Step 2: Generate</h3>
+                    <ul>
+                        <li>Click Generate QR.</li>
+                        <li>Download QR and save.</li>
+                    </ul>
+                    
+                    <h3>Step 3: Portal</h3>
+                    <ul>
+                        <li>Go to Portal site.</li>
+                        <li>Scan your qrcode.</li>
+                    </ul>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+
     <div class="modal fade" role="dialog" tabindex="-1" id="sign-out">
             <div class="modal-dialog" role="document">
                 <div class="modal-content">

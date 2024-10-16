@@ -94,8 +94,8 @@ button:hover {
                    </form>
                    
 
-     	<button type="submit">LOGIN</button>
-        <a href="../index.php">Are you admin?</a>
+     	<button type="submit">LOGIN</button>Not yet a member? 
+        <a href="../index.php">here</a>
      	</div>
         
             </div>

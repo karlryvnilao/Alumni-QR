@@ -30,24 +30,32 @@ if ($batchResult && $batchResult->num_rows > 0) {
     $startYear = 'Not Available';
 }
 
-// Modify SQL query to filter students by selected course
+// Modify SQL query to filter students by selected course and active status
 $studentsQuery = "
-    SELECT s.*, u.username, c.name AS course_name, m.major_name AS major_name
+    SELECT s.*, u.username, c.name AS course_name, m.major_name AS major_name, a.name AS achievement_description
     FROM students s
     JOIN users u ON s.user_id = u.id
     JOIN courses c ON s.course = c.id
     LEFT JOIN majors m ON s.major_id = m.id
-    WHERE s.batch = ? AND u.status = 'approved'
+    LEFT JOIN achievements a ON s.achievement_id = a.id
+    WHERE s.batch = ? AND s.status = 'active'
 ";
-if ($selectedCourse !== 'all') {
-    // Only show students from the selected course
+
+if ($selectedCourse === 'all_with_achievements') {
+    $studentsQuery .= " AND s.achievement_id IS NOT NULL AND s.achievement_id != ''";
+} elseif ($selectedCourse !== 'all') {
     $studentsQuery .= " AND c.name = ?";
 }
+
 $studentsQuery .= " ORDER BY c.name, s.lastname ASC";
 
+
+// Prepare and bind parameters based on the selected course
 $studentsStmt = $conn->prepare($studentsQuery);
 if ($selectedCourse === 'all') {
     $studentsStmt->bind_param("i", $batch_id);
+} elseif ($selectedCourse === 'all_with_achievements') {
+    $studentsStmt->bind_param("i", $batch_id); // No need for additional param
 } else {
     $studentsStmt->bind_param("is", $batch_id, $selectedCourse);
 }
@@ -65,8 +73,14 @@ if ($studentsResult && $studentsResult->num_rows > 0) {
 $studentsStmt->close();
 $batchStmt->close();
 
-// Query to get all available courses for the dropdown
-$coursesStmt = $conn->prepare("SELECT id, name FROM courses");
+// Query to get all available courses for the dropdown, only including active students
+$coursesStmt = $conn->prepare("
+    SELECT DISTINCT c.id, c.name
+    FROM courses c
+    JOIN students s ON s.course = c.id
+    WHERE s.batch = ? AND s.status = 'active'
+");
+$coursesStmt->bind_param("i", $batch_id);
 $coursesStmt->execute();
 $coursesResult = $coursesStmt->get_result();
 
@@ -78,7 +92,9 @@ if ($coursesResult && $coursesResult->num_rows > 0) {
 }
 $coursesStmt->close();
 
+
 mysqli_close($conn);
+
 ?>
 
 <!DOCTYPE html>
@@ -127,17 +143,21 @@ mysqli_close($conn);
             font-size: 1.25rem;
             font-weight: bold;
             margin-bottom: 0.75rem;
-            color: #34495e;
+            color: #5072A7;
         }
 
         .card-text {
-            color: #7f8c8d;
+            color: #5072A7;
             font-size: 1rem;
             margin-bottom: 0.5rem;
         }
 
         .search-bar {
             margin-bottom: 30px;
+        }
+        .line {
+            background-color: #5072A7;
+            height: 10px;
         }
     </style>
     <script>
@@ -184,13 +204,15 @@ mysqli_close($conn);
 </head>
 <body>
 <div class="wrapper">
-    <div class="container">
+    <div class="container">     
         <div class="d-flex justify-content-between align-items-center mb-4">
-            <button onclick="window.location.href='home.php'" class="btn btn-link text-primary">
-                <i class="fas fa-arrow-left" style="font-size: 1.5rem;"></i>
-            </button>
+        <img src="../assets/img/navbar.png" alt="Logo" style="height: 80px; margin-right: 20px;">
+            
             <h1>Yearbook for Batch (<?= htmlspecialchars($startYear) ?>)</h1>
             <div class="mt-4 text-center">
+            <button onclick="window.location.href='gallery.php'" class="btn btn-link text-primary">
+                <i class="fas fa-arrow-left" style="font-size: 1.5rem;"></i>
+            </button>
                 <a href="print_all.php?batch=<?= $batch_id ?>" class="btn btn-secondary">Print All Data</a>
             </div>
         </div>
@@ -208,11 +230,12 @@ mysqli_close($conn);
                             <?= htmlspecialchars($course['name']) ?>
                         </option>
                     <?php endforeach; ?>
+                    <option value="all_with_achievements" <?= $selectedCourse === 'all_with_achievements' ? 'selected' : '' ?>>All with Achievements</option>
                 </select>
             </div>
+
         </div>
 
-        <!-- Course Sections -->
         <?php foreach ($studentsByCourse as $courseName => $students): ?>
             <div class="course-section">
                 <h2 class="mt-4"><?= htmlspecialchars($courseName) ?></h2>
@@ -220,19 +243,26 @@ mysqli_close($conn);
                     <?php foreach ($students as $student): ?>
                         <div class="col">
                             <div class="card h-100">
-                            <div
-        class="card-img-top"
-        style="
-          background-image: url('<?= !empty($student['profile_pic']) ? (preg_match('/data:image/i', $student['profile_pic']) ? $student['profile_pic'] : '../student/images/'.$student['profile_pic']) : 'default-avatar.jpg' ?>');
-          background-size: cover;
-          background-position: center;
-          height: 250px;
-        "
-      ></div>
+                                <div
+                                    class="card-img-top"
+                                    style="
+                                        background-image: url('<?= !empty($student['profile_pic']) ? (preg_match('/data:image/i', $student['profile_pic']) ? $student['profile_pic'] : '../student/images/'.$student['profile_pic']) : 'default-avatar.jpg' ?>');
+                                        background-size: cover;
+                                        background-position: center;
+                                        height: 250px;
+                                    "
+                                ></div>
+                                <div class="line"></div>
                                 <div class="card-body">
                                     <h5 class="card-title"><?= htmlspecialchars($student['lastname']) ?>, <?= htmlspecialchars($student['firstname']) ?></h5>
-                                    <p class="card-text"><?= htmlspecialchars($student['username']) ?></p>
+                                    <p class="card-text"><em><?= htmlspecialchars($student['motto']) ?></em></p>
                                     <p class="card-text"><?= htmlspecialchars($student['major_name']) ?></p>
+                                    
+                                    <?php if ($selectedCourse === 'all_with_achievements' && !empty($student['achievement_description'])): ?>
+                                        <p class="card-text text-success">
+                                            <i class="fas fa-trophy"></i> <?= htmlspecialchars($student['achievement_description']) ?>
+                                        </p>
+                                    <?php endif; ?>
                                 </div>
                             </div>
                         </div>
@@ -240,8 +270,30 @@ mysqli_close($conn);
                 </div>
             </div>
         <?php endforeach; ?>
+
     </div>
 </div>
+
+
+<!-- Footer -->
+<footer class="text-center mt-4 py-4" style="background-color: #2c3e50; color: white;">
+    <div class="container">
+        <p class="mb-0">© <?= date('Y') ?> Yearbook. All rights reserved.</p>
+        <p>
+            <a href="privacy_policy.php" class="text-light">Privacy Policy</a> |
+            <a href="terms_of_service.php" class="text-light">Terms of Service</a>
+        </p>
+    </div>
+</footer>
+<script>
+    // Reload the page when a course is selected to apply filtering
+function handleCourseChange() {
+    const selectedCourse = document.getElementById('course-filter').value;
+    const batchId = <?= $batch_id ?>;
+    window.location.href = `?batch=${batchId}&course=${selectedCourse}`;
+}
+
+</script>
 </body>
 </html>
 

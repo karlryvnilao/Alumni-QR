@@ -143,17 +143,21 @@ mysqli_close($conn);
             font-size: 1.25rem;
             font-weight: bold;
             margin-bottom: 0.75rem;
-            color: #34495e;
+            color: #5072A7;
         }
 
         .card-text {
-            color: #7f8c8d;
+            color: #5072A7;
             font-size: 1rem;
             margin-bottom: 0.5rem;
         }
 
         .search-bar {
             margin-bottom: 30px;
+        }
+        .line {
+            background-color: #5072A7;
+            height: 10px;
         }
     </style>
     <script>
@@ -202,11 +206,13 @@ mysqli_close($conn);
 <div class="wrapper">
     <div class="container">     
         <div class="d-flex justify-content-between align-items-center mb-4">
+        <img src="../assets/img/navbar.png" alt="Logo" style="height: 80px; margin-right: 20px;">
+            
+            <h1>Yearbook for Batch (<?= htmlspecialchars($startYear) ?>)</h1>
+            <div class="mt-4 text-center">
             <button onclick="window.location.href='gallery.php'" class="btn btn-link text-primary">
                 <i class="fas fa-arrow-left" style="font-size: 1.5rem;"></i>
             </button>
-            <h1>Yearbook for Batch (<?= htmlspecialchars($startYear) ?>)</h1>
-            <div class="mt-4 text-center">
                 <a href="print_all.php?batch=<?= $batch_id ?>" class="btn btn-secondary">Print All Data</a>
             </div>
         </div>
@@ -246,6 +252,7 @@ mysqli_close($conn);
                                         height: 250px;
                                     "
                                 ></div>
+                                <div class="line"></div>
                                 <div class="card-body">
                                     <h5 class="card-title"><?= htmlspecialchars($student['lastname']) ?>, <?= htmlspecialchars($student['firstname']) ?></h5>
                                     <p class="card-text"><em><?= htmlspecialchars($student['motto']) ?></em></p>
@@ -267,6 +274,17 @@ mysqli_close($conn);
     </div>
 </div>
 
+
+<!-- Footer -->
+<footer class="text-center mt-4 py-4" style="background-color: #2c3e50; color: white;">
+    <div class="container">
+        <p class="mb-0">© <?= date('Y') ?> Yearbook. All rights reserved.</p>
+        <p>
+            <a href="privacy_policy.php" class="text-light">Privacy Policy</a> |
+            <a href="terms_of_service.php" class="text-light">Terms of Service</a>
+        </p>
+    </div>
+</footer>
 <script>
     // Reload the page when a course is selected to apply filtering
 function handleCourseChange() {

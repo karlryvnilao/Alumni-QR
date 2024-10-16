@@ -67,7 +67,7 @@ if (isset($_SESSION['username'])) {
 <body>
     <section id="hero">
     <div class="hero-container" data-aos="zoom-in" data-aos-delay="100">
-      <h1 style=color:#000;>Welcome LCIANS Alumni's</h1>
+      <h1 style=color:#006BFF;>Welcome LCIANS Alumni's</h1>
       <h2>The Right Choice</h2>
       <a href="portal/index.php" class="btn-get-started">Go to Portal</a>
     </div>
@@ -173,16 +173,21 @@ if (isset($_SESSION['username'])) {
 </main><!-- End #main -->
 
 </div>
-<footer id="footer">
+<!-- Footer -->
+<footer class="text-center mt-4 py-4" style="background-color: #2c3e50; color: white;">
     <div class="container">
-    <p>All right</p>
+        <p class="mb-0">© <?= date('Y') ?> Yearbook. All rights reserved.</p>
+        <p>
+            <a href="privacy_policy.php" class="text-light">Privacy Policy</a> |
+            <a href="terms_of_service.php" class="text-light">Terms of Service</a>
+        </p>
     </div>
-</footer><!-- End Footer -->
+</footer>
     
 <div class="modal fade" role="dialog" tabindex="-1" id="login">
         <div class="modal-dialog" role="document">
             <div class="modal-content">
-                <div class="modal-header"><img src="assets/img/navbar.jpg" style="width: 10em;"><button class="btn-close" type="button" aria-label="Close" data-bs-dismiss="modal"></button></div>
+                <div class="modal-header"><button class="btn-close" type="button" aria-label="Close" data-bs-dismiss="modal"></button></div>
                 <div class="modal-body">
                     <div class="d-flex flex-column align-items-center mb-4"><img class="mb-3 rounded-circle" src="https://student.lemerycolleges.edu.ph/images/favicon.png" style="width: 5em;">
                         <h2 class="text-center"><span style="color: rgb(78, 115, 223);">WELCOME&nbsp;</span>Lemery Colleges Alumni's</h2>

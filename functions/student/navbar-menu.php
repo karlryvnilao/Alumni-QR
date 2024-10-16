@@ -7,6 +7,12 @@
         </button>
         
         <div class="collapse navbar-collapse" id="navcol-1">
+        <ul class="navbar-nav">
+                <!-- Gallery Link -->
+                <li class="nav-item">
+                    <a class="nav-link" href="../student/index.php">Home</a> <!-- Replace with the correct gallery page URL -->
+                </li>
+            </ul>
             <ul class="navbar-nav">
                 <!-- Gallery Link -->
                 <li class="nav-item">
