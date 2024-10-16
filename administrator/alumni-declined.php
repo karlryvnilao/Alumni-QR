@@ -45,10 +45,6 @@ if (!isset($_SESSION['username'])) {
                 <div class="container-fluid">
                     <div class="d-sm-flex justify-content-between align-items-center mb-4">
                         <h3 class="text-dark mb-2">Alumni Management</h3>
-                        <div class="row">
-                            
-                            <div class="col"><button class="btn btn-outline-primary mx-2 mb-2" type="button" data-bs-target="#add" data-bs-toggle="modal">Add Alumni</button></div>
-                        </div>
                     </div>
                     <div class="card shadow">
                         <div class="card-header py-3">
