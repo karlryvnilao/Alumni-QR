@@ -60,53 +60,51 @@ try {
     <link rel="stylesheet" href="../assets/css/Login-Form-Basic-icons.css">
 </head>
 <style>
- /* Basic Reset */
- * {
-        margin: 0;
-        padding: 0;
-        box-sizing: border-box;
-    }
+body {
+    background: linear-gradient(rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.6)), url('../assets/img/bg.jpg');
+    background-size: cover; /* Ensure the background covers the viewport */
+    background-position: center; /* Center the background image */
+    background-repeat: no-repeat; /* Prevent background repetition */
+    margin: 0; /* Remove default margin */
+    height: 100vh; /* Full height of the viewport */
+    display: flex; /* Flexbox for centering */
+    justify-content: center; /* Center horizontally */
+    align-items: center; /* Center vertically */
+    position: relative; /* Relative positioning for overlay and card */
+}
 
-    body {
-        font-family: Arial, sans-serif;
-    }
+.overlay {
+    position: absolute; /* Cover the entire background */
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5); /* Black overlay with 50% opacity */
+}
 
+.container {
+    background-color: #fff; /* White background for the card */
+    border-radius: 10px; /* Rounded corners */
+    padding: 50px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Shadow for depth */
+    max-width: 600px; /* Limit the card width */
+    width: 100%; /* Ensure it responds well on smaller screens */
+    z-index: 1; /* Ensure the card stays above the overlay */
+    display: flex; /* Flexbox for inner alignment */
+    flex-direction: column; /* Stack content vertically */
+    justify-content: center; /* Center content vertically */
+    align-items: center; /* Center content horizontally */
+}
+
+@media (max-width: 768px) {
     .container {
-        display: flex;
-        flex-direction: row;
-        justify-content: space-between;
-        gap: 20px;
-        padding: 20px;
+        width: 90%; /* Full width on smaller screens */
     }
+}
 
-    .left-container {
-        flex: 1;
-    }
-
-    .right-container {
-        flex: 1;
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        padding: 20px;
-        height: 100vh; /* Full height to ensure vertical centering */
-    }
-
-    .right-container img {
-        max-width: 100%;
-        height: auto;
-    }
-
-    /* Responsive Design */
-    @media (max-width: 768px) {
-        .container {
-            flex-direction: column;
-        }
-
-        .right-container {
-            height: auto; /* Remove height constraint on smaller screens */
-        }
-    }
+nav.navbar.navbar-expand-md.shadow {
+    background-color: white;
+}
     input.form-control{
     background: #171717;
     padding: 1.5em 20px;
@@ -151,64 +149,67 @@ button.btn.btn-primary.form-control:hover {
 }
 </style>
 <body id="page-top">
+<div class="overlay">
     <?php include_once '../functions/student/navbar-menu.php'; ?>
+
     <div class="d-flex flex-column" id="content-wrapper">
-    <div class="container">
-        <div class="left-container">
             <div id="content">
             <section id="contact" class="py-4 py-xl-5">
                 <div class="container">
-                    <div class="text-dark bg-light border rounded border-0 border-light  flex-column justify-content-between align-items-center flex-lg-row p-4 p-lg-5 shadow-sm" data-bs-theme="light">
-                        <form action="update-profile.php" method="post" enctype="multipart/form-data">
-                            <div class="form-group">
-                                <label for="firstname">First Name</label>
-                                <input type="text" class="form-control form-control" id="firstname" name="firstname" value="<?php echo htmlspecialchars($student['firstname'] ?? ''); ?>" required>
+                    
+                    <form action="update-profile.php" method="post" enctype="multipart/form-data">
+                        <div class="row">
+                            <!-- Left Column -->
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label for="firstname">First Name</label>
+                                    <input type="text" class="form-control" id="firstname" name="firstname" value="<?php echo htmlspecialchars($student['firstname'] ?? ''); ?>" required>
+                                </div>
+                                <div class="form-group">
+                                    <label for="lastname">Last Name</label>
+                                    <input type="text" class="form-control" id="lastname" name="lastname" value="<?php echo htmlspecialchars($student['lastname'] ?? ''); ?>" required>
+                                </div>
+                                <div class="form-group">
+                                    <label for="email">Email</label>
+                                    <input type="email" class="form-control" id="email" name="email" value="<?php echo htmlspecialchars($student['email'] ?? ''); ?>" required>
+                                </div>
+                                <div class="form-group">
+                                    <label for="phone">Phone</label>
+                                    <input type="text" class="form-control" id="phone" name="phone" value="<?php echo htmlspecialchars($student['phone'] ?? ''); ?>" required>
+                                </div>
                             </div>
-                            <div class="form-group">
-                                <label for="lastname">Last Name</label>
-                                <input type="text" class="form-control form-control" id="lastname" name="lastname" value="<?php echo htmlspecialchars($student['lastname'] ?? ''); ?>" required>
+
+                            <!-- Right Column -->
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label for="work">Work</label>
+                                    <input type="text" class="form-control" id="work" name="work" value="<?php echo htmlspecialchars($student['work'] ?? ''); ?>" required>
+                                </div>
+                                <div class="form-group">
+                                    <label for="company">Company Name</label>
+                                    <input type="text" class="form-control" id="company" name="company" value="<?php echo htmlspecialchars($student['company'] ?? ''); ?>" required>
+                                </div>
+                                <div class="form-group">
+                                    <label for="present_address">Address</label>
+                                    <input type="text" class="form-control" id="present_address" name="present_address" value="<?php echo htmlspecialchars($student['present_address'] ?? ''); ?>" required>
+                                </div>
+                                <div class="form-group">
+                                    <label for="profile_pic">Profile Picture</label>
+                                    <input type="file" class="form-control-file" id="profile_pic" name="profile_pic">
+                                    <?php if (!empty($student['profile_pic'])): ?>
+                                        <img src="images/<?php echo htmlspecialchars($student['profile_pic']); ?>" alt="Profile Picture" style="width: 100px; height: 100px;">
+                                    <?php endif; ?>
+                                </div>
                             </div>
-                            <div class="form-group">
-                                <label for="email">Email</label>
-                                <input type="email" class="form-control" id="email" name="email" value="<?php echo htmlspecialchars($student['email'] ?? ''); ?>" required>
-                            </div>
-                            <div class="form-group">
-                                <label for="phone">Phone</label>
-                                <input type="text" class="form-control" id="phone" name="phone" value="<?php echo htmlspecialchars($student['phone'] ?? ''); ?>" required>
-                            </div>
-                            <div class="form-group">
-                                <label for="phone">Work</label>
-                                <input type="text" class="form-control" id="work" name="work" value="<?php echo htmlspecialchars($student['work'] ?? ''); ?>" required>
-                            </div>
-                            <div class="form-group">
-                                <label for="phone">Company Name</label>
-                                <input type="text" class="form-control" id="company" name="company" value="<?php echo htmlspecialchars($student['company'] ?? ''); ?>" required>
-                            </div>
-                            <div class="form-group">
-                                <label for="phone">Address</label>
-                                <input type="text" class="form-control" id="present_address" name="present_address" value="<?php echo htmlspecialchars($student['present_address'] ?? ''); ?>" required>
-                            </div>
-                            <div class="form-group">
-                                <label for="profile_pic">Profile Picture</label>
-                                <input type="file" class="form-control-file" id="profile_pic" name="profile_pic">
-                                <?php if (!empty($student['profile_pic'])): ?>
-                                    <img src="images/<?php echo htmlspecialchars($student['profile_pic']); ?>" alt="Profile Picture" style="width: 100px; height: 100px;">
-                                <?php endif; ?>
-                            </div>
-                            <button type="submit" class="btn btn-primary mt-3">Update</button>
-                            <button type="button" class="btn btn-primary mt-3" data-bs-toggle="modal" data-bs-target="#exampleModal">Generate QR</button>
-                            <button type="button" class="btn btn-light mt-3 float-end" data-bs-toggle="modal" data-bs-target="#instructionsModal">instructions
-                            ?
-                        </button>
-                        </form>
+                        </div>
+                        <button type="submit" class="btn btn-primary mt-3">Update</button>
+                    </form>
+
                     </div>
                 </div>
             </section>
     </div>
         </div>
-        <div class="right-container">
-                <img src="../assets/img/navbar.png" alt="Student Image">
-            </div>
     </div>
 
     <!-- Modal for Instructions -->
@@ -281,6 +282,9 @@ button.btn.btn-primary.form-control:hover {
         </div>
     </div>
 </div>
+    </div>
+    </div>
+    
 
 
     <script src="../assets/bootstrap/js/bootstrap.min.js"></script>

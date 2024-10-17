@@ -76,23 +76,21 @@ if (isset($_SESSION['username'])) {
   <main id="main">
 
   <section id="mission">
-    <div class="section-header">
-      <h3 class="section-title mt-3">Welcome</h3>
-      <!-- <p class="section-description">Feel free to reach out to us with any questions or inquiries.</p> -->
-    </div>
-    <div class="container text-center mt-5">
-    <p>Lemery Colleges is one of the performing tertiary institutions on the first district of Batangas. 
-      It was established on 1994, and founded by Mr. Oscarlito M. Hernandez together with his wife Mrs. 
-      Filomena Hernandez. It is located at Brgy. Bagong Sikat, Lemery, Batangas. Lemery Colleges offers 
-      different college courses and Junior High School. But because of the new curriculum kindergarten to 
-      Grade 12, also known as K-12, Lemery Colleges is also now offering Senior High School.</p>
-      <p>At present , Lemery Colleges continues to achieve continuous increase in enrollment. Lemery Colleges 
-        were recognized to operate degree courses and has the ability to sustain the growth it has achieved
-         in the past and will continue to strive in the coming years.</p>
-    </div>
+  <div class="section-header">
+    <h3 class="section-title mt-3">Welcome</h3>
+  </div>
+  <div class="container text-center mt-5">
+    <p>Lemery Colleges is one of the leading tertiary institutions in the first district of Batangas. 
+      Established in 1994, it was founded by Mr. Oscarlito M. Hernandez and his wife, Mrs. 
+      Filomena Hernandez. Located at Brgy. Bagong Sikat, Lemery, Batangas, the institution offers 
+      a variety of college courses and Junior High School. With the introduction of the K-12 curriculum, 
+      Lemery Colleges now also offers Senior High School programs.</p>
+    <p>At present, Lemery Colleges continues to see a steady increase in enrollment. Recognized for its 
+      degree programs, the institution remains committed to sustaining its growth and will continue striving 
+      for excellence in the coming years.</p>
+  </div>
+</section>
 
-    
-  </section><!-- End Hero Section -->
    
 
     

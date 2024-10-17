@@ -137,8 +137,8 @@ button:hover {
         <div class="row">
             <video id="preview" width="100%"></video>
             <label for="text">SCAN QR CODE HERE</label>
-            <input type="text" name="username" id="text" placeholder="INPUT QR CODE" class="form-control">
-            <button type="submit">LOGIN</button>
+            <!-- <input type="text" name="username" id="text" placeholder="INPUT QR CODE" class="form-control">
+            <button type="submit">LOGIN</button> -->
             Not yet a member? <a href="../index.php">here</a>
         </div>
     </form>

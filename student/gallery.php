@@ -91,10 +91,10 @@ if (isset($_SESSION['id']) && isset($_SESSION['username'])) {
     <link rel="stylesheet" href="../assets/css/Lightbox-Gallery-baguetteBox.min.css">
     <link rel="stylesheet" href="../assets/css/Login-Form-Basic-icons.css">
 </head>
-<style>
-    .card {
+<style>/* General styles for all screen sizes */
+.card {
     width: 100%;
-    max-width: 800px;
+    max-width: 1000px;
     margin: 20px auto;
     padding: 20px;
     background-color: #f9f9f9;
@@ -103,9 +103,11 @@ if (isset($_SESSION['id']) && isset($_SESSION['username'])) {
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 }
 
+/* Grid container for the profile section */
 .grid-container {
     display: grid;
-    grid-template-columns: 20% 40% 20% 20%; /* Column widths */
+    grid-template-columns: 30% 40% 30%; /* Default for larger screens */
+    gap: 10px;
 }
 
 .grid-item {
@@ -117,11 +119,12 @@ if (isset($_SESSION['id']) && isset($_SESSION['username'])) {
     text-align: left; /* Override text alignment for the second column */
 }
 
+/* Responsive 2-column layout for batches */
 .two-column {
     display: grid;
     grid-template-columns: 1fr 1fr; /* Two equal columns */
-    gap: 10px; /* Space between columns */
-    position: relative; /* Position relative to place the dividing line */
+    gap: 10px;
+    position: relative;
 }
 
 .two-column::before {
@@ -132,136 +135,123 @@ if (isset($_SESSION['id']) && isset($_SESSION['username'])) {
     width: 1px; /* Width of the dividing line */
     height: 100%;
     background-color: #000; /* Color of the dividing line */
-    transform: translateX(-50%); /* Center the line */
+    transform: translateX(-50%);
 }
 
-.two-column .grid-item h5 {
-    text-align: left; /* Align headings to the left */
-}
-
+.two-column .grid-item h5,
 .two-column .grid-item p {
-    text-align: left; /* Align paragraphs to the left */
+    text-align: left;
 }
+
+/* Batch container for batches display */
+.batch-container {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); /* Responsive 3 columns */
+    gap: 20px; /* Space between cards */
+}
+
+.batch-card {
+    background-color: #f9f9f9;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    padding: 20px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    position: relative;
+}
+
+/* Responsive styles */
+@media (max-width: 1200px) {
+    /* Adjust for smaller laptops */
+    .grid-container {
+        grid-template-columns: 25% 50% 25%;
+    }
+}
+
+@media (max-width: 1024px) {
+    /* Adjust for tablets */
+    .grid-container {
+        grid-template-columns: 1fr 1fr; /* 2 columns on tablets */
+    }
+
+    .batch-container {
+        grid-template-columns: 1fr 1fr; /* 2 columns for batches */
+    }
+}
+
 @media (max-width: 768px) {
-.card {
-    width: 100%;
-    padding: 10px;
+    /* Adjust for smaller tablets and large phones */
+    .grid-container {
+        grid-template-columns: 1fr; /* Full-width columns on smaller screens */
+    }
+
+    .card {
+        width: 90%;
+        padding: 15px;
+    }
+
+    .batch-container {
+        grid-template-columns: 1fr; /* Full-width cards */
+    }
 }
 
-.grid-container {
-    grid-template-columns: 1fr;
+@media (max-width: 576px) {
+    /* Adjust for mobile devices */
+    .grid-container {
+        grid-template-columns: 1fr; /* Single column on mobile */
+    }
+
+    .card {
+        width: 100%;
+        padding: 10px;
+    }
+
+    .batch-container {
+        grid-template-columns: 1fr; /* Single column */
+    }
+
+    .batch-card {
+        padding: 15px;
+    }
+
+    .two-column {
+        grid-template-columns: 1fr; /* Single column for two-column layout */
+        gap: 5px;
+    }
+
+    .two-column::before {
+        display: none; /* Hide the dividing line */
+    }
 }
-}
-/* Modal styles */
-.modal {
-display: none; /* Hidden by default */
-position: fixed; /* Stay in place */
-left: 0;
-top: 0;
-width: 100%; /* Full width */
-height: 100%; /* Full height */
-overflow: auto; /* Enable scroll if needed */
-background-color: rgb(0,0,0); /* Fallback color */
-background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
-}
-
-.modal-content {
-background-color: #fefefe;
-margin: 15% auto;
-padding: 20px;
-border: 1px solid #888;
-width: 80%; /* Could be more or less, depending on screen size */
+body {
+    background: linear-gradient(rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.6)), url('../assets/img/bg.jpg');
+    background-size: cover; /* Cover the entire viewport */
+    background-position: center; /* Center the image */
+    background-repeat: no-repeat; /* Prevent the image from repeating */
+    margin: 0; /* Remove default margin */
+    height: 100vh; /* Full height for the body */
+    display: flex; /* Use flexbox for centering */
+    justify-content: center; /* Center horizontally */
+    align-items: center; /* Center vertically */
+    position: relative; /* Relative positioning for the overlay */
+    font-family: 'Roboto', sans-serif; /* Use Roboto as the main font */
 }
 
-.close-btn {
-color: #aaa;
-float: right;
-font-size: 28px;
-font-weight: bold;
+/* Dark overlay */
+.overlay {
+    position: absolute; /* Absolute positioning to cover the entire body */
+    top: 0; 
+    left: 0; 
+    width: 100%; 
+    height: 100%; 
+    background-color: rgba(0, 0, 0, 0.5); /* Black with 50% opacity */
+    z-index: 1; /* Place overlay behind the content */
 }
-
-.close-btn:hover,
-.close-btn:focus {
-color: black;
-text-decoration: none;
-cursor: pointer;
+nav.navbar.navbar-expand-md.shadow {
+    background-color: white;
 }
-img.img-fluid {
-max-width: 150px;
-}
-.card {
-            width: 100%;
-            max-width: 800px;
-            margin: 20px auto;
-            padding: 20px;
-            background-color: #f9f9f9;
-            border: 1px solid #ddd;
-            border-radius: 8px;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-        }
-
-        .card-header {
-            font-size: 1.5em;
-            margin-bottom: 10px;
-        }
-
-        .card-body {
-            margin: 10px 0;
-        }
-
-        .grid-container {
-            display: grid;
-            grid-template-columns: 30% 40% 30%; /* Column widths */
-        }
-
-        .grid-item {
-            padding: 20px;
-            text-align: center; /* Center text by default */
-        }
-
-        .grid-item.text-left {
-            text-align: left; /* Override text alignment for the second column */
-        }
-
-        .batch-container {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); /* Responsive 3 columns layout */
-            gap: 20px; /* Space between cards */
-        }
-
-        .batch-card {
-            background-color: #f9f9f9;
-            border: 1px solid #ddd;
-            border-radius: 8px;
-            padding: 20px;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-            position: relative; /* For positioning the button */
-        }
-
-        .batch-card p {
-            margin: 0;
-        }
-
-        .view-yearbook-btn {
-            position: absolute;
-            bottom: 20px;
-            right: 20px;
-            padding: 10px 20px;
-            background-color: #007bff;
-            color: #fff;
-            border: none;
-            border-radius: 5px;
-            cursor: pointer;
-            text-decoration: none;
-            font-size: 14px;
-            display: inline-block;
-        }
-
-        .view-yearbook-btn:hover {
-            background-color: #0056b3;
-        }
 </style>
 <body>
+    <div class="overlay">
 <div class="d-flex flex-column" id="content-wrapper">
 <?php include_once '../functions/student/navbar-menu.php'; ?>
     <div class="card">
@@ -287,15 +277,21 @@ max-width: 150px;
                     <p>Birthdate - <?= date('F d, Y', strtotime($student['birthdate'])) ?></p>
                     <p>Address - <?= ucwords(trim($student['present_address'])) ?></p>
                     <p>Contact - <?= $student['phone'] ?></p>
+                    <?php if (!empty($batch)) : ?>
+                    <p><strong></strong> <?= $batch['year'] ?></p>
+                    <a href="yearbook.php?batch=<?= $batch['id'] ?>" class="view-yearbook-btn mt-3">View Yearbook</a>
+            <?php else : ?>
+                <p>No batch information is available at the moment.</p>
+            <?php endif; ?>
                 </div>
                 <div class="grid-item">
                 <img src="<?= preg_match('/data:image/i', $student['qrimage']) ? $student['qrimage'] : '../functions/student/qrcodes/'.$student['qrimage'] ?>" alt="Student Profile" class="img-fluid">
                 </div>
-            </div>
         </div>
+            </div>
     </div>
 
-    <div class="card">
+    <!-- <div class="card">
     <div class="card-header">
         <div class="card-title">Batch Information</div>
     </div>
@@ -311,14 +307,9 @@ max-width: 150px;
             <?php endif; ?>
         </div>
         </div>
-    </div>
+    </div> -->
 
 
-    <footer class="bg-white sticky-footer shadow-sm shadow-sm">
-            <div class="container my-auto">
-                <div class="text-center my-auto copyright"><span>Copyright © Alumni Management System for Yllana Bay View College 2023</span></div>
-            </div>
-        </footer>
         <div class="modal fade" role="dialog" tabindex="-1" id="sign-out">
             <div class="modal-dialog" role="document">
                 <div class="modal-content">
@@ -333,6 +324,7 @@ max-width: 150px;
                 </div>
             </div>
         </div>
+                </div>
                 </div>
         <script src="../assets/js/jquery.min.js"></script>
         <script src="../assets/bootstrap/js/bootstrap.min.js"></script>
