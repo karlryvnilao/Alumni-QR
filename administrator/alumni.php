@@ -2,8 +2,8 @@
 require_once '../functions/connection.php';
 include_once '../functions/get-data.php';
 include_once '../functions/administrator/get-data-table.php';
-include_once '../functions/get-announcement.php';
 include_once '../functions/get-batch.php';
+include_once '../functions/get-gallery.php';
 if (session_start() === PHP_SESSION_NONE) {
     session_start();
 }
@@ -87,61 +87,110 @@ if (!isset($_SESSION['username'])) {
             <div class="modal-content">
                 <div class="modal-header"><img src="../assets/img/navbar.jpg" style="width: 10em;"><button class="btn-close" type="button" aria-label="Close" data-bs-dismiss="modal"></button></div>
                 <div class="modal-body">
-                    <form class="needs-validation" action="../functions/administrator/add-student.php" method="post" novalidate>
-                        <div class="row">
-                            <div class="col">
-                                <div class="form-floating mb-3"><input class="form-control form-control" type="text" name="username" placeholder="Username" required><label class="form-label" for="floatingInput">Student Number : </label></div>
-                            </div>
-                            <div class="col">
-                                <div class="form-floating mb-3"><input class="form-control form-control" type="password" name="password" placeholder="Password" required><label class="form-label" for="floatingInput">Password : </label></div>
-                            </div>
-                        </div>
-                        <div class="row">
-                            <div class="col">
-                                <div class="form-floating mb-3"><input class="form-control form-control" type="text" name="firstname" placeholder="Firstname" required><label class="form-label" for="floatingInput">Firstname : </label></div>
-                            </div>
-                            <div class="col">
-                                <div class="form-floating mb-3"><input class="form-control form-control" type="text" name="lastname" placeholder="Lastname" required><label class="form-label" for="floatingInput">Lastname : </label></div>
+                <form class="needs-validation" action="../functions/student/reg.php" method="post" enctype="multipart/form-data" novalidate>
+                    <div class="row">
+                        <div class="col">
+                            <div class="form-floating mb-3">
+                                <input class="form-control" id="username" type="text" name="username" placeholder="Enter Student Number" required>
+                                <label class="form-label" for="username">Student Number:</label>
                             </div>
                         </div>
-                        <div class="row">
-                            <div class="col">
-                                <div class="form-floating mb-3"><input class="form-control form-control" name="birthdate" type="date" required><label class="form-label" for="floatingInput">Birthdate : </label></div>
-                            </div>
-                            <div class="col">
-                                <div class="form-floating mb-3"><input class="form-control form-control" type="email" name="email" placeholder="Email" required><label class="form-label" for="floatingInput">Email : </label></div>
+                        <div class="col">
+                            <div class="form-floating mb-3">
+                                <input class="form-control" id="password" type="password" name="password" placeholder="Password" required>
+                                <label class="form-label" for="password">Password:</label>
                             </div>
                         </div>
-                        <div class="row">
-                            <div class="col">
-                                <div class="form-floating mb-3"><select class="form-select" required name="course">
-                                        <optgroup label="Course">
-                                            <?php get_courses(); ?>
-                                        </optgroup>
-                                    </select><label class="form-label" for="floatingInput">Course :&nbsp;</label></div>
+                    </div>
+                    <div class="row">
+                        <div class="col">
+                            <div class="form-floating mb-3">
+                                <input class="form-control" id="firstname" type="text" name="firstname" placeholder="Firstname" required>
+                                <label class="form-label" for="firstname">Firstname:</label>
                             </div>
                         </div>
-                        <div class="row">
-                            <div class="col">
-                                <div class="form-floating mb-3"><select class="form-select" required name="civil">
-                                        <optgroup label="Status">
-                                            <option value="Single" selected="">Single</option>
-                                            <option value="Married">Married</option>
-                                            <option value="Widow">Widow</option>
-                                        </optgroup>
-                                    </select><label class="form-label" for="floatingInput">Civil Status : </label></div>
+                        <div class="col">
+                            <div class="form-floating mb-3">
+                                <input class="form-control" id="lastname" type="text" name="lastname" placeholder="Lastname" required>
+                                <label class="form-label" for="lastname">Lastname:</label>
                             </div>
                         </div>
-                        <div class="row">
-                            
-                            <div class="col">
-                                <div class="form-floating mb-3"><input class="form-control form-control" type="tel" name="phone" placeholder="phone" required><label class="form-label" for="floatingInput">Contact #: </label></div>
+                    </div>
+                    <div class="row">
+                        <div class="col">
+                            <div class="form-floating mb-3">
+                                <input class="form-control" name="birthdate" type="date" required>
+                                <label class="form-label">Birthdate:</label>
                             </div>
                         </div>
-                        <div class="form-floating mb-3"><input class="form-control form-control" type="text" name="present_address" placeholder="Present Address" required><label class="form-label" for="floatingInput">Present Address : </label></div>
-                        <button class="btn btn-primary w-100 mb-3" type="submit">Add Student</button>
-                        <div class="d-flex flex-column align-items-center mb-4"></div>
-                    </form>
+                        <div class="col">
+                            <div class="form-floating mb-3">
+                                <input class="form-control" type="email" name="email" placeholder="Email" required>
+                                <label class="form-label">Email:</label>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                    <div class="col">
+                        <div class="form-floating mb-3">
+                            <select class="form-select" required name="course" id="course">
+                                  <optgroup label="Course">
+                                      <?php get_courses(); ?>
+                                  </optgroup>
+                              </select>
+                            <label class="form-label">Course:</label>
+                        </div>
+                      </div>
+                      <div class="col">
+                      <label class="form-label">Majors:</label>
+                        <div id="majors-container">
+                              <!-- Checkboxes for majors will be populated dynamically -->
+                        </div>
+                      </div>
+                    </div>
+                    <div class="row">
+                        <div class="col">
+                            <div class="form-floating mb-3">
+                                <select class="form-select" required name="civil">
+                                    <optgroup label="Status">
+                                        <option value="Single" selected="">Single</option>
+                                        <option value="Married">Married</option>
+                                        <option value="Widow">Widow</option>
+                                    </optgroup>
+                                </select>
+                                <label class="form-label">Civil Status:</label>
+                            </div>
+                        </div>
+                        <div class="col">
+                            <div class="form-floating mb-3">
+                                <select class="form-select" required name="batch">
+                                    <optgroup label="Batch">
+                                        <?php get_batches(); ?>
+                                    </optgroup>
+                                </select>
+                                <label class="form-label">Batch:</label>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">          
+                        <div class="col">
+                            <div class="form-floating mb-3">
+                                <input class="form-control" type="tel" name="phone" placeholder="Phone" required>
+                                <label class="form-label">Contact #:</label>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col">
+                            <div class="form-floating mb-3">
+                                <input class="form-control" type="file" name="file" required>
+                                <label class="form-label">Authorization : </label>
+                            </div>
+                        </div>
+                    </div>
+                    <button class="btn btn-primary w-100 mb-3" type="submit">Sign up</button>
+                    <div class="d-flex flex-column align-items-center mb-4"></div>
+                </form>
                 </div>
                 <div class="modal-footer"><button class="btn btn-light" type="button" data-bs-dismiss="modal">Close</button></div>
             </div>
@@ -353,6 +402,29 @@ if (!isset($_SESSION['username'])) {
     <script src="../assets/js/sweetalert2.all.min.js"></script>
     <script src="../assets/js/main.js"></script>
     <script src="../assets/js/vanta.fog.min.js"></script>
+    <script>
+         //majors
+         document.getElementById('course').addEventListener('change', function() {
+    var courseId = this.value;
+    console.log("Course ID selected: " + courseId);  // Debugging line
+
+    var majorsContainer = document.getElementById('majors-container');
+    majorsContainer.innerHTML = '';  // Clear majors container
+
+    if (courseId !== "") {
+        var xhr = new XMLHttpRequest();
+        xhr.open("POST", "../functions/get-majors.php", true);
+        xhr.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+        xhr.onreadystatechange = function() {
+            if (xhr.readyState == 4 && xhr.status == 200) {
+                console.log("Response from server: " + xhr.responseText);  // Debugging line
+                majorsContainer.innerHTML = xhr.responseText;
+            }
+        };
+        xhr.send("course_id=" + courseId);
+    }
+});
+    </script>
 </body>
 
 </html>

@@ -126,22 +126,28 @@ function get_declined_students(){
             <td><?php echo $student['status']?></td>
             <td class="text-center">
                 <button class="btn btn-outline-danger mx-1" type="button" data-bs-target="#approve" data-bs-toggle="modal" 
-                data-id="<?php echo $student['user_id']?>"
-                data-email="<?php echo $student['email']?>"
-                ><i class="fas fa-check"></i></button>
+                    data-user-id="<?php echo $student['user_id']?>"
+                    data-email="<?php echo $student['email']?>">
+                    <i class="fas fa-check"></i>
+                </button>
+
                 
                 <button class="btn btn-outline-warning mx-1" type="button" data-bs-target="#update" data-bs-toggle="modal" 
-                data-id="<?php echo $student['user_id']?>"
-                data-username="<?php echo $student['username']?>"
-                data-firstname="<?php echo $student['firstname']?>"
-                data-lastname="<?php echo $student['lastname']?>"
-                data-course="<?php echo $student['course_name']?>"
-                data-graduated="<?php echo $student['batch_name']?>"
-                data-present="<?php echo $student['present_address']?>"
-                ><i class="fas fa-edit"></i></button>
+                    data-user-id="<?php echo $student['user_id']?>"
+                    data-username="<?php echo $student['username']?>"
+                    data-firstname="<?php echo $student['firstname']?>"
+                    data-lastname="<?php echo $student['lastname']?>"
+                    data-course="<?php echo $student['course_name']?>"
+                    data-batch="<?php echo $student['batch_name']?>"
+                    data-present-address="<?php echo $student['present_address']?>">
+                    <i class="fas fa-edit"></i>
+                </button>
+
                 <button class="btn btn-outline-danger mx-1" type="button" data-bs-target="#delete" data-bs-toggle="modal" 
-                data-id="<?php echo $student['user_id']?>"
-                ><i class="fas fa-trash"></i></button></td>
+                    data-user-id="<?php echo $student['user_id']?>">
+                    <i class="fas fa-trash"></i>
+                </button>
+
         </tr>
     <?php
     }
