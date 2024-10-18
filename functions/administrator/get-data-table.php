@@ -102,7 +102,7 @@ function get_students(){
 
 function get_declined_students(){
     global $db;
-    $sql = 'SELECT s.id AS student_id, s.firstname, s.lastname, s.birthdate, 
+    $sql = 'SELECT s.id AS student_id, s.firstname, s.lastname, s.birthdate, s.email, 
                    c.name AS course_name, b.year AS batch_name, 
                    m.major_name AS majors_name, u.id AS user_id, u.username, u.status, 
                    s.present_address 
@@ -125,6 +125,11 @@ function get_declined_students(){
             <td><?php echo $student['batch_name']?></td>
             <td><?php echo $student['status']?></td>
             <td class="text-center">
+                <button class="btn btn-outline-danger mx-1" type="button" data-bs-target="#approve" data-bs-toggle="modal" 
+                data-id="<?php echo $student['user_id']?>"
+                data-email="<?php echo $student['email']?>"
+                ><i class="fas fa-check"></i></button>
+                
                 <button class="btn btn-outline-warning mx-1" type="button" data-bs-target="#update" data-bs-toggle="modal" 
                 data-id="<?php echo $student['user_id']?>"
                 data-username="<?php echo $student['username']?>"

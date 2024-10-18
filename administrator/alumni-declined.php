@@ -143,6 +143,29 @@ if (!isset($_SESSION['username'])) {
             </div>
         </div>
     </div>
+    <!-- Approve Modal -->
+    <div class="modal fade" id="approve" tabindex="-1"  aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <form action="../functions/administrator/approvestudent.php" method="POST">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="approveModalLabel">Approve Student</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <p>Are you sure you want to approve this student?</p>
+                        <input type="hidden" name="user_id" id="user_id">
+                        <input type="hidden" name="email" id="email">
+                    </div>
+                    <div class="modal-footer">
+                        <button type="submit" class="btn btn-primary">Yes</button>
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">No</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+    
     <div class="modal fade" role="dialog" tabindex="-1" id="update">
     <div class="modal-dialog modal-lg modal-dialog-centered modal-dialog-scrollable" role="document">
         <div class="modal-content">

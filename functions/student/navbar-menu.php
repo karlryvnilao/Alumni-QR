@@ -1,6 +1,6 @@
 <nav class="navbar navbar-expand-md shadow">
     <div class="container-fluid">
-        <a href="../student/index.php"><img src="../assets/img/navbar.jpg" style="width: 10em;"></a>
+        <a href="../student/index.php"><img src="../assets/img/nav.png" style="width: 10em;"></a>
         <button data-bs-toggle="collapse" class="navbar-toggler" data-bs-target="#navcol-1">
             <span class="visually-hidden">Toggle navigation</span>
             <span class="navbar-toggler-icon"></span>
@@ -10,13 +10,13 @@
         <ul class="navbar-nav">
                 <!-- Gallery Link -->
                 <li class="nav-item">
-                    <a class="nav-link" href="../student/index.php">Home</a> <!-- Replace with the correct gallery page URL -->
+                    <a class="nav-link text-white" href="../student/index.php">Home</a> <!-- Replace with the correct gallery page URL -->
                 </li>
             </ul>
             <ul class="navbar-nav">
                 <!-- Gallery Link -->
                 <li class="nav-item">
-                    <a class="nav-link" href="gallery.php">Gallery</a> <!-- Replace with the correct gallery page URL -->
+                    <a class="nav-link text-white" href="gallery.php">Gallery</a> <!-- Replace with the correct gallery page URL -->
                 </li>
             </ul>
             

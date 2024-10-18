@@ -223,7 +223,7 @@ if (isset($_SESSION['id']) && isset($_SESSION['username'])) {
     }
 }
 body {
-    background: linear-gradient(rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.6)), url('../assets/img/bg.jpg');
+    background-color: white;
     background-size: cover; /* Cover the entire viewport */
     background-position: center; /* Center the image */
     background-repeat: no-repeat; /* Prevent the image from repeating */
@@ -243,17 +243,16 @@ body {
     left: 0; 
     width: 100%; 
     height: 100%; 
-    background-color: rgba(0, 0, 0, 0.5); /* Black with 50% opacity */
-    z-index: 1; /* Place overlay behind the content */
 }
 nav.navbar.navbar-expand-md.shadow {
-    background-color: white;
+    background-color: #102C57;
 }
 </style>
 <body>
     <div class="overlay">
 <div class="d-flex flex-column" id="content-wrapper">
 <?php include_once '../functions/student/navbar-menu.php'; ?>
+<div class="container-fluid">
     <div class="card">
         <div class="card-header">
             <div class="card-title">Student Profile</div>
@@ -290,6 +289,7 @@ nav.navbar.navbar-expand-md.shadow {
         </div>
             </div>
     </div>
+</div>
 
     <!-- <div class="card">
     <div class="card-header">

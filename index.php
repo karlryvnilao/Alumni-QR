@@ -46,23 +46,49 @@ if (isset($_SESSION['username'])) {
     <script type="text/javascript" src="https://rawgit.com/schmich/instascan-builds/master/instascan.min.js"></script>
 </head>
 
-<header id="header" class="fixed-top d-flex align-items-center header-transparent">
-    <div class="container d-flex justify-content-between align-items-center">
-
-    <div id="logo">
-        <a href="index.php"><img src="https://student.lemerycolleges.edu.ph/images/favicon.png" alt="">Lemery College Alumni</a>
+<header id="header" class="fixed-top">
+    <div class="container-fluid bs">
+        <div class="container d-flex justify-content-between align-items-center">
+            <div id="logo">
+                <a href="index.php">
+                    <img src="https://student.lemerycolleges.edu.ph/images/favicon.png" alt="Lemery College Logo">
+                    Lemery College Alumni
+                </a>
+            </div>
+            <div class="right">
+            <button class="btn rounded-3 ms-4 shadow-sm" 
+                    data-bss-hover-animate="pulse" 
+                    type="button" 
+                    data-bs-target="#register"
+                    data-bs-toggle="modal" 
+                    aria-label="Login Button">
+                &nbsp;Register
+            </button>
+            <button class="btn btn rounded-3 ms-4 shadow-sm" 
+                    data-bss-hover-animate="pulse" 
+                    type="button" 
+                    data-bs-target="#login" 
+                    data-bs-toggle="modal" 
+                    aria-label="Login Button">
+                &nbsp;Login
+            </button>
+            <i class="bi bi-list mobile-nav-toggle text-light" aria-label="Toggle Navigation"></i></div>
+        </div>
     </div>
-
-    <nav id="navbar" class="navbar">
-        <ul>
-          <li><a class="nav-link scrollto active" href="#hero">Home</a></li>
-          <li><a class="nav-link scrollto" href="#contact">Contact Us</a></li>
-        </ul>
-        <button class="btn btn-primary rounded-3 ms-4 shadow-sm" data-bss-hover-animate="pulse" type="button" data-bs-target="#login" data-bs-toggle="modal">&nbsp;Login</button>
-        <i class="bi bi-list mobile-nav-toggle"></i>
-      </nav><!-- .navbar -->
+    <div class="container-fluid d-flex align-items-center header-transparent" style="background-color: white;">
+        <div class="container d-flex justify-content-center"> <!-- Centering the navbar container -->
+            <nav id="navbar" class="navbar d-flex justify-content-center"> <!-- Set the navbar to flex -->
+                <ul class="navbar-nav d-flex flex-row"> <!-- Make the nav items flex in a row -->
+                    <li class="nav-item"><a class="nav-link scrollto active" href="#hero">Home</a></li>
+                    <li class="nav-item"><a class="nav-link scrollto" href="#contact">Contact Us</a></li>
+                </ul>
+            </nav><!-- .navbar -->
+        </div>
     </div>
-  </header><!-- End Header -->
+</header><!-- End Header -->
+
+
+
 
 <body>
     <section id="hero">
@@ -179,7 +205,7 @@ if (isset($_SESSION['username'])) {
 
 </div>
 <!-- Footer -->
-<footer class="text-center mt-4 py-4" style="background-color: #2c3e50; color: white;">
+<footer class="text-center mt-4 py-4" style="background-color: #102C57; color: white;">
     <div class="container">
         <p class="mb-0">© <?= date('Y') ?> Yearbook. All rights reserved.</p>
         <p>

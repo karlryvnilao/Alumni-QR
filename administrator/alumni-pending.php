@@ -35,9 +35,9 @@ if (!isset($_SESSION['username'])) {
     <link rel="stylesheet" href="../assets/css/Login-Form-Basic-icons.css">
 </head>
 <style>
-    img#view-profile-pic {
-    height: 100%;
-    width: 100%;
+img#view-file-pic {
+    height: auto;
+    width: auto;
 }
 
 </style>
@@ -155,16 +155,7 @@ if (!isset($_SESSION['username'])) {
     <div class="modal fade" role="dialog" tabindex="-1" id="view">
     <div class="modal-dialog modal-dialog-centered" role="document">
         <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title">Student Picture</h5>
-                <button class="btn-close" type="button" data-bs-dismiss="modal" aria-label="Close"></button>
-            </div>
-            <div class="modal-body text-center">
                 <img id="view-file-pic" src="" alt="File Picture" width="100" height="100">
-            </div>
-            <div class="modal-footer">
-                <button class="btn btn-light" type="button" data-bs-dismiss="modal">Close</button>
-            </div>
         </div>
     </div>
 </div>

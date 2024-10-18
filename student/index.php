@@ -61,7 +61,7 @@ try {
 </head>
 <style>
 body {
-    background: linear-gradient(rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.6)), url('../assets/img/bg.jpg');
+    background-color: white;
     background-size: cover; /* Ensure the background covers the viewport */
     background-position: center; /* Center the background image */
     background-repeat: no-repeat; /* Prevent background repetition */
@@ -79,22 +79,9 @@ body {
     left: 0;
     width: 100%;
     height: 100%;
-    background-color: rgba(0, 0, 0, 0.5); /* Black overlay with 50% opacity */
 }
 
-.container {
-    background-color: #fff; /* White background for the card */
-    border-radius: 10px; /* Rounded corners */
-    padding: 50px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Shadow for depth */
-    max-width: 600px; /* Limit the card width */
-    width: 100%; /* Ensure it responds well on smaller screens */
-    z-index: 1; /* Ensure the card stays above the overlay */
-    display: flex; /* Flexbox for inner alignment */
-    flex-direction: column; /* Stack content vertically */
-    justify-content: center; /* Center content vertically */
-    align-items: center; /* Center content horizontally */
-}
+
 
 @media (max-width: 768px) {
     .container {
@@ -103,7 +90,7 @@ body {
 }
 
 nav.navbar.navbar-expand-md.shadow {
-    background-color: white;
+    background-color: #102C57;
 }
     input.form-control{
     background: #171717;
@@ -155,8 +142,17 @@ button.btn.btn-primary.form-control:hover {
     <div class="d-flex flex-column" id="content-wrapper">
             <div id="content">
             <section id="contact" class="py-4 py-xl-5">
-                <div class="container">
-                    
+    <div class="container-fluid"> <!-- Changed to container-fluid -->
+        <div class="row">
+            <!-- Left Column: Another Picture -->
+            <div class="col-md-6 d-flex justify-content-center align-items-center">
+                <div class="profile-pic-container text-center">
+                    <img src="../assets/img/navbar.png" alt="Another Picture" class="img-fluid rounded" style="width: auto; height: 500px;">
+                </div>
+            </div>
+
+            <!-- Right Column: Form -->
+            <div class="col-md-6">
                     <form action="update-profile.php" method="post" enctype="multipart/form-data">
                         <div class="row">
                             <!-- Left Column -->
@@ -203,6 +199,9 @@ button.btn.btn-primary.form-control:hover {
                             </div>
                         </div>
                         <button type="submit" class="btn btn-primary mt-3">Update</button>
+                        <button type="button" class="btn btn-primary mt-3" data-bs-toggle="modal" data-bs-target="#exampleModal">
+                    Download Image
+                </button>
                     </form>
 
                     </div>
