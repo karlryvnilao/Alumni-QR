@@ -91,7 +91,7 @@ if (!isset($_SESSION['username'])) {
                         </a>
                     </div>
                     <div class="col-md-6 col-xl-3 mb-4">
-                        <a class="text-decoration-none" href="announcement.php">
+                        <a class="text-decoration-none" href="alumni-declined.php">
 
                             <div class="card shadow border-start-success py-2">
                                 <div class="card-body">
