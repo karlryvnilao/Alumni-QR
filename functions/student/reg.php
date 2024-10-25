@@ -23,33 +23,33 @@ $batch = intval($_POST['batch']);
 $phone = trim(filter_var($_POST['phone'], FILTER_SANITIZE_SPECIAL_CHARS));
 
 // Handle file upload
-$file = $_FILES['file'];
-$allowedTypes = ['image/jpeg', 'image/png', 'image/gif'];
-$maxSize = 2 * 1024 * 1024; // 2 MB
+// $file = $_FILES['file'];
+// $allowedTypes = ['image/jpeg', 'image/png', 'image/gif'];
+// $maxSize = 2 * 1024 * 1024; // 2 MB
 
-if ($file['error'] === UPLOAD_ERR_OK) {
-    if (in_array($file['type'], $allowedTypes) && $file['size'] <= $maxSize) {
-        $uploadDir = '../../administrator/files/';
-        if (!is_dir($uploadDir)) {
-            mkdir($uploadDir, 0777, true); // Ensure the directory exists
-        }
-        $filePath = $uploadDir . basename($file['name']);
-        if (move_uploaded_file($file['tmp_name'], $filePath)) {
-            $file = basename($file['name']);
-        } else {
-            echo "Error moving uploaded file.";
-            exit;
-        }
-    } else {
-        echo "Invalid file type or file too large.";
-        exit;
-    }
-} else {
-    echo "File upload error.";
-    exit;
-}
+// if ($file['error'] === UPLOAD_ERR_OK) {
+//     if (in_array($file['type'], $allowedTypes) && $file['size'] <= $maxSize) {
+//         $uploadDir = '../../administrator/files/';
+//         if (!is_dir($uploadDir)) {
+//             mkdir($uploadDir, 0777, true); // Ensure the directory exists
+//         }
+//         $filePath = $uploadDir . basename($file['name']);
+//         if (move_uploaded_file($file['tmp_name'], $filePath)) {
+//             $file = basename($file['name']);
+//         } else {
+//             echo "Error moving uploaded file.";
+//             exit;
+//         }
+//     } else {
+//         echo "Invalid file type or file too large.";
+//         exit;
+//     }
+// } else {
+//     echo "File upload error.";
+//     exit;
+// }
 
-$status = 'pending';
+$status = 'approved';
 
 $sql = "SELECT * FROM `users` WHERE `username` = :username";
 $stmt = $db->prepare($sql);
@@ -78,8 +78,8 @@ if ($stmt->execute()) {
 $major_id = isset($_POST['majors']) ? intval($_POST['majors'][0]) : null; // Get the first selected major ID
 
 // Insert into students table
-$sql = "INSERT INTO `students` (user_id, `firstname`, `lastname`, `birthdate`, `email`, `course`, `civil`, `batch`, `phone`, `file`, `qrimage`, `major_id`) 
-        VALUES (:user_id, :firstname, :lastname, :birthdate, :email, :course, :civil, :batch, :phone, :file, :qrimage, :major_id)";
+$sql = "INSERT INTO `students` (user_id, `firstname`, `lastname`, `birthdate`, `email`, `course`, `civil`, `batch`, `phone`, `qrimage`, `major_id`, `alumni_status`) 
+        VALUES (:user_id, :firstname, :lastname, :birthdate, :email, :course, :civil, :batch, :phone, :qrimage, :major_id, 'active')";
 $stmt = $db->prepare($sql);
 $stmt->bindParam(':user_id', $user_id);
 $stmt->bindParam(':firstname', $firstname);
@@ -90,13 +90,13 @@ $stmt->bindParam(':course', $course);
 $stmt->bindParam(':civil', $civil);
 $stmt->bindParam(':batch', $batch);
 $stmt->bindParam(':phone', $phone);
-$stmt->bindParam(':file', $file);
+// $stmt->bindParam(':file', $file);
 $stmt->bindParam(':qrimage', $qrimage);
 $stmt->bindParam(':major_id', $major_id);
 
 if ($stmt->execute()) {
     QRcode::png($username, $qrcode, 'H', 4, 4);
-    header('Location: ../../alumni.php?type=success&message=' . urlencode('Successfully Registered - Please check your email and wait for the administrator &apos; s approval. '));
+    header('Location: ../gallery.php?type=success&message=' . urlencode('Successfully Registered - Please check your email and wait for the administrator &apos; s approval. '));
 } else {
     $errorInfo = $stmt->errorInfo();
     echo "Error inserting student: " . $errorInfo[2];

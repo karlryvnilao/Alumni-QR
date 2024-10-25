@@ -249,7 +249,7 @@ if (isset($_SESSION['username'])) {
                     <div class="row">
                         <div class="col">
                             <div class="form-floating mb-3">
-                                <input class="form-control" id="username" type="text" name="username" placeholder="Enter Student Number" required>
+                                <input class="form-control" id="username" type="number" name="username" placeholder="Enter Student Number" required>
                                 <label class="form-label" for="username">Student Number:</label>
                             </div>
                         </div>
@@ -333,7 +333,7 @@ if (isset($_SESSION['username'])) {
                     <div class="row">          
                         <div class="col">
                             <div class="form-floating mb-3">
-                                <input class="form-control" type="tel" name="phone" placeholder="Phone" required>
+                                <input class="form-control" type="tel" name="phone" placeholder="Phone" required maxlength="11" pattern="\d{11}">
                                 <label class="form-label">Contact #:</label>
                             </div>
                         </div>

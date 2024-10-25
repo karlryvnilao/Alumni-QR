@@ -47,7 +47,7 @@ if (!isset($_SESSION['username'])) {
                         <h3 class="text-dark mb-2">Alumni Management</h3>
                         <div class="row">
                             
-                            <div class="col"><button class="btn btn-outline-primary mx-2 mb-2" type="button" data-bs-target="#add" data-bs-toggle="modal">Add Alumni</button></div>
+                            <!-- <div class="col"><button class="btn btn-outline-primary mx-2 mb-2" type="button" data-bs-target="#add" data-bs-toggle="modal">Add Alumni</button></div> -->
                         </div>
                     </div>
                     <div class="card shadow">

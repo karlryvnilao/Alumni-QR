@@ -210,6 +210,21 @@ function get_students_pending(){
                 <button class="btn btn-outline-danger mx-1" type="button" data-bs-target="#delete" data-bs-toggle="modal" 
                 data-id="<?php echo htmlspecialchars($student['user_id']); ?>"
                 ><i class="fas fa-trash"></i></button>
+                <!-- New Button to trigger full details modal -->
+                <button class="btn btn-outline-info mx-1" type="button" data-bs-toggle="modal" data-bs-target="#studentDetailsModal"
+                    data-id="<?php echo htmlspecialchars($student['user_id']); ?>"
+                    data-username="<?php echo htmlspecialchars($student['username']); ?>"
+                    data-firstname="<?php echo htmlspecialchars($student['firstname']); ?>"
+                    data-lastname="<?php echo htmlspecialchars($student['lastname']); ?>"
+                    data-birthdate="<?php echo htmlspecialchars($student['birthdate']); ?>"
+                    data-age="<?php echo $age; ?>"
+                    data-course="<?php echo htmlspecialchars($student['course_name']); ?>"
+                    data-batch="<?php echo htmlspecialchars($student['batch_name']); ?>"
+                    data-email="<?php echo htmlspecialchars($student['email']); ?>"
+                    data-present_address="<?php echo htmlspecialchars($student['present_address']); ?>"
+                    data-work_address="<?php echo htmlspecialchars($student['work']); ?>">
+                    <i class="fas fa-info-circle"></i>
+                </button>
             </td>
         </tr>
     <?php
@@ -276,7 +291,7 @@ function get_gallery() {
             FROM `students` s
             LEFT JOIN `courses` c ON s.course = c.id
             LEFT JOIN `batch` b ON s.batch = b.id
-            WHERE s.status = "active"';
+            WHERE s.alumni_status = "active"';
 
     $stmt = $db->prepare($sql);
     $stmt->execute();
@@ -293,6 +308,9 @@ function get_gallery() {
             <td><?php echo htmlspecialchars($student['batch_name']); ?></td>
             <td><?php echo htmlspecialchars($student['status']); ?></td>
             <td class="text-center">
+                <!-- Add Button -->
+                <button class="btn btn-success" type="button" data-bs-toggle="modal" data-bs-target="#addStudentModal" onclick="selectStudent(<?= $student['id'] ?>, '<?php echo htmlspecialchars($student['firstname'].' '.$student['lastname']); ?>', '<?php echo htmlspecialchars($student['motto'] ?: 'No motto set'); ?>', '<?php echo htmlspecialchars($student['profile_pic']); ?>')"><i class="fas fa-plus"></i></button>
+
                 <!-- Update Button -->
                 <button class="btn btn-warning" type="button" data-bs-toggle="modal" data-bs-target="#update" onclick="updateModal(<?= $student['id'] ?>)"><i class="fas fa-edit"></i></button>
 

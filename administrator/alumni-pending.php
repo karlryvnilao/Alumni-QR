@@ -446,6 +446,33 @@ img#view-file-pic {
             </div>
         </div>
     </div>
+    <!-- Student Details Modal -->
+<div class="modal fade" id="studentDetailsModal" tabindex="-1" aria-labelledby="studentDetailsModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="studentDetailsModalLabel">Student Details</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <p><strong>Id :</strong> <span id="modalUsername"></span></p>
+                <p><strong>First Name:</strong> <span id="modalFirstName"></span></p>
+                <p><strong>Last Name:</strong> <span id="modalLastName"></span></p>
+                <p><strong>Birthdate:</strong> <span id="modalBirthdate"></span></p>
+                <p><strong>Age:</strong> <span id="modalAge"></span></p>
+                <p><strong>Course:</strong> <span id="modalCourse"></span></p>
+                <p><strong>Batch:</strong> <span id="modalBatch"></span></p>
+                <p><strong>Email:</strong> <span id="modalEmail"></span></p>
+                <p><strong>Present Address:</strong> <span id="modalPresentAddress"></span></p>
+                <p><strong>Work Address:</strong> <span id="modalWorkAddress"></span></p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+
     <script src="../assets/js/jquery.min.js"></script>
     <script src="../assets/bootstrap/js/bootstrap.min.js"></script>
     <script src="../assets/js/datatables.min.js"></script>
@@ -508,6 +535,45 @@ viewModal.addEventListener('show.bs.modal', function (event) {
     filePic.src = file;
 });
 
+var studentDetailsModal = document.getElementById('studentDetailsModal');
+studentDetailsModal.addEventListener('show.bs.modal', function (event) {
+    var button = event.relatedTarget; // Button that triggered the modal
+
+    // Extract data-* attributes from the button
+    var username = button.getAttribute('data-username');
+    var firstname = button.getAttribute('data-firstname');
+    var lastname = button.getAttribute('data-lastname');
+    var birthdate = button.getAttribute('data-birthdate');
+    var age = button.getAttribute('data-age');
+    var course = button.getAttribute('data-course');
+    var batch = button.getAttribute('data-batch');
+    var email = button.getAttribute('data-email');
+    var presentAddress = button.getAttribute('data-present_address');
+    var workAddress = button.getAttribute('data-work_address');
+
+    // Update the modal's content
+    var modalUsername = document.getElementById('modalUsername');
+    var modalFirstName = document.getElementById('modalFirstName');
+    var modalLastName = document.getElementById('modalLastName');
+    var modalBirthdate = document.getElementById('modalBirthdate');
+    var modalAge = document.getElementById('modalAge');
+    var modalCourse = document.getElementById('modalCourse');
+    var modalBatch = document.getElementById('modalBatch');
+    var modalEmail = document.getElementById('modalEmail');
+    var modalPresentAddress = document.getElementById('modalPresentAddress');
+    var modalWorkAddress = document.getElementById('modalWorkAddress');
+
+    modalUsername.textContent = username;
+    modalFirstName.textContent = firstname;
+    modalLastName.textContent = lastname;
+    modalBirthdate.textContent = birthdate;
+    modalAge.textContent = age;
+    modalCourse.textContent = course;
+    modalBatch.textContent = batch;
+    modalEmail.textContent = email;
+    modalPresentAddress.textContent = presentAddress;
+    modalWorkAddress.textContent = workAddress;
+});
 
     </script>
 

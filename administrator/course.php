@@ -99,8 +99,8 @@ if (!isset($_SESSION['username'])) {
             </div>
         </div>
     </div>
-        <!-- Update Modal -->
-        <div class="modal fade" role="dialog" tabindex="-1" id="update">
+    <!-- Update Modal -->
+    <div class="modal fade" role="dialog" tabindex="-1" id="update">
     <div class="modal-dialog modal-lg modal-dialog-centered modal-dialog-scrollable" role="document">
         <div class="modal-content">
             <div class="modal-header">
@@ -112,20 +112,18 @@ if (!isset($_SESSION['username'])) {
                     <input type="hidden" name="id" id="course-id">
                     
                     <div class="form-floating mb-3">
-                        <select id="course-select" class="form-control" name="course" required>
-                            <!-- Options will be populated via AJAX -->
-                        </select>
-                        <label class="form-label" for="course-select">Course</label>
-                    </div>
+                                <input class="form-control" type="text" name="name" placeholder="Course Name" required>
+                                <label for="course_name">Course Name:</label>
+                            </div>
 
-                    <div id="majors-container">
-                        <!-- Majors will be populated here via AJAX -->
-                    </div>
-
-                    <div class="form-floating mb-3">
-                        <input class="form-control form-control" type="text" name="name" placeholder="Course :" required="">
-                        <label class="form-label" for="floatingInput">Course :</label>
-                    </div>
+                            <button type="button" class="btn btn-secondary" id="add-major">Add+</button>
+                            <div id="majors-container">
+                                <!-- Initial major input field -->
+                                <div class="form-floating mb-3">
+                                    <input class="form-control" type="text" name="majors[]" placeholder="Major 1">
+                                    <label for="major-1">Major 1:</label>
+                                </div>
+                            </div>
 
                     <button class="btn btn-primary w-100" type="submit">Update Course</button>
                     <div class="d-flex flex-column align-items-center mb-4"></div>
