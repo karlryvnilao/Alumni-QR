@@ -96,7 +96,7 @@ $stmt->bindParam(':major_id', $major_id);
 
 if ($stmt->execute()) {
     QRcode::png($username, $qrcode, 'H', 4, 4);
-    header('Location: ../gallery.php?type=success&message=' . urlencode('Successfully Registered - Please check your email and wait for the administrator &apos; s approval. '));
+    header('Location: ../../administrator/gallery.php?type=success&message=' . urlencode('Successfully Registered - Please check your email and wait for the administrator &apos; s approval. '));
 } else {
     $errorInfo = $stmt->errorInfo();
     echo "Error inserting student: " . $errorInfo[2];

@@ -166,6 +166,16 @@ div#selectedStudentInfo {
             <div class="modal-content">
                 <div class="modal-header"><img src="../assets/img/navbar.jpg" style="width: 10em;"><button class="btn-close" type="button" aria-label="Close" data-bs-dismiss="modal"></button></div>
                 <div class="modal-body">
+                <div id="success-alert" class="alert alert-success alert-dismissible fade show d-none" role="alert">
+                    <span id="success-message"></span>
+                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                </div>
+                
+                <!-- Error Notification -->
+                <div id="error-alert" class="alert alert-danger alert-dismissible fade show d-none" role="alert">
+                    <span id="error-message"></span>
+                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                </div>
                 <form class="needs-validation" action="../functions/student/reg.php" method="post" enctype="multipart/form-data" novalidate>
                     <div class="row">
                         <div class="col">

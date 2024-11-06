@@ -45,7 +45,27 @@ if (isset($_SESSION['username'])) {
     <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/vue/2.1.10/vue.min.js"></script>
     <script type="text/javascript" src="https://rawgit.com/schmich/instascan-builds/master/instascan.min.js"></script>
 </head>
+<style>
+        .notification {
+            position: fixed;
+            top: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            background-color: #4CAF50;
+            color: white;
+            padding: 15px;
+            border-radius: 5px;
+            font-size: 16px;
+            z-index: 9999;
+            opacity: 1;
+            transition: opacity 0.5s ease;
+        }
 
+        .notification.success {
+            background-color: #4CAF50; /* Green */
+        }
+    </style>
+    </style>
 <header id="header" class="fixed-top">
     <div class="container-fluid bs">
         <div class="container d-flex justify-content-between align-items-center">
@@ -80,7 +100,7 @@ if (isset($_SESSION['username'])) {
             <nav id="navbar" class="navbar d-flex justify-content-center"> <!-- Set the navbar to flex -->
                 <ul class="navbar-nav d-flex flex-row"> <!-- Make the nav items flex in a row -->
                     <li class="nav-item"><a class="nav-link scrollto active" href="#hero">Home</a></li>
-                    <li class="nav-item"><a class="nav-link scrollto" href="#contact">Contact Us</a></li>
+                    <li class="nav-item"><a class="nav-link scrollto" href="#mission">Welcome</a></li>
                 </ul>
             </nav><!-- .navbar -->
         </div>
@@ -120,7 +140,7 @@ if (isset($_SESSION['username'])) {
    
 
     
-<section id="contact" class="contact">
+<!-- <section id="contact" class="contact">
   <div class="container" data-aos="fade-up">
 
     <div class="section-header">
@@ -197,7 +217,7 @@ if (isset($_SESSION['username'])) {
 </div>
 
   </div>
-</section><!-- End Contact Section -->
+</section>End Contact Section -->
 
 
 
@@ -402,6 +422,33 @@ $(document).ready(function() {
                 <?php unset($_SESSION['error']); // Clear the message after displaying ?>
             <?php endif; ?>
         });
+        
+
+        window.onload = function () {
+    const urlParams = new URLSearchParams(window.location.search);
+    const type = urlParams.get('type');
+    const message = urlParams.get('message');
+    
+    if (type === 'success' && message) {
+        showNotification(decodeURIComponent(message));
+    }
+};
+
+function showNotification(message) {
+    const notification = document.createElement('div');
+    notification.classList.add('notification', 'success');
+    notification.textContent = message;
+
+    // Add to the page body
+    document.body.appendChild(notification);
+
+    // Auto hide after 5 seconds
+    setTimeout(() => {
+        notification.style.opacity = 0;
+        setTimeout(() => notification.remove(), 500);
+    }, 5000);
+}
+
     </script>
     
 </body>
