@@ -58,6 +58,28 @@ function get_batch_datatable(){
     }
 }
 
+function get_achievements_datatable(){
+    global $db;
+    $sql = 'SELECT * FROM `achievements`';
+    $stmt = $db->prepare($sql);
+    $stmt->execute();
+    $batches = $stmt->fetchAll(PDO::FETCH_ASSOC);
+    foreach ($batches as $batch) {
+    ?>
+    <tr>
+            <td><img class="rounded-circle me-2" width="30" height="30" src="https://student.lemerycolleges.edu.ph/images/favicon.png"><?php echo $batch['name']?></td>
+            <td><?php echo $batch['created_at']?></td>
+            <td class="text-center">
+                <button class="btn btn-outline-warning mx-1" type="button" data-bs-target="#update_achv" data-bs-toggle="modal" 
+                    data-id="<?php echo $batch['id']?>"
+                    data-name="<?php echo $batch['name']?>"><i class="fas fa-edit"></i></button>
+                <button class="btn btn-outline-danger mx-1" type="button" data-bs-target="#delete_achv" data-bs-toggle="modal" data-id="<?php echo $batch['id']?>"><i class="fas fa-trash"></i></button>
+            </td>
+        </tr>
+    <?php
+    }
+}
+
 function get_students(){
     global $db;
     $sql = 'SELECT s.id AS student_id, s.firstname, s.lastname, s.birthdate, 

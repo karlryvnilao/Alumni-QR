@@ -36,12 +36,12 @@ if (!isset($_SESSION['username'])) {
 <?php
     include_once '../functions/administrator/navbar.php';
     ?>
-    <div class="d-flex flex-column" id="content-wrapper">
-        <div id="content">
-            <section>
-                <div class="container-fluid">
+    <div class="container mt-5">
+        <div class="row">
+            <!-- Left Container: Add Batch -->
+            <div class="col-md-6">
                     <div class="d-sm-flex justify-content-between align-items-center mb-4">
-                        <h3 class="text-dark mb-2">Batch Management</h3>
+                        <h3 class="text-dark mb-2">Batche's Management</h3>
                         <button class="btn btn-outline-primary mx-2 mb-2" type="button" data-bs-target="#add" data-bs-toggle="modal">Add Batch Year</button>
                     </div>
                     <div class="card shadow">
@@ -69,7 +69,38 @@ if (!isset($_SESSION['username'])) {
                         </div>
                     </div>
                 </div>
-            </section>
+
+                <div class="col-md-6">
+                    <div class="d-sm-flex justify-content-between align-items-center mb-4">
+                        <h3 class="text-dark mb-2">Achievements Management</h3>
+                        <button class="btn btn-outline-primary mx-2 mb-2" type="button" data-bs-target="#add_achv" data-bs-toggle="modal">Add Achievement's</button>
+                    </div>
+                    <div class="card shadow">
+                        <div class="card-header py-3">
+                            <p class="text-primary m-0 fw-bold">Achievement's List</p>
+                        </div>
+                        <div class="card-body">
+                            <div class="table-responsive table mt-2" id="dataTable-1" role="grid" aria-describedby="dataTable_info">
+                                <table class="table my-0" id="dataTable">
+                                    <thead>
+                                        <tr>
+                                            <th>Batch Year</th>
+                                            <th>Created At</th>
+                                            <th class="text-center">Action</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <?php get_achievements_datatable(); ?>
+                                    </tbody>
+                                    <tfoot>
+                                        <tr></tr>
+                                    </tfoot>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            <!-- </section> -->
         </div>
     </div>
 <?php include_once '../functions/administrator/offcanva-menu.php'; ?>
@@ -108,7 +139,7 @@ if (!isset($_SESSION['username'])) {
                     </div>
 
                     <!-- Submit Button -->
-                    <button class="btn btn-primary w-100" type="submit">Update Course</button>
+                    <button class="btn btn-primary w-100" type="submit">Update Batch</button>
                 </form>
             </div>
             <div class="modal-footer">
@@ -136,6 +167,73 @@ if (!isset($_SESSION['username'])) {
             </div>
         </div>
     </div>
+
+    
+    <!-- Achievements modal -->
+    <div class="modal fade" role="dialog" tabindex="-1" id="add_achv">
+        <div class="modal-dialog modal-lg modal-dialog-centered modal-dialog-scrollable" role="document">
+            <div class="modal-content">
+                <div class="modal-header"><img src="../assets/img/navbar.jpg" style="width: 10em;">
+                <button class="btn-close" type="button" aria-label="Close" data-bs-dismiss="modal"></button></div>
+                <div class="modal-body">
+                    <form action="../functions/administrator/add-achievements.php" method="post">
+                        <div class="form-floating mb-3"><input class="form-control form-control" type="text" name="name" placeholder="Achievements :" required=""><label class="form-label" for="floatingInput">Achievements :</label></div>
+                        <button class="btn btn-primary w-100" type="submit">Add Achievements</button>
+                        <div class="d-flex flex-column align-items-center mb-4"></div>
+                    </form>
+                </div>
+                <div class="modal-footer"><button class="btn btn-light" type="button" data-bs-dismiss="modal">Close</button></div>
+            </div>
+        </div>
+    </div>
+    <div class="modal fade" role="dialog" tabindex="-1" id="update_achv">
+    <div class="modal-dialog modal-lg modal-dialog-centered modal-dialog-scrollable" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <img src="../assets/img/navbar.jpg" style="width: 10em;">
+                <button class="btn-close" type="button" aria-label="Close" data-bs-dismiss="modal"></button>
+            </div>
+            <div class="modal-body">
+                <form action="../functions/administrator/update-achievements.php" method="post">
+                    <!-- Hidden input for ID -->
+                    <input type="hidden" name="id" value="<?php echo $batch_id; ?>">
+
+                    <!-- Input for Batch Year -->
+                    <div class="form-floating mb-3">
+                        <input class="form-control" type="text" name="name" placeholder="Achievements" required="">
+                        <label class="form-label" for="floatingInput">Achievements :</label>
+                    </div>
+
+                    <!-- Submit Button -->
+                    <button class="btn btn-primary w-100" type="submit">Update Achievements</button>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-light" type="button" data-bs-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+    <div class="modal fade" role="dialog" tabindex="-1" id="delete_achv">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4 class="modal-title">Delete</h4><button class="btn-close" type="button" aria-label="Close" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body">
+                    <p>Are you sure you want to delete this batch?</p>
+                </div>
+                <div class="modal-footer"><button class="btn btn-light" type="button" data-bs-dismiss="modal">Close</button>
+                <form action="../functions/administrator/delete-achievements.php" method="post">
+                    <input type="hidden" name="id">
+                    <button class="btn btn-danger" type="submit">Delete</button>
+                </form>
+            </div>
+            </div>
+        </div>
+    </div>
+
     <script src="../assets/js/jquery.min.js"></script>
     <script src="../assets/bootstrap/js/bootstrap.min.js"></script>
     <script src="../assets/js/bs-init.js"></script>

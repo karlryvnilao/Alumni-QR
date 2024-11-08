@@ -7,50 +7,32 @@ if (!is_dir($path)) {
     mkdir($path, 0777, true); // Ensure the directory exists
 }
 
-$qrcode = $path . time() . ".png";
-$qrimage = time() . ".png";
+// Generate random values
+$username = 'user' . rand(1000, 9999);
+$password = password_hash('pass' . rand(1000, 9999), PASSWORD_DEFAULT);
+$email = 'user' . rand(1000, 9999) . '@gmail.com';
+$phone = '09' . rand(100000000, 999999999);
 
-// Sanitize and hash input
-$username = trim(filter_var($_POST['username'], FILTER_SANITIZE_SPECIAL_CHARS));
-$password = password_hash($_POST['password'], PASSWORD_DEFAULT);
+// Validate and sanitize input fields
 $firstname = trim(filter_var($_POST['firstname'], FILTER_SANITIZE_SPECIAL_CHARS));
 $lastname = trim(filter_var($_POST['lastname'], FILTER_SANITIZE_SPECIAL_CHARS));
-$birthdate = $_POST['birthdate'];
-$email = filter_var($_POST['email'], FILTER_VALIDATE_EMAIL);
+$birthdate = DateTime::createFromFormat('Y-m-d', $_POST['birthdate']) ? $_POST['birthdate'] : null;
 $course = intval($_POST['course']);
 $civil = trim(filter_var($_POST['civil'], FILTER_SANITIZE_SPECIAL_CHARS));
 $batch = intval($_POST['batch']);
-$phone = trim(filter_var($_POST['phone'], FILTER_SANITIZE_SPECIAL_CHARS));
+$present_address = trim(filter_var($_POST['present_address'], FILTER_SANITIZE_SPECIAL_CHARS)); // Set this variable if present in the form
 
-// Handle file upload
-// $file = $_FILES['file'];
-// $allowedTypes = ['image/jpeg', 'image/png', 'image/gif'];
-// $maxSize = 2 * 1024 * 1024; // 2 MB
+// Generate QR Code and set qrimage path
+$qrcode = $path . $username . '.png';
+QRcode::png($username, $qrcode, 'H', 4, 4);
 
-// if ($file['error'] === UPLOAD_ERR_OK) {
-//     if (in_array($file['type'], $allowedTypes) && $file['size'] <= $maxSize) {
-//         $uploadDir = '../../administrator/files/';
-//         if (!is_dir($uploadDir)) {
-//             mkdir($uploadDir, 0777, true); // Ensure the directory exists
-//         }
-//         $filePath = $uploadDir . basename($file['name']);
-//         if (move_uploaded_file($file['tmp_name'], $filePath)) {
-//             $file = basename($file['name']);
-//         } else {
-//             echo "Error moving uploaded file.";
-//             exit;
-//         }
-//     } else {
-//         echo "Invalid file type or file too large.";
-//         exit;
-//     }
-// } else {
-//     echo "File upload error.";
-//     exit;
-// }
+// Check if QR code file was created
+if (!file_exists($qrcode)) {
+    echo "Error: QR code generation failed.";
+    exit;
+}
 
-$status = 'approved';
-
+// Check for existing username
 $sql = "SELECT * FROM `users` WHERE `username` = :username";
 $stmt = $db->prepare($sql);
 $stmt->bindParam(':username', $username);
@@ -75,28 +57,26 @@ if ($stmt->execute()) {
 }
 
 // Get the selected major ID from the form
-$major_id = isset($_POST['majors']) ? intval($_POST['majors'][0]) : null; // Get the first selected major ID
+$major_id = isset($_POST['majors']) ? intval($_POST['majors'][0]) : null;
 
 // Insert into students table
-$sql = "INSERT INTO `students` (user_id, `firstname`, `lastname`, `birthdate`, `email`, `course`, `civil`, `batch`, `phone`, `qrimage`, `major_id`, `alumni_status`) 
-        VALUES (:user_id, :firstname, :lastname, :birthdate, :email, :course, :civil, :batch, :phone, :qrimage, :major_id, 'active')";
+$sql = "INSERT INTO `students` (user_id, `firstname`, `lastname`, `birthdate`, `present_address`, `course`, `civil`, `batch`, `qrimage`, `major_id`, `alumni_status`) 
+        VALUES (:user_id, :firstname, :lastname, :birthdate, :present_address, :course, :civil, :batch, :qrimage, :major_id, 'active')";
 $stmt = $db->prepare($sql);
 $stmt->bindParam(':user_id', $user_id);
 $stmt->bindParam(':firstname', $firstname);
 $stmt->bindParam(':lastname', $lastname);
 $stmt->bindParam(':birthdate', $birthdate);
-$stmt->bindParam(':email', $email);
+$stmt->bindParam(':present_address', $present_address);
 $stmt->bindParam(':course', $course);
 $stmt->bindParam(':civil', $civil);
 $stmt->bindParam(':batch', $batch);
-$stmt->bindParam(':phone', $phone);
-// $stmt->bindParam(':file', $file);
-$stmt->bindParam(':qrimage', $qrimage);
+$stmt->bindParam(':qrimage', $qrcode);
 $stmt->bindParam(':major_id', $major_id);
 
 if ($stmt->execute()) {
-    QRcode::png($username, $qrcode, 'H', 4, 4);
-    header('Location: ../../administrator/gallery.php?type=success&message=' . urlencode('Successfully Registered - Please check your email and wait for the administrator &apos; s approval. '));
+    header('Location: ../../administrator/gallery.php?type=success&message=' . urlencode('Successfully Registered - Please check your email and wait for the administrator\'s approval.'));
+    exit;
 } else {
     $errorInfo = $stmt->errorInfo();
     echo "Error inserting student: " . $errorInfo[2];

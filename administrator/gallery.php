@@ -180,20 +180,6 @@ div#selectedStudentInfo {
                     <div class="row">
                         <div class="col">
                             <div class="form-floating mb-3">
-                                <input class="form-control" id="username" type="text" name="username" placeholder="Enter Student Number" required>
-                                <label class="form-label" for="username">Student Number:</label>
-                            </div>
-                        </div>
-                        <div class="col">
-                            <div class="form-floating mb-3">
-                                <input class="form-control" id="password" type="password" name="password" placeholder="Password" required>
-                                <label class="form-label" for="password">Password:</label>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="col">
-                            <div class="form-floating mb-3">
                                 <input class="form-control" id="firstname" type="text" name="firstname" placeholder="Firstname" required>
                                 <label class="form-label" for="firstname">Firstname:</label>
                             </div>
@@ -214,8 +200,8 @@ div#selectedStudentInfo {
                         </div>
                         <div class="col">
                             <div class="form-floating mb-3">
-                                <input class="form-control" type="email" name="email" placeholder="Email" required>
-                                <label class="form-label">Email:</label>
+                                <input class="form-control" id="present_address" type="text" name="present_address" placeholder="Address" required>
+                                <label class="form-label">Address:</label>
                             </div>
                         </div>
                     </div>
@@ -261,14 +247,14 @@ div#selectedStudentInfo {
                             </div>
                         </div>
                     </div>
-                    <div class="row">          
+                    <!-- <div class="row">          
                         <div class="col">
                             <div class="form-floating mb-3">
                                 <input class="form-control" type="tel" name="phone" placeholder="Phone" required>
                                 <label class="form-label">Contact #:</label>
                             </div>
                         </div>
-                    </div>
+                    </div> -->
                     <!-- <div class="row">
                         <div class="col">
                             <div class="form-floating mb-3">
@@ -306,7 +292,9 @@ div#selectedStudentInfo {
 
                     <!-- Achievement Dropdown -->
                     <div class="mb-3">
+                        
                         <label for="achievementSelect" class="form-label">Achievement:</label>
+                        
                         <select id="achievementSelect" class="form-select" name="achievement_id">
                             <option value="">Select an Achievement (Optional)</option>
                             <?php foreach ($achievements as $achievement) : ?>
@@ -314,7 +302,12 @@ div#selectedStudentInfo {
                             <?php endforeach; ?>
                         </select>
                     </div>
-
+                    <div class="mb-3">
+                    <label for="" class="form-label">Motto:</label>
+                        <div class="form-floating mb-3">
+                                    <input class="form-control" type="text" name="motto" required>
+                        </div>
+                    </div>
                     <!-- Profile Picture Upload -->
                     <div class="mb-3">
                         <label for="profilePic" class="form-label">Change Profile Picture:</label>
