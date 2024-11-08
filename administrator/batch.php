@@ -41,7 +41,7 @@ if (!isset($_SESSION['username'])) {
             <!-- Left Container: Add Batch -->
             <div class="col-md-6">
                     <div class="d-sm-flex justify-content-between align-items-center mb-4">
-                        <h3 class="text-dark mb-2">Batche's Management</h3>
+                        <h3 class="text-dark mb-2">Batche's</h3>
                         <button class="btn btn-outline-primary mx-2 mb-2" type="button" data-bs-target="#add" data-bs-toggle="modal">Add Batch Year</button>
                     </div>
                     <div class="card shadow">
@@ -72,12 +72,12 @@ if (!isset($_SESSION['username'])) {
 
                 <div class="col-md-6">
                     <div class="d-sm-flex justify-content-between align-items-center mb-4">
-                        <h3 class="text-dark mb-2">Achievements Management</h3>
+                        <h3 class="text-dark mb-2">Achievement's</h3>
                         <button class="btn btn-outline-primary mx-2 mb-2" type="button" data-bs-target="#add_achv" data-bs-toggle="modal">Add Achievement's</button>
                     </div>
                     <div class="card shadow">
                         <div class="card-header py-3">
-                            <p class="text-primary m-0 fw-bold">Achievement's List</p>
+                            <p class="text-primary m-0 fw-bold">Achievement List</p>
                         </div>
                         <div class="card-body">
                             <div class="table-responsive table mt-2" id="dataTable-1" role="grid" aria-describedby="dataTable_info">
