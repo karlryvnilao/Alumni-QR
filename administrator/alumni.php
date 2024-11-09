@@ -287,7 +287,7 @@ if (!isset($_SESSION['username'])) {
                     <!-- Present Address -->
                     <div class="form-floating mb-3">
                         <input class="form-control" type="text" name="present_address" placeholder="Present Address">
-                        <label class="form-label">Present Address : </label>
+                        <label class="form-label">Address : </label>
                     </div>
                     <!-- Batch -->
                     <!-- Add this select input for batch in your form -->

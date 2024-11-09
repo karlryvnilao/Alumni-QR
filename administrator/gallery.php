@@ -125,14 +125,22 @@ div#selectedStudentInfo {
                 <!-- Card containing the table -->
                 <div class="card shadow">
                     <div class="card-header py-3">
-                        <p class="text-primary m-0 fw-bold">List</p>
+                        <div class="row">
+                            <div class="col-md-6">
+                            <p class="text-primary m-0 fw-bold">List</p>
+                            </div>
+                            <div class="col-md-3">
+                            <input type="text" id="searchInput" class="form-control mx-2 mb-2" placeholder="Search students...">
+                            </div>
+                        </div>
+                        
                     </div>
                     <div class="card-body">
                         <div class="table-responsive table mt-2" id="dataTable-1" role="grid" aria-describedby="dataTable_info">
                             <table class="table my-0" id="dataTable">
                                 <thead>
                                     <tr>
-                                        <th onclick="sortTable(0)">Filename <i class="fa fa-sort"></i></th>
+                                        <th onclick="sortTable(0)">Name <i class="fa fa-sort"></i></th>
                                         <th onclick="sortTable(1)">Course <i class="fa fa-sort"></i></th>
                                         <th onclick="sortTable(2)">Batch <i class="fa fa-sort"></i></th>
                                         <th onclick="sortTable(3)">Status <i class="fa fa-sort"></i></th>
@@ -144,7 +152,7 @@ div#selectedStudentInfo {
                                 </tbody>
                                 <tfoot>
                                     <tr>
-                                        <th>Filename</th>
+                                        <th>Name</th>
                                         <th>Course</th>
                                         <th>Batch</th>
                                         <th>Status</th>
@@ -246,23 +254,7 @@ div#selectedStudentInfo {
                                 <label class="form-label">Batch:</label>
                             </div>
                         </div>
-                    </div>
-                    <!-- <div class="row">          
-                        <div class="col">
-                            <div class="form-floating mb-3">
-                                <input class="form-control" type="tel" name="phone" placeholder="Phone" required>
-                                <label class="form-label">Contact #:</label>
-                            </div>
-                        </div>
-                    </div> -->
-                    <!-- <div class="row">
-                        <div class="col">
-                            <div class="form-floating mb-3">
-                                <input class="form-control" type="file" name="file" required>
-                                <label class="form-label">Authorization : </label>
-                            </div>
-                        </div>
-                    </div> -->
+                    </div>z
                     <button class="btn btn-primary w-100 mb-3" type="submit">Sign up</button>
                     <div class="d-flex flex-column align-items-center mb-4"></div>
                 </form>
@@ -303,10 +295,8 @@ div#selectedStudentInfo {
                         </select>
                     </div>
                     <div class="mb-3">
-                    <label for="" class="form-label">Motto:</label>
-                        <div class="form-floating mb-3">
-                                    <input class="form-control" type="text" name="motto" required>
-                        </div>
+                        <label for="motto" class="form-label mt-3">Motto:</label>
+                        <input class="form-control" type="text" name="motto" id="motto" placeholder="Enter Motto">
                     </div>
                     <!-- Profile Picture Upload -->
                     <div class="mb-3">
@@ -328,40 +318,99 @@ div#selectedStudentInfo {
 
 
 <!-- Update Modal -->
-<div class="modal fade" id="update" tabindex="-1" aria-labelledby="updateLabel" aria-hidden="true">
+<div class="modal fade" role="dialog" tabindex="-1" id="update">
     <div class="modal-dialog modal-lg modal-dialog-centered modal-dialog-scrollable" role="document">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title">Update Achievement and Profile</h5>
+                <img src="../assets/img/navbar.jpg" style="width: 10em;">
                 <button class="btn-close" type="button" aria-label="Close" data-bs-dismiss="modal"></button>
             </div>
             <div class="modal-body">
-                <form action="../functions/administrator/update-achievement.php" method="post" enctype="multipart/form-data">
-                    <input type="hidden" name="student_id" id="studentId" value="">
-                    
-                    <div id="studentInfo">
-                        <!-- Student information will be displayed here -->
+                <!-- Success Alert -->
+                <div id="success-alert" class="alert alert-success alert-dismissible fade show d-none" role="alert" aria-live="assertive">
+                    <span id="success-message"></span>
+                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                </div>
+                
+                <!-- Error Alert -->
+                <div id="error-alert" class="alert alert-danger alert-dismissible fade show d-none" role="alert" aria-live="assertive">
+                    <span id="error-message"></span>
+                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                </div>
+                
+                <!-- Form -->
+                <form class="needs-validation" action="../functions/student/reg.php" method="post" enctype="multipart/form-data" novalidate>
+                    <div class="row">
+                        <div class="col">
+                            <div class="form-floating mb-3">
+                                <input class="form-control" id="firstname" type="text" name="firstname" placeholder="Firstname" required>
+                                <label class="form-label" for="firstname">Firstname:</label>
+                            </div>
+                        </div>
+                        <div class="col">
+                            <div class="form-floating mb-3">
+                                <input class="form-control" id="lastname" type="text" name="lastname" placeholder="Lastname" required>
+                                <label class="form-label" for="lastname">Lastname:</label>
+                            </div>
+                        </div>
                     </div>
-
-                    <label for="achievementSelect" class="form-label mt-3">Achievement:</label>
-                    <select id="achievementSelect" class="form-select" name="achievement_id">
-                        <option value="">Select an Achievement (Optional)</option>
-                        <?php
-                        foreach ($achievements as $achievement) {
-                            echo "<option value='{$achievement['id']}'>{$achievement['name']}</option>";
-                        }
-                        ?>
-                    </select>
-
-                    <label for="motto" class="form-label mt-3">Motto:</label>
-                    <input class="form-control" type="text" name="moto" id="motto" placeholder="Enter Motto">
-
-                    <label for="profilePic" class="form-label mt-3">Change Profile Picture:</label>
-                    <input class="form-control mb-3" type="file" id="profilePic" name="profile_pic" accept="image/*" onchange="previewProfilePic()">
-                    <img id="studentImage" src="../assets/img/default_profile.png" alt="Profile Picture" class="img-fluid mt-2" style="width: 100px; height: auto; display: none;">
-
-                    <!-- Submit Button -->
-                    <button class="btn btn-primary w-100" type="submit">Update</button>
+                    <div class="row">
+                        <div class="col">
+                            <div class="form-floating mb-3">
+                                <input class="form-control" name="birthdate" type="date" required>
+                                <label class="form-label">Birthdate:</label>
+                            </div>
+                        </div>
+                        <div class="col">
+                            <div class="form-floating mb-3">
+                                <input class="form-control" id="present_address" type="text" name="present_address" placeholder="Address" required>
+                                <label class="form-label">Address:</label>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+    <div class="col">
+        <div class="form-floating mb-3">
+            <select class="form-select" required name="course" id="course">
+                <optgroup label="Course">
+                    <?php get_courses(); ?>
+                </optgroup>
+            </select>
+            <label class="form-label">Course:</label>
+        </div>
+    </div>
+    <div class="col">
+        <label class="form-label">Majors:</label>
+        <div id="majors-container">
+            <!-- Majors checkboxes will be dynamically populated here -->
+        </div>
+    </div>
+</div>
+                    <div class="row">
+                        <div class="col">
+                            <div class="form-floating mb-3">
+                                <select class="form-select" required name="civil">
+                                    <optgroup label="Status">
+                                        <option value="Single" selected="">Single</option>
+                                        <option value="Married">Married</option>
+                                        <option value="Widow">Widow</option>
+                                    </optgroup>
+                                </select>
+                                <label class="form-label">Civil Status:</label>
+                            </div>
+                        </div>
+                        <div class="col">
+                            <div class="form-floating mb-3">
+                                <select class="form-select" required name="batch">
+                                    <optgroup label="Batch">
+                                        <?php get_batches(); ?>
+                                    </optgroup>
+                                </select>
+                                <label class="form-label">Batch:</label>
+                            </div>
+                        </div>
+                    </div>
+                    <button class="btn btn-primary w-100 mb-3" type="submit">Sign up</button>
                 </form>
             </div>
             <div class="modal-footer">
@@ -370,7 +419,6 @@ div#selectedStudentInfo {
         </div>
     </div>
 </div>
-
 
 
 <!-- Delete Modal -->
@@ -553,6 +601,9 @@ function selectStudent(studentId, studentName, studentMotto, profilePic) {
     }
 });
 
+
+
+
 // Filter function for each column
 function filterTable(inputId, columnIndex) {
     const input = document.getElementById(inputId);
@@ -614,8 +665,61 @@ function sortTable(n) {
         }
     }
 }
-    </script>
 
+//searchbar
+document.getElementById('searchInput').addEventListener('keyup', function() {
+        const filter = this.value.toUpperCase();
+        const table = document.getElementById('dataTable');
+        const tr = table.getElementsByTagName('tr');
+        
+        for (let i = 1; i < tr.length; i++) {  // Skip header row
+            let td = tr[i].getElementsByTagName('td');
+            let match = false;
+
+            for (let j = 0; j < td.length - 1; j++) {  // Skip 'Action' column
+                if (td[j] && td[j].textContent.toUpperCase().indexOf(filter) > -1) {
+                    match = true;
+                    break;
+                }
+            }
+
+            tr[i].style.display = match ? '' : 'none';
+        }
+    });
+
+
+</script>
+<script>
+document.getElementById('update-course').addEventListener('change', function() {
+    const courseId = this.value; // Get the selected course ID
+    fetchMajors(courseId); // Call the function to fetch majors
+});
+
+function fetchMajors(courseId) {
+    fetch(`test.php?course_id=${courseId}`)
+        .then(response => response.json())
+        .then(data => {
+            const majorsContainer = document.getElementById('update-majors-container');
+            majorsContainer.innerHTML = ''; // Clear previous majors
+
+            if (data.majors && data.majors.length > 0) {
+                // Populate the majors checkboxes
+                data.majors.forEach(major => {
+                    const checkbox = document.createElement('div');
+                    checkbox.classList.add('form-check');
+                    checkbox.innerHTML = `
+                        <input class="form-check-input" type="checkbox" name="majors[]" value="${major.id}" id="major_${major.id}">
+                        <label class="form-check-label" for="major_${major.id}">${major.name}</label>
+                    `;
+                    majorsContainer.appendChild(checkbox);
+                });
+            } else {
+                majorsContainer.innerHTML = 'No majors available for this course.';
+            }
+        })
+        .catch(error => console.error('Error fetching majors:', error));
+}
+</script>
     
 </body>
 
