@@ -264,6 +264,8 @@ mysqli_close($conn);
                                 <div class="line"></div>
                                 <div class="card-body">
                                     <h5 class="card-title"><?= htmlspecialchars($student['lastname']) ?>, <?= htmlspecialchars($student['firstname']) ?></h5>
+                                    <p class="card-text"><em><?= htmlspecialchars($student['present_address']) ?></em></p>
+                                    <p class="card-text"><em><?= htmlspecialchars($student['birthdate']) ?></em></p>
                                     <p class="card-text"><em><?= htmlspecialchars($student['motto']) ?></em></p>
                                     <p class="card-text"><?= htmlspecialchars($student['major_name']) ?></p>
                                     

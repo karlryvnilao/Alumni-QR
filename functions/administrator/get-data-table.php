@@ -330,6 +330,7 @@ function get_gallery() {
             <td><?php echo htmlspecialchars($student['batch_name']); ?></td>
             <td><?php echo htmlspecialchars($student['status']); ?></td>
             <td class="text-center">
+            <button class="btn btn-success" type="button" data-bs-toggle="modal" data-bs-target="#studentModal" onclick="selectStudent(<?= $student['id'] ?>, '<?php echo htmlspecialchars($student['firstname'].' '.$student['lastname']); ?>', '<?php echo htmlspecialchars($student['motto'] ?: 'No motto set'); ?>', '<?php echo htmlspecialchars($student['profile_pic']); ?>')"><i class="fas fa-plus"></i></button>
                 <!-- Add Button -->
                 <button class="btn btn-success" type="button" data-bs-toggle="modal" data-bs-target="#addStudentModal" onclick="selectStudent(<?= $student['id'] ?>, '<?php echo htmlspecialchars($student['firstname'].' '.$student['lastname']); ?>', '<?php echo htmlspecialchars($student['motto'] ?: 'No motto set'); ?>', '<?php echo htmlspecialchars($student['profile_pic']); ?>')"><i class="fas fa-plus"></i></button>
 

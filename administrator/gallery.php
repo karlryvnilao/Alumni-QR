@@ -315,10 +315,148 @@ div#selectedStudentInfo {
     </div>
 </div>
 
+<div class="modal fade" role="dialog" tabindex="-1" id="update">
+    <div class="modal-dialog modal-lg modal-dialog-centered modal-dialog-scrollable" role="document">
+        <div class="modal-content">
+            <!-- Modal Header -->
+            <div class="modal-header">
+                <img src="../assets/img/navbar.jpg" style="width: 10em;">
+                <button class="btn-close" type="button" aria-label="Close" data-bs-dismiss="modal"></button>
+            </div>
+
+            <!-- Modal Body -->
+            <div class="modal-body">
+                <!-- Success and Error Alerts -->
+                <div id="success-alert" class="alert alert-success alert-dismissible fade show d-none" role="alert" aria-live="assertive">
+                    <span id="success-message"></span>
+                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                </div>
+                <div id="error-alert" class="alert alert-danger alert-dismissible fade show d-none" role="alert" aria-live="assertive">
+                    <span id="error-message"></span>
+                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                </div>
+
+                <!-- Form -->
+                <form action="../functions/student/reg.php" method="post" enctype="multipart/form-data" class="needs-validation" novalidate>
+                    <!-- Student Profile Section -->
+                    <div id="selectedStudentInfo" class="mb-3 text-center">
+                        <img id="studentImage" src="../assets/img/default_profile.png" alt="Profile Picture" class="img-fluid" style="width: 100px; height: auto;">
+                        <h5 id="studentName">Select a student</h5>
+                        <p id="studentMotto">Motto will be displayed here.</p>
+                    </div>
+                    <input type="hidden" name="student_id" id="studentId" value="">
+
+                    <!-- Profile Picture Upload -->
+                    <div class="mb-3">
+                        <label for="profilePic" class="form-label">Change Profile Picture:</label>
+                        <input class="form-control" type="file" id="profilePic" name="profile_pic" accept="image/*" onchange="previewProfilePic()">
+                    </div>
+
+                    <!-- Achievement Dropdown -->
+                    <div class="mb-3">
+                        <label for="achievementSelect" class="form-label">Achievement:</label>
+                        <select id="achievementSelect" class="form-select" name="achievement_id">
+                            <option value="">Select an Achievement (Optional)</option>
+                            <?php foreach ($achievements as $achievement) : ?>
+                                <option value="<?php echo $achievement['id']; ?>"><?php echo $achievement['name']; ?></option>
+                            <?php endforeach; ?>
+                        </select>
+                    </div>
+
+                    <!-- Motto Input -->
+                    <div class="mb-3">
+                        <label for="motto" class="form-label">Motto:</label>
+                        <input class="form-control" type="text" name="motto" id="motto" placeholder="Enter Motto">
+                    </div>
+
+                    <!-- Student Info Fields -->
+                    <div class="row">
+                        <div class="col">
+                            <div class="form-floating mb-3">
+                                <input class="form-control" id="firstname" type="text" name="firstname" placeholder="Firstname" required>
+                                <label for="firstname">Firstname:</label>
+                            </div>
+                        </div>
+                        <div class="col">
+                            <div class="form-floating mb-3">
+                                <input class="form-control" id="lastname" type="text" name="lastname" placeholder="Lastname" required>
+                                <label for="lastname">Lastname:</label>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col">
+                            <div class="form-floating mb-3">
+                                <input class="form-control" name="birthdate" type="date" required>
+                                <label>Birthdate:</label>
+                            </div>
+                        </div>
+                        <div class="col">
+                            <div class="form-floating mb-3">
+                                <input class="form-control" id="present_address" type="text" name="present_address" placeholder="Address" required>
+                                <label>Address:</label>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col">
+                            <div class="form-floating mb-3">
+                                <select class="form-select" name="course" id="course" required>
+                                    <optgroup label="Course">
+                                        <?php get_courses(); ?>
+                                    </optgroup>
+                                </select>
+                                <label>Course:</label>
+                            </div>
+                        </div>
+                        <div class="col">
+                            <label>Majors:</label>
+                            <div id="majors-container">
+                                <!-- Majors checkboxes will be dynamically populated here -->
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col">
+                            <div class="form-floating mb-3">
+                                <select class="form-select" name="civil" required>
+                                    <optgroup label="Status">
+                                        <option value="Single" selected>Single</option>
+                                        <option value="Married">Married</option>
+                                        <option value="Widow">Widow</option>
+                                    </optgroup>
+                                </select>
+                                <label>Civil Status:</label>
+                            </div>
+                        </div>
+                        <div class="col">
+                            <div class="form-floating mb-3">
+                                <select class="form-select" name="batch" required>
+                                    <optgroup label="Batch">
+                                        <?php get_batches(); ?>
+                                    </optgroup>
+                                </select>
+                                <label>Batch:</label>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Submit Button -->
+                    <button class="btn btn-primary w-100 mb-3" type="submit">Save Changes</button>
+                </form>
+            </div>
+
+            <!-- Modal Footer -->
+            <div class="modal-footer">
+                <button class="btn btn-light" type="button" data-bs-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
 
 
 <!-- Update Modal -->
-<div class="modal fade" role="dialog" tabindex="-1" id="update">
+<!-- <div class="modal fade" role="dialog" tabindex="-1" id="update">
     <div class="modal-dialog modal-lg modal-dialog-centered modal-dialog-scrollable" role="document">
         <div class="modal-content">
             <div class="modal-header">
@@ -326,19 +464,14 @@ div#selectedStudentInfo {
                 <button class="btn-close" type="button" aria-label="Close" data-bs-dismiss="modal"></button>
             </div>
             <div class="modal-body">
-                <!-- Success Alert -->
                 <div id="success-alert" class="alert alert-success alert-dismissible fade show d-none" role="alert" aria-live="assertive">
                     <span id="success-message"></span>
                     <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
                 </div>
-                
-                <!-- Error Alert -->
                 <div id="error-alert" class="alert alert-danger alert-dismissible fade show d-none" role="alert" aria-live="assertive">
                     <span id="error-message"></span>
                     <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
                 </div>
-                
-                <!-- Form -->
                 <form class="needs-validation" action="../functions/student/reg.php" method="post" enctype="multipart/form-data" novalidate>
                     <div class="row">
                         <div class="col">
@@ -373,7 +506,7 @@ div#selectedStudentInfo {
         <div class="form-floating mb-3">
             <select class="form-select" required name="course" id="course">
                 <optgroup label="Course">
-                    <?php get_courses(); ?>
+                    <?php //get_courses(); ?>
                 </optgroup>
             </select>
             <label class="form-label">Course:</label>
@@ -382,7 +515,6 @@ div#selectedStudentInfo {
     <div class="col">
         <label class="form-label">Majors:</label>
         <div id="majors-container">
-            <!-- Majors checkboxes will be dynamically populated here -->
         </div>
     </div>
 </div>
@@ -418,7 +550,7 @@ div#selectedStudentInfo {
             </div>
         </div>
     </div>
-</div>
+</div> -->
 
 
 <!-- Delete Modal -->
