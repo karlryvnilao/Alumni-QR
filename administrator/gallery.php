@@ -318,69 +318,36 @@ div#selectedStudentInfo {
 <div class="modal fade" role="dialog" tabindex="-1" id="update">
     <div class="modal-dialog modal-lg modal-dialog-centered modal-dialog-scrollable" role="document">
         <div class="modal-content">
-            <!-- Modal Header -->
             <div class="modal-header">
                 <img src="../assets/img/navbar.jpg" style="width: 10em;">
                 <button class="btn-close" type="button" aria-label="Close" data-bs-dismiss="modal"></button>
             </div>
-
-            <!-- Modal Body -->
             <div class="modal-body">
-                <!-- Success and Error Alerts -->
+                <!-- Success Alert -->
                 <div id="success-alert" class="alert alert-success alert-dismissible fade show d-none" role="alert" aria-live="assertive">
                     <span id="success-message"></span>
                     <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
                 </div>
+                
+                <!-- Error Alert -->
                 <div id="error-alert" class="alert alert-danger alert-dismissible fade show d-none" role="alert" aria-live="assertive">
                     <span id="error-message"></span>
                     <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
                 </div>
-
+                
                 <!-- Form -->
-                <form action="../functions/student/reg.php" method="post" enctype="multipart/form-data" class="needs-validation" novalidate>
-                    <!-- Student Profile Section -->
-                    <div id="selectedStudentInfo" class="mb-3 text-center">
-                        <img id="studentImage" src="../assets/img/default_profile.png" alt="Profile Picture" class="img-fluid" style="width: 100px; height: auto;">
-                        <h5 id="studentName">Select a student</h5>
-                        <p id="studentMotto">Motto will be displayed here.</p>
-                    </div>
-                    <input type="hidden" name="student_id" id="studentId" value="">
-
-                    <!-- Profile Picture Upload -->
-                    <div class="mb-3">
-                        <label for="profilePic" class="form-label">Change Profile Picture:</label>
-                        <input class="form-control" type="file" id="profilePic" name="profile_pic" accept="image/*" onchange="previewProfilePic()">
-                    </div>
-
-                    <!-- Achievement Dropdown -->
-                    <div class="mb-3">
-                        <label for="achievementSelect" class="form-label">Achievement:</label>
-                        <select id="achievementSelect" class="form-select" name="achievement_id">
-                            <option value="">Select an Achievement (Optional)</option>
-                            <?php foreach ($achievements as $achievement) : ?>
-                                <option value="<?php echo $achievement['id']; ?>"><?php echo $achievement['name']; ?></option>
-                            <?php endforeach; ?>
-                        </select>
-                    </div>
-
-                    <!-- Motto Input -->
-                    <div class="mb-3">
-                        <label for="motto" class="form-label">Motto:</label>
-                        <input class="form-control" type="text" name="motto" id="motto" placeholder="Enter Motto">
-                    </div>
-
-                    <!-- Student Info Fields -->
+                <form class="needs-validation" action="../functions/student/update_student.php" method="post" enctype="multipart/form-data" novalidate>
                     <div class="row">
                         <div class="col">
                             <div class="form-floating mb-3">
                                 <input class="form-control" id="firstname" type="text" name="firstname" placeholder="Firstname" required>
-                                <label for="firstname">Firstname:</label>
+                                <label class="form-label" for="firstname">Firstname:</label>
                             </div>
                         </div>
                         <div class="col">
                             <div class="form-floating mb-3">
                                 <input class="form-control" id="lastname" type="text" name="lastname" placeholder="Lastname" required>
-                                <label for="lastname">Lastname:</label>
+                                <label class="form-label" for="lastname">Lastname:</label>
                             </div>
                         </div>
                     </div>
@@ -388,65 +355,61 @@ div#selectedStudentInfo {
                         <div class="col">
                             <div class="form-floating mb-3">
                                 <input class="form-control" name="birthdate" type="date" required>
-                                <label>Birthdate:</label>
+                                <label class="form-label">Birthdate:</label>
                             </div>
                         </div>
                         <div class="col">
                             <div class="form-floating mb-3">
                                 <input class="form-control" id="present_address" type="text" name="present_address" placeholder="Address" required>
-                                <label>Address:</label>
+                                <label class="form-label">Address:</label>
                             </div>
                         </div>
                     </div>
                     <div class="row">
-                        <div class="col">
-                            <div class="form-floating mb-3">
-                                <select class="form-select" name="course" id="course" required>
-                                    <optgroup label="Course">
-                                        <?php get_courses(); ?>
-                                    </optgroup>
-                                </select>
-                                <label>Course:</label>
-                            </div>
-                        </div>
-                        <div class="col">
-                            <label>Majors:</label>
-                            <div id="majors-container">
-                                <!-- Majors checkboxes will be dynamically populated here -->
-                            </div>
-                        </div>
-                    </div>
+    <div class="col">
+        <div class="form-floating mb-3">
+            <select class="form-select" required name="course" id="course">
+                <optgroup label="Course">
+                    <?php get_courses(); ?>
+                </optgroup>
+            </select>
+            <label class="form-label">Course:</label>
+        </div>
+    </div>
+    <div class="col">
+        <label class="form-label">Majors:</label>
+        <div id="majors-container">
+            <!-- Majors checkboxes will be dynamically populated here -->
+        </div>
+    </div>
+</div>
                     <div class="row">
                         <div class="col">
                             <div class="form-floating mb-3">
-                                <select class="form-select" name="civil" required>
+                                <select class="form-select" required name="civil">
                                     <optgroup label="Status">
-                                        <option value="Single" selected>Single</option>
+                                        <option value="Single" selected="">Single</option>
                                         <option value="Married">Married</option>
                                         <option value="Widow">Widow</option>
                                     </optgroup>
                                 </select>
-                                <label>Civil Status:</label>
+                                <label class="form-label">Civil Status:</label>
                             </div>
                         </div>
                         <div class="col">
                             <div class="form-floating mb-3">
-                                <select class="form-select" name="batch" required>
+                                <select class="form-select" required name="batch">
                                     <optgroup label="Batch">
                                         <?php get_batches(); ?>
                                     </optgroup>
                                 </select>
-                                <label>Batch:</label>
+                                <label class="form-label">Batch:</label>
                             </div>
                         </div>
                     </div>
-
-                    <!-- Submit Button -->
-                    <button class="btn btn-primary w-100 mb-3" type="submit">Save Changes</button>
+                    <button class="btn btn-primary w-100 mb-3" type="submit">Update</button>
                 </form>
             </div>
-
-            <!-- Modal Footer -->
             <div class="modal-footer">
                 <button class="btn btn-light" type="button" data-bs-dismiss="modal">Close</button>
             </div>
@@ -822,35 +785,43 @@ document.getElementById('searchInput').addEventListener('keyup', function() {
 
 </script>
 <script>
-document.getElementById('update-course').addEventListener('change', function() {
-    const courseId = this.value; // Get the selected course ID
-    fetchMajors(courseId); // Call the function to fetch majors
-});
-
-function fetchMajors(courseId) {
-    fetch(`test.php?course_id=${courseId}`)
+document.getElementById('course').addEventListener('change', function() {
+    const courseId = this.value;
+    fetch(`../functions/get_majors.php?course_id=${courseId}`)
         .then(response => response.json())
         .then(data => {
-            const majorsContainer = document.getElementById('update-majors-container');
-            majorsContainer.innerHTML = ''; // Clear previous majors
+            const majorsContainer = document.getElementById('majors-container');
+            majorsContainer.innerHTML = ''; // Clear existing content
 
-            if (data.majors && data.majors.length > 0) {
-                // Populate the majors checkboxes
+            if (data.status === 'success') {
                 data.majors.forEach(major => {
-                    const checkbox = document.createElement('div');
-                    checkbox.classList.add('form-check');
-                    checkbox.innerHTML = `
-                        <input class="form-check-input" type="checkbox" name="majors[]" value="${major.id}" id="major_${major.id}">
-                        <label class="form-check-label" for="major_${major.id}">${major.name}</label>
-                    `;
+                    // Create a checkbox element for each major
+                    const checkbox = document.createElement('input');
+                    checkbox.type = 'checkbox';
+                    checkbox.name = 'majors[]';
+                    checkbox.value = major.id;
+                    checkbox.id = `major-${major.id}`;
+                    
+                    // Create a label for the checkbox
+                    const label = document.createElement('label');
+                    label.htmlFor = `major-${major.id}`;
+                    label.textContent = major.major_name;
+                    
+                    // Append the checkbox and label to the container
                     majorsContainer.appendChild(checkbox);
+                    majorsContainer.appendChild(label);
+                    majorsContainer.appendChild(document.createElement('br')); // Line break for spacing
                 });
             } else {
-                majorsContainer.innerHTML = 'No majors available for this course.';
+                majorsContainer.innerHTML = '<p>No majors available for this course.</p>';
             }
         })
-        .catch(error => console.error('Error fetching majors:', error));
-}
+        .catch(error => {
+            console.error('Error:', error);
+            document.getElementById('majors-container').innerHTML = '<p>Error loading majors.</p>';
+        });
+});
+
 </script>
     
 </body>

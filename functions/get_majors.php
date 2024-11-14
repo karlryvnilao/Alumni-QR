@@ -1,28 +1,38 @@
 <?php
-// test.php
-require_once 'conn.php'; 
+include_once 'connection.php';
 
-if (isset($_POST['course_id'])) {
-    $course_id = $_POST['course_id'];
+header('Content-Type: application/json');
 
-    $query = "SELECT * FROM majors WHERE course_id = ?";
-    $stmt = $conn->prepare($query);
-    $stmt->bind_param("i", $course_id);
-    $stmt->execute();
-    $result = $stmt->get_result();
-
-    if ($result->num_rows > 0) {
-        while ($row = $result->fetch_assoc()) {
-            echo '<div class="form-check">';
-            echo '<input class="form-check-input" type="checkbox" name="majors[]" value="' . $row['major_id'] . '" id="major_' . $row['major_id'] . '">';
-            echo '<label class="form-check-label" for="major_' . $row['major_id'] . '">' . $row['major_name'] . '</label>';
-            echo '</div>';
-        }
+// Check if course ID is provided in the request
+if (isset($_GET['course_id'])) {
+    $course_id = intval($_GET['course_id']);
     
+    // Fetch majors associated with the given course ID
+    $sql = "SELECT id, major_name FROM majors WHERE course_id = :course_id";
+    $stmt = $db->prepare($sql);
+    $stmt->bindParam(':course_id', $course_id);
+
+    if ($stmt->execute()) {
+        $majors = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+        // Return the majors as a JSON response
+        echo json_encode([
+            'status' => 'success',
+            'majors' => $majors
+        ]);
     } else {
-        echo 'No majors available for this course.';
+        echo json_encode([
+            'status' => 'error',
+            'message' => 'Failed to fetch majors.'
+        ]);
     }
 } else {
-    echo 'No course ID received.';
+    echo json_encode([
+        'status' => 'error',
+        'message' => 'No course ID provided.'
+    ]);
 }
+
+// Close the connection
+$db = null;
 ?>
