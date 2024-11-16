@@ -197,7 +197,7 @@ if (!isset($_SESSION['username'])) {
         </div>
     </div>
     <div class="modal fade" role="dialog" tabindex="-1" id="update">
-    <div class="modal-dialog modal-lg modal-dialog-centered modal-dialog-scrollable" role="document">
+    <div class="modal-dialog     modal-lg modal-dialog-centered modal-dialog-scrollable" role="document">
         <div class="modal-content">
             <div class="modal-header">
                 <img src="../assets/img/navbar.jpg" style="width: 10em;">

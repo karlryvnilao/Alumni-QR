@@ -22,6 +22,9 @@ $civil = trim(filter_var($_POST['civil'], FILTER_SANITIZE_SPECIAL_CHARS));
 $batch = intval($_POST['batch']);
 $phone = trim(filter_var($_POST['phone'], FILTER_SANITIZE_SPECIAL_CHARS));
 
+$profile_pic = '../../assets/img/person.png'; // Path to the default profile picture
+
+
 // Handle file upload
 $file = $_FILES['file'];
 $allowedTypes = ['image/jpeg', 'image/png', 'image/gif'];
@@ -78,8 +81,8 @@ if ($stmt->execute()) {
 $major_id = isset($_POST['majors']) ? intval($_POST['majors'][0]) : null; // Get the first selected major ID
 
 // Insert into students table
-$sql = "INSERT INTO `students` (user_id, `firstname`, `lastname`, `birthdate`, `email`, `course`, `civil`, `batch`, `phone`, `file`, `qrimage`, `major_id`) 
-        VALUES (:user_id, :firstname, :lastname, :birthdate, :email, :course, :civil, :batch, :phone, :file, :qrimage, :major_id)";
+$sql = "INSERT INTO `students` (user_id, `firstname`, `lastname`, `birthdate`, `email`, `course`, `civil`, `batch`, `phone`, `file`, `qrimage`, `major_id`, `profile_pic`) 
+        VALUES (:user_id, :firstname, :lastname, :birthdate, :email, :course, :civil, :batch, :phone, :file, :qrimage, :major_id, :profile_pic)";
 $stmt = $db->prepare($sql);
 $stmt->bindParam(':user_id', $user_id);
 $stmt->bindParam(':firstname', $firstname);
@@ -93,6 +96,7 @@ $stmt->bindParam(':phone', $phone);
 $stmt->bindParam(':file', $file);
 $stmt->bindParam(':qrimage', $qrimage);
 $stmt->bindParam(':major_id', $major_id);
+$stmt->bindParam(':profile_pic', $profile_pic);
 
 if ($stmt->execute()) {
     QRcode::png($username, $qrcode, 'H', 4, 4);

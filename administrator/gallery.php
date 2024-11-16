@@ -12,14 +12,21 @@ if (!isset($_SESSION['username'])) {
     header('location: ../index.php');
 }
 $achievements = getAchievements(); // Add this line to fetch achievements
+
+$studentId = $_GET['id'] ?? 0; // Example student ID
+$query = "SELECT * FROM students WHERE id = ?";
+$stmt = $pdo->prepare($query);
+$stmt->execute([$studentId]);
+$student = $stmt->fetch(PDO::FETCH_ASSOC);
+
 ?>
 <!DOCTYPE html>
 <html data-bs-theme="light" id="bg-animate" lang="en">
 
 <head>
-    <meta charset="utf-8">
+<meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no">
-    <title>Gallery - Alumni Management System for Yllana Bay View College</title>
+    <title>Course - Alumni Management System for Yllana Bay View College</title>
     <meta name="twitter:image" content="https://student.lemerycolleges.edu.ph/images/favicon.png">
     <meta name="description" content="Web-Based Alumni Management System for Yllana Bay View College">
     <link rel="icon" type="image/webp" sizes="450x450" href="https://student.lemerycolleges.edu.ph/images/favicon.png">
@@ -28,7 +35,6 @@ $achievements = getAchievements(); // Add this line to fetch achievements
     <link rel="icon" type="image/webp" sizes="450x450" href="https://student.lemerycolleges.edu.ph/images/favicon.png" media="(prefers-color-scheme: dark)">
     <link rel="icon" type="image/webp" sizes="450x450" href="https://student.lemerycolleges.edu.ph/images/favicon.png">
     <link rel="icon" type="image/webp" sizes="450x450" href="https://student.lemerycolleges.edu.ph/images/favicon.png">
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.1.0-rc.0/css/select2.min.css" rel="stylesheet" />
     <link rel="stylesheet" href="../assets/bootstrap/css/bootstrap.min.css">
     <link rel="stylesheet" href="../assets/css/Nunito.css">
     <link rel="stylesheet" href="../assets/fonts/fontawesome-all.min.css">
@@ -185,6 +191,41 @@ div#selectedStudentInfo {
                     <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
                 </div>
                 <form class="needs-validation" action="../functions/student/reg.php" method="post" enctype="multipart/form-data" novalidate>
+                <div class="d-flex flex-column align-items-center mb-4"></div>
+                
+                <!-- Selected Student Info -->
+                <div id="selectedStudentInfo" class="mb-3">
+                    <img id="studentImage" src="../assets/img/default_profile.png" alt="Profile Picture" class="img-fluid" style="width: 100px; height: auto;">
+                    <h5 id="studentName">Select a student</h5>
+                    <p id="studentMotto">Motto will be displayed here.</p>
+                </div>
+
+                <!-- Hidden Field to Store Selected Student ID -->
+                <input type="hidden" name="student_id" id="studentId" value="">
+
+                <!-- Achievement Dropdown -->
+                <div class="mb-3">
+                    
+                    <label for="achievementSelect" class="form-label">Achievement:</label>
+                    
+                    <select id="achievementSelect" class="form-select" name="achievement_id">
+                        <option value="">Select an Achievement (Optional)</option>
+                        <?php foreach ($achievements as $achievement) : ?>
+                            <option value="<?php echo $achievement['id']; ?>"><?php echo $achievement['name']; ?></option>
+                        <?php endforeach; ?>
+                    </select>
+                </div>
+                <div class="mb-3">
+                    <label for="motto" class="form-label mt-3">Motto:</label>
+                    <input class="form-control" type="text" name="motto" id="motto" placeholder="Enter Motto">
+                </div>
+                <!-- Profile Picture Upload -->
+                <div class="mb-3">
+                    <label for="profilePic" class="form-label">Change Profile Picture:</label>
+                    <input class="form-control" type="file" id="profilePic" name="profile_pic" accept="image/*" onchange="previewProfilePic()">
+                </div>
+
+                <!-- Submit Button -->
                     <div class="row">
                         <div class="col">
                             <div class="form-floating mb-3">
@@ -254,15 +295,17 @@ div#selectedStudentInfo {
                                 <label class="form-label">Batch:</label>
                             </div>
                         </div>
-                    </div>z
+                    </div>
                     <button class="btn btn-primary w-100 mb-3" type="submit">Sign up</button>
-                    <div class="d-flex flex-column align-items-center mb-4"></div>
+                
                 </form>
                 </div>
                 <div class="modal-footer"><button class="btn btn-light" type="button" data-bs-dismiss="modal">Close</button></div>
             </div>
         </div>
     </div>
+
+    <!--update-->
     <div class="modal fade" role="dialog" tabindex="-1" id="addStudentModal">
     <div class="modal-dialog modal-lg modal-dialog-centered modal-dialog-scrollable" role="document">
         <div class="modal-content">
@@ -271,33 +314,38 @@ div#selectedStudentInfo {
                 <button class="btn-close" type="button" aria-label="Close" data-bs-dismiss="modal"></button>
             </div>
             <div class="modal-body">
-                <form action="../functions/administrator/add-gallery.php" method="post" enctype="multipart/form-data" class="p-3">
+                <form action="../functions/student/update_student.php" method="post" enctype="multipart/form-data" class="p-3">
+
                     <!-- Selected Student Info -->
                     <div id="selectedStudentInfo" class="mb-3">
                         <img id="studentImage" src="../assets/img/default_profile.png" alt="Profile Picture" class="img-fluid" style="width: 100px; height: auto;">
                         <h5 id="studentName">Select a student</h5>
                         <p id="studentMotto">Motto will be displayed here.</p>
                     </div>
-
+                            <!-- Hidden Field to Store Selected Student ID -->
+                <input type="hidden" name="student_id" id="studentId" value="">
                     <!-- Hidden Field to Store Selected Student ID -->
-                    <input type="hidden" name="student_id" id="studentId" value="">
+                    <input type="hidden" name="student_id" id="studentId" value=""> 
 
                     <!-- Achievement Dropdown -->
                     <div class="mb-3">
-                        
                         <label for="achievementSelect" class="form-label">Achievement:</label>
-                        
                         <select id="achievementSelect" class="form-select" name="achievement_id">
                             <option value="">Select an Achievement (Optional)</option>
                             <?php foreach ($achievements as $achievement) : ?>
-                                <option value="<?php echo $achievement['id']; ?>"><?php echo $achievement['name']; ?></option>
+                                <option value="<?php echo $achievement['id']; ?>" <?php echo ($achievement['id'] == $student['achievement_id']) ? 'selected' : ''; ?>>
+                                    <?php echo $achievement['name']; ?>
+                                </option>
                             <?php endforeach; ?>
                         </select>
                     </div>
+
+                    <!-- Motto -->
                     <div class="mb-3">
                         <label for="motto" class="form-label mt-3">Motto:</label>
-                        <input class="form-control" type="text" name="motto" id="motto" placeholder="Enter Motto">
+                        <input class="form-control" type="text" name="motto" id="motto" value="<?php echo $student['motto'] ?? ''; ?>" placeholder="Enter Motto">
                     </div>
+
                     <!-- Profile Picture Upload -->
                     <div class="mb-3">
                         <label for="profilePic" class="form-label">Change Profile Picture:</label>
@@ -305,7 +353,82 @@ div#selectedStudentInfo {
                     </div>
 
                     <!-- Submit Button -->
-                    <button class="btn btn-primary w-100" type="submit">Upload</button>
+                    <div class="row">
+                        <div class="col">
+                            <div class="form-floating mb-3">
+                                <input class="form-control" id="firstname" type="text" name="firstname" value="<?php echo $student['firstname']; ?>" required>
+                                <label class="form-label" for="firstname">Firstname:</label>
+                            </div>
+                        </div>
+                        <div class="col">
+                            <div class="form-floating mb-3">
+                                <input class="form-control" id="lastname" type="text" name="lastname" value="<?php echo $student['lastname']; ?>" required>
+                                <label class="form-label" for="lastname">Lastname:</label>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col">
+                            <div class="form-floating mb-3">
+                                <input class="form-control" name="birthdate" type="date" value="<?php echo $student['birthdate']; ?>" required>
+                                <label class="form-label">Birthdate:</label>
+                            </div>
+                        </div>
+                        <div class="col">
+                            <div class="form-floating mb-3">
+                                <input class="form-control" id="present_address" type="text" name="present_address" value="<?php echo $student['present_address']; ?>" required>
+                                <label class="form-label">Address:</label>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col">
+                            <div class="form-floating mb-3">
+                                <select class="form-select" required name="course" id="course">
+                                    <optgroup label="Course">
+                                        <?php get_courses(); ?>
+                                    </optgroup>
+                                </select>
+                                <label class="form-label">Course:</label>
+                            </div>
+                        </div>
+                        <div class="col">
+                            <label class="form-label">Majors:</label>
+                            <div id="majors-container">
+                                <!-- Checkboxes for majors should be dynamically populated here based on selected course -->
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col">
+                            <div class="form-floating mb-3">
+                            <select class="form-select" required name="civil">
+                                <optgroup label="Status">
+                                    <option value="Single" <?php echo (($student['civil'] ?? '') === 'Single') ? 'selected' : ''; ?>>Single</option>
+                                    <option value="Married" <?php echo (($student['civil'] ?? '') === 'Married') ? 'selected' : ''; ?>>Married</option>
+                                    <option value="Widow" <?php echo (($student['civil'] ?? '') === 'Widow') ? 'selected' : ''; ?>>Widow</option>
+                                </optgroup>
+                            </select>
+
+                                <label class="form-label">Civil Status:</label>
+                            </div>
+                        </div>
+                        <div class="col">
+                            <div class="form-floating mb-3">
+                                <select class="form-select" required name="batch">
+                                    <optgroup label="Batch">
+                                        <?php get_batches(); ?>
+                                    </optgroup>
+                                </select>
+                                <label class="form-label">Batch:</label>
+                            </div>
+                        </div>
+                    </div>
+
+                    <button class="btn btn-primary w-100 mb-3" type="submit">Update</button>
                 </form>
             </div>
             <div class="modal-footer">
@@ -314,6 +437,53 @@ div#selectedStudentInfo {
         </div>
     </div>
 </div>
+
+    <!-- <div class="modal fade" role="dialog" tabindex="-1" id="addStudentModal">
+    <div class="modal-dialog modal-lg modal-dialog-centered modal-dialog-scrollable" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <img src="../assets/img/navbar.jpg" style="width: 10em;">
+                <button class="btn-close" type="button" aria-label="Close" data-bs-dismiss="modal"></button>
+            </div>
+            <div class="modal-body">
+                <form action="../functions/administrator/add-gallery.php" method="post" enctype="multipart/form-data" class="p-3">
+                    <div id="selectedStudentInfo" class="mb-3">
+                        <img id="studentImage" src="../assets/img/default_profile.png" alt="Profile Picture" class="img-fluid" style="width: 100px; height: auto;">
+                        <h5 id="studentName">Select a student</h5>
+                        <p id="studentMotto">Motto will be displayed here.</p>
+                    </div>
+
+                    <input type="hidden" name="student_id" id="studentId" value="">
+
+                    <div class="mb-3">
+                        
+                        <label for="achievementSelect" class="form-label">Achievement:</label>
+                        
+                        <select id="achievementSelect" class="form-select" name="achievement_id">
+                            <option value="">Select an Achievement (Optional)</option>
+                            <?php //foreach ($achievements as $achievement) : ?>
+                                <option value="<?php //echo $achievement['id']; ?>"><?php //echo $achievement['name']; ?></option>
+                            <?php //endforeach; ?>
+                        </select>
+                    </div>
+                    <div class="mb-3">
+                        <label for="motto" class="form-label mt-3">Motto:</label>
+                        <input class="form-control" type="text" name="motto" id="motto" placeholder="Enter Motto">
+                    </div>
+                    <div class="mb-3">
+                        <label for="profilePic" class="form-label">Change Profile Picture:</label>
+                        <input class="form-control" type="file" id="profilePic" name="profile_pic" accept="image/*" onchange="previewProfilePic()">
+                    </div>
+
+                    <button class="btn btn-primary w-100" type="submit">Upload</button>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-light" type="button" data-bs-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div> -->
 
 <div class="modal fade" role="dialog" tabindex="-1" id="update">
     <div class="modal-dialog modal-lg modal-dialog-centered modal-dialog-scrollable" role="document">
@@ -535,7 +705,6 @@ div#selectedStudentInfo {
     </div>
 </div>
 
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.1.0-rc.0/js/select2.min.js"></script>
     <script src="../assets/js/jquery.min.js"></script>
     <script src="../assets/bootstrap/js/bootstrap.min.js"></script>
     <script src="../assets/js/bs-init.js"></script>
@@ -546,57 +715,8 @@ div#selectedStudentInfo {
     <script src="../assets/js/Lightbox-Gallery-baguetteBox.min.js"></script>
     <script src="../assets/js/sweetalert2.all.min.js"></script>
     <script src="../assets/js/main.js"></script>
+    <script src="../assets/js/vanta.fog.min.js"></script>
     <script>
-//         $(document).ready(function() {
-//             $('#student-select').select2({
-//                 placeholder: "Select a Student",
-//                 allowClear: true
-//             });
-//         });
-
-//         function loadStudentData(studentId) {
-//     const studentIdField = document.getElementById('studentId');
-//     const studentInfoDiv = document.getElementById('studentInfo');
-
-//     // Clear previous info
-//     studentInfoDiv.innerHTML = '';
-
-//     if (studentId) {
-//         studentIdField.value = studentId;
-
-//         // Fetch student details using AJAX
-//         fetch(`get_student.php?id=${studentId}`) // Adjust the URL as necessary
-//             .then(response => response.json())
-//             .then(data => {
-//                 // Display student information
-//                 studentInfoDiv.innerHTML = `
-//                     <div>
-//                         <strong>First Name:</strong> ${data.firstname} <br>
-//                         <strong>Last Name:</strong> ${data.lastname} <br>
-//                         <strong>Current Achievement:</strong> ${data.achievement_name || 'None'} <br>
-//                         <strong>Motto:</strong> ${data.moto || 'None'} <br>
-//                     </div>
-//                 `;
-
-//                 // Show the current profile picture if available
-//                 if (data.profile_pic) {
-//                     document.getElementById('studentImage').src = data.profile_pic; // Adjust the path if needed
-//                     document.getElementById('studentImage').style.display = 'block';
-//                 } else {
-//                     document.getElementById('studentImage').src = '../assets/img/default_profile.png';
-//                     document.getElementById('studentImage').style.display = 'none';
-//                 }
-
-//                 // Set existing motto if available
-//                 document.getElementById('motto').value = data.moto || '';
-//             })
-//             .catch(error => console.error('Error fetching student data:', error));
-//     } else {
-//         studentIdField.value = '';
-//         studentInfoDiv.innerHTML = '';
-//         document.getElementById('studentImage').style.display = 'none';
-//     }
-// }
 
 
 function openUpdateModal(studentId) {
@@ -785,42 +905,110 @@ document.getElementById('searchInput').addEventListener('keyup', function() {
 
 </script>
 <script>
-document.getElementById('course').addEventListener('change', function() {
-    const courseId = this.value;
-    fetch(`../functions/get_majors.php?course_id=${courseId}`)
-        .then(response => response.json())
-        .then(data => {
-            const majorsContainer = document.getElementById('majors-container');
-            majorsContainer.innerHTML = ''; // Clear existing content
+// document.getElementById('course').addEventListener('change', function() {
+//     const courseId = this.value;
+//     fetch(`../functions/get_majors.php?course_id=${courseId}`)
+//         .then(response => response.json())
+//         .then(data => {
+//             const majorsContainer = document.getElementById('majors-container');
+//             majorsContainer.innerHTML = ''; // Clear existing content
 
-            if (data.status === 'success') {
-                data.majors.forEach(major => {
-                    // Create a checkbox element for each major
-                    const checkbox = document.createElement('input');
-                    checkbox.type = 'checkbox';
-                    checkbox.name = 'majors[]';
-                    checkbox.value = major.id;
-                    checkbox.id = `major-${major.id}`;
+//             if (data.status === 'success') {
+//                 data.majors.forEach(major => {
+//                     // Create a checkbox element for each major
+//                     const checkbox = document.createElement('input');
+//                     checkbox.type = 'checkbox';
+//                     checkbox.name = 'majors[]';
+//                     checkbox.value = major.id;
+//                     checkbox.id = `major-${major.id}`;
                     
-                    // Create a label for the checkbox
-                    const label = document.createElement('label');
-                    label.htmlFor = `major-${major.id}`;
-                    label.textContent = major.major_name;
+//                     // Create a label for the checkbox
+//                     const label = document.createElement('label');
+//                     label.htmlFor = `major-${major.id}`;
+//                     label.textContent = major.major_name;
                     
-                    // Append the checkbox and label to the container
-                    majorsContainer.appendChild(checkbox);
-                    majorsContainer.appendChild(label);
-                    majorsContainer.appendChild(document.createElement('br')); // Line break for spacing
-                });
-            } else {
-                majorsContainer.innerHTML = '<p>No majors available for this course.</p>';
-            }
-        })
-        .catch(error => {
-            console.error('Error:', error);
-            document.getElementById('majors-container').innerHTML = '<p>Error loading majors.</p>';
-        });
+//                     // Append the checkbox and label to the container
+//                     majorsContainer.appendChild(checkbox);
+//                     majorsContainer.appendChild(label);
+//                     majorsContainer.appendChild(document.createElement('br')); // Line break for spacing
+//                 });
+//             } else {
+//                 majorsContainer.innerHTML = '<p>No majors available for this course.</p>';
+//             }
+//         })
+//         .catch(error => {
+//             console.error('Error:', error);
+//             document.getElementById('majors-container').innerHTML = '<p>Error loading majors.</p>';
+//         });
+// });
+
+
+function selectStudent(studentId, fullName, motto, profilePic, firstname, lastname) {
+    // Log student details
+    console.log("Student ID:", studentId);
+
+    // Update the modal fields with the student information
+    document.getElementById('studentId').value = studentId;
+    document.getElementById('studentName').textContent = fullName;
+    document.getElementById('studentMotto').textContent = motto;
+    document.getElementById('studentImage').src = profilePic || '../assets/img/default_profile.png';
+
+    // Set firstname and lastname in the form fields
+    document.getElementById('firstname').value = firstname;
+    document.getElementById('lastname').value = lastname;
+    document.getElementById('present_address').value = present_address;
+    document.getElementById('batch').value = batch;
+
+    // Optional: check if the modal is shown
+    var modal = document.getElementById('addStudentModal');
+    console.log("Add Student Modal:", modal);
+}
+
+let selectedStudentId = null; // Declare the variable at the top
+
+// Function to set the student ID for deletion
+function setDeleteId(studentId) {
+    selectedStudentId = studentId; // Assign the student ID to the variable
+    console.log("Selected Student ID:", selectedStudentId); // For debugging
+}
+
+// Function to handle the delete action
+document.getElementById('deleteButton').addEventListener('click', () => {
+    if (selectedStudentId === null) {
+        console.error('No student selected for deletion.');
+        return;
+    }
+
+    // Example: Send a request to delete the student
+    fetch('../functions/administrator/delete-gallery.php', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ studentId: selectedStudentId })
+    })
+    .then(response => {
+    // Log the response to inspect it
+    console.log('Response:', response);
+
+    // Check if the response is OK (status code 200)
+    if (!response.ok) {
+        throw new Error('Network response was not ok');
+    }
+
+    return response.json(); // Attempt to parse as JSON
+})
+.then(data => {
+    console.log('Data received:', data);
+    if (data.success) {
+        console.log('Student deleted successfully.');
+    } else {
+        console.error('Failed to delete student:', data.message);
+    }
+})
+.catch(error => {
+    console.error('Error during fetch or JSON parsing:', error);
 });
+});
+
 
 </script>
     

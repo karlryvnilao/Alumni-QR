@@ -266,7 +266,7 @@ nav.navbar.navbar-expand-md.shadow {
         <div class="card-body m-5" id="printThis">
             <div class="grid-container">
                 <div class="grid-item">
-                    <img src="<?= preg_match('/data:image/i', $student['profile_pic']) ? $student['profile_pic'] : '../student/images/'.$student['profile_pic'] ?>" alt="Student Profile" class="img-fluid">
+                    <img src="<?= preg_match('/data:image/i', $student['profile_pic']) ? $student['profile_pic'] : '../student/images/'.$student['profile_pic'] ?>" alt="Alumni Profile" class="img-fluid">
                 </div>
                 <div class="grid-item text-left">
                     <p>Student Number - <?= $student['username'] ?></p>

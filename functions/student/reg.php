@@ -1,88 +1,52 @@
 <?php
-include_once '../connection.php';
-require_once 'phpqrcode/qrlib.php'; 
+include_once '../conn.php';
 
-$path = 'qrcodes/';
-if (!is_dir($path)) {
-    mkdir($path, 0777, true); // Ensure the directory exists
+// Check if the form is submitted
+if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+    // Get the form data
+    $firstname = $_POST['firstname'];
+    $lastname = $_POST['lastname'];
+    $birthdate = $_POST['birthdate'];
+    $present_address = $_POST['present_address'];
+    $course_id = $_POST['course'];
+    $civil_status = $_POST['civil'];
+    $batch_id = $_POST['batch'];
+    $motto = $_POST['motto'];
+    
+    // Check if achievement_id is provided (optional)
+    $achievement_id = isset($_POST['achievement_id']) && !empty($_POST['achievement_id']) ? $_POST['achievement_id'] : NULL;
+    
+    // Set the default status as 'active'
+    $status = 'active';
+    
+    // Handle the profile picture upload
+    if (isset($_FILES['profile_pic']) && $_FILES['profile_pic']['error'] == 0) {
+        $profile_pic = $_FILES['profile_pic'];
+        $target_dir = "../../student/images/";
+        $target_file = basename($profile_pic['name']); // Get only the file name
+        move_uploaded_file($profile_pic['tmp_name'], $target_dir . $target_file);
+    } else {
+        // Use a default profile picture if none is uploaded
+        $target_file = "default_profile.png";  // Save only the file name
+    }
+
+    // Insert the student data into the database
+    $sql = "INSERT INTO students (firstname, lastname, birthdate, present_address, course, civil, batch, motto, profile_pic, achievement_id, status) 
+            VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+    
+    $stmt = $conn->prepare($sql);
+    $stmt->bind_param("sssssssssis", $firstname, $lastname, $birthdate, $present_address, $course_id, $civil_status, $batch_id, $motto, $target_file, $achievement_id, $status);
+    
+    if ($stmt->execute()) {
+        // On success, redirect or show success message
+        header('Location: ../../administrator/gallery.php?type=success&message=' . urlencode('Successfully Registered - Please check your email and wait for the administrator\'s approval.'));
+    } else {
+        // On failure, show error message
+        echo "<div class='alert alert-danger'>Error: " . $stmt->error . "</div>";
+    }
+
+    // Close the statement and connection
+    $stmt->close();
+    $conn->close();
 }
-
-// Generate random values
-$username = 'user' . rand(1000, 9999);
-$password = password_hash('pass' . rand(1000, 9999), PASSWORD_DEFAULT);
-$email = 'user' . rand(1000, 9999) . '@gmail.com';
-$phone = '09' . rand(100000000, 999999999);
-
-// Validate and sanitize input fields
-$firstname = trim(filter_var($_POST['firstname'], FILTER_SANITIZE_SPECIAL_CHARS));
-$lastname = trim(filter_var($_POST['lastname'], FILTER_SANITIZE_SPECIAL_CHARS));
-$birthdate = DateTime::createFromFormat('Y-m-d', $_POST['birthdate']) ? $_POST['birthdate'] : null;
-$course = intval($_POST['course']);
-$civil = trim(filter_var($_POST['civil'], FILTER_SANITIZE_SPECIAL_CHARS));
-$batch = intval($_POST['batch']);
-$present_address = trim(filter_var($_POST['present_address'], FILTER_SANITIZE_SPECIAL_CHARS)); // Set this variable if present in the form
-
-// Generate QR Code and set qrimage path
-$qrcode = $path . $username . '.png';
-QRcode::png($username, $qrcode, 'H', 4, 4);
-
-// Check if QR code file was created
-if (!file_exists($qrcode)) {
-    echo "Error: QR code generation failed.";
-    exit;
-}
-
-// Check for existing username
-$sql = "SELECT * FROM `users` WHERE `username` = :username";
-$stmt = $db->prepare($sql);
-$stmt->bindParam(':username', $username);
-$stmt->execute();
-if ($stmt->rowCount() > 0) {
-    echo "Username '$username' already exists!";
-    exit;
-}
-
-// Insert into users table
-$sql = "INSERT INTO `users` (`username`, `password`) VALUES (:username, :password)";
-$stmt = $db->prepare($sql);
-$stmt->bindParam(':username', $username);
-$stmt->bindParam(':password', $password);
-
-if ($stmt->execute()) {
-    $user_id = $db->lastInsertId();
-} else {
-    $errorInfo = $stmt->errorInfo();
-    echo "Error inserting user: " . $errorInfo[2];
-    exit;
-}
-
-// Get the selected major ID from the form
-$major_id = isset($_POST['majors']) ? intval($_POST['majors'][0]) : null;
-
-// Insert into students table
-$sql = "INSERT INTO `students` (user_id, `firstname`, `lastname`, `birthdate`, `present_address`, `course`, `civil`, `batch`, `qrimage`, `major_id`, `alumni_status`) 
-        VALUES (:user_id, :firstname, :lastname, :birthdate, :present_address, :course, :civil, :batch, :qrimage, :major_id, 'active')";
-$stmt = $db->prepare($sql);
-$stmt->bindParam(':user_id', $user_id);
-$stmt->bindParam(':firstname', $firstname);
-$stmt->bindParam(':lastname', $lastname);
-$stmt->bindParam(':birthdate', $birthdate);
-$stmt->bindParam(':present_address', $present_address);
-$stmt->bindParam(':course', $course);
-$stmt->bindParam(':civil', $civil);
-$stmt->bindParam(':batch', $batch);
-$stmt->bindParam(':qrimage', $qrcode);
-$stmt->bindParam(':major_id', $major_id);
-
-if ($stmt->execute()) {
-    header('Location: ../../administrator/gallery.php?type=success&message=' . urlencode('Successfully Registered - Please check your email and wait for the administrator\'s approval.'));
-    exit;
-} else {
-    $errorInfo = $stmt->errorInfo();
-    echo "Error inserting student: " . $errorInfo[2];
-    exit;
-}
-
-// Close the connection
-$db = null;
 ?>
