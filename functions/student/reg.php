@@ -39,7 +39,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     
     if ($stmt->execute()) {
         // On success, redirect or show success message
-        header('Location: ../../administrator/gallery.php?type=success&message=' . urlencode('Successfully Registered - Please check your email and wait for the administrator\'s approval.'));
+        header('Location: ../../administrator/gallery.php?type=success&message=' . urlencode('Successfully Registered.'));
     } else {
         // On failure, show error message
         echo "<div class='alert alert-danger'>Error: " . $stmt->error . "</div>";
