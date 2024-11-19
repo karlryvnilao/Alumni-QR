@@ -315,28 +315,32 @@ function get_gallery() {
             LEFT JOIN `batch` b ON s.batch = b.id
             WHERE s.alumni_status = "active"';
 
-    $stmt = $db->prepare($sql);
-    $stmt->execute();
-    $students = $stmt->fetchAll(PDO::FETCH_ASSOC);
+    try {
+        $stmt = $db->prepare($sql);
+        $stmt->execute();
+        $students = $stmt->fetchAll(PDO::FETCH_ASSOC);
+    } catch (PDOException $e) {
+        // Handle exception
+        die("Database query failed: " . $e->getMessage());
+    }
 
     foreach ($students as $student) {
         ?>
         <tr>
             <td>
-                <img class="rounded-circle me-2" width="30" height="30" src="https://student.lemerycolleges.edu.ph/images/favicon.png">
-                <?php echo htmlspecialchars($student['firstname'].' '.$student['lastname']); ?>
+                <img class="rounded-circle me-2" width="30" height="30" src="https://student.lemerycolleges.edu.ph/images/favicon.png" alt="Student Image">
+                <?php echo htmlspecialchars($student['firstname'] . ' ' . $student['lastname']); ?>
             </td>
             <td><?php echo htmlspecialchars($student['course_name']); ?></td>
             <td><?php echo htmlspecialchars($student['batch_name']); ?></td>
             <td><?php echo htmlspecialchars($student['status']); ?></td>
             <td class="text-center">
-                <!-- add -->
-                <button class="btn btn-success" type="button" aria-label="modal" data-bs-toggle="modal" data-bs-target="#addStudentModal" onclick="selectStudent(<?= $student['id'] ?>)">
+                <button class="btn btn-success" type="button" aria-label="modal" 
+                    data-bs-toggle="modal" data-bs-target="#addStudentModal" 
+                    onclick="selectStudent(<?php echo htmlspecialchars(json_encode($student), ENT_QUOTES, 'UTF-8'); ?>)">
                     <i class="fas fa-edit"></i>
                 </button>
 
-                <!-- Update Button -->
-                <!-- <button class="btn btn-warning" type="button" data-bs-toggle="modal" data-bs-target="#update" onclick="updateModal(<?= $student['id'] ?>)"><i class="fas fa-edit"></i></button> -->
 
                 <button class="btn btn-danger" type="button" data-bs-toggle="modal" data-bs-target="#delete" onclick="setDeleteId(<?= $student['id'] ?>)">
                     <i class="fas fa-trash"></i>
@@ -347,6 +351,7 @@ function get_gallery() {
         <?php
     }
 }
+
 
 
 function getAchievements() {

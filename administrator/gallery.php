@@ -1,4 +1,9 @@
 <?php
+
+ini_set('display_errors', 1);
+ini_set('display_startup_errors', 1);
+error_reporting(E_ALL);
+
 require_once '../functions/connection.php';
 include_once '../functions/get-batch.php';
 include_once '../functions/student/get-students.php';
@@ -13,11 +18,14 @@ if (!isset($_SESSION['username'])) {
 }
 $achievements = getAchievements(); // Add this line to fetch achievements
 
-$studentId = $_GET['id'] ?? 0; // Example student ID
-$query = "SELECT * FROM students WHERE id = ?";
-$stmt = $pdo->prepare($query);
-$stmt->execute([$studentId]);
-$student = $stmt->fetch(PDO::FETCH_ASSOC);
+// $studentId = $_GET['id'] ?? 0; // Example student ID
+// $query = "SELECT * FROM students WHERE id = ?";
+// $stmt = $pdo->prepare($query);
+// $stmt->execute([$studentId]);
+// $student = $stmt->fetch(PDO::FETCH_ASSOC);
+
+
+
 
 ?>
 <!DOCTYPE html>
@@ -42,67 +50,7 @@ $student = $stmt->fetch(PDO::FETCH_ASSOC);
     <link rel="stylesheet" href="../assets/css/Hero-Clean-images.css">
     <link rel="stylesheet" href="../assets/css/Lightbox-Gallery-baguetteBox.min.css">
     <link rel="stylesheet" href="../assets/css/Login-Form-Basic-icons.css">
-    <script>
-function updateStudentInfo() {
-    const studentSelect = document.getElementById('studentSelect');
-    const selectedValue = studentSelect.value;
-    document.getElementById('studentId').value = selectedValue; // Set the hidden input value
-
-    const students = [
-        <?php
-        foreach ($students as $student) {
-            echo "{
-                id: {$student['id']},
-                firstname: '{$student['firstname']}',
-                lastname: '{$student['lastname']}',
-                profile_pic: '{$student['profile_pic']}',
-                batch: '{$student['batch']}',
-                course: '{$student['course']}'
-            },"; 
-        }
-        ?>
-    ];
-
-    const selectedStudent = students.find(student => student.id == selectedValue);
-    const infoSection = document.getElementById('studentInfo');
-
-    if (selectedStudent) {
-        const profilePicSrc = `../student/images/${selectedStudent.profile_pic}`;
-        infoSection.innerHTML = `
-            <div class="card mt-3">
-                <img src="${profilePicSrc}" id="studentImage" class="card-img-top" alt="${selectedStudent.firstname} ${selectedStudent.lastname}" style="width: 50%; height: auto; margin: auto;">
-                <div class="card-body text-center">
-                    <h5 class="card-title">${selectedStudent.firstname} ${selectedStudent.lastname}</h5>
-                    <p class="card-text">Batch: ${selectedStudent.batch}</p>
-                    <p class="card-text">Course: ${selectedStudent.course}</p>
-                </div>
-            </div>
-        `;
-        
-        // Show the current profile picture
-        document.getElementById('studentImage').src = profilePicSrc;
-        document.getElementById('studentImage').style.display = 'block'; // Show image
-    } else {
-        infoSection.innerHTML = '';
-        document.getElementById('studentImage').style.display = 'none'; // Hide image if no student is selected
-    }
-}
-
-
-function previewProfilePic() {
-    const profilePicInput = document.getElementById('profilePic');
-
-    if (profilePicInput.files && profilePicInput.files[0]) {
-        const reader = new FileReader();
-        reader.onload = function(e) {
-            const studentImage = document.getElementById('studentImage');
-            studentImage.src = e.target.result; // Update the image with the new file
-            studentImage.style.display = 'block'; // Show the uploaded image
-        };
-        reader.readAsDataURL(profilePicInput.files[0]);
-    }
-}
-    </script>
+    
 </head>
 <style>
 div#selectedStudentInfo {
@@ -314,29 +262,32 @@ div#selectedStudentInfo {
                 <button class="btn-close" type="button" aria-label="Close" data-bs-dismiss="modal"></button>
             </div>
             <div class="modal-body">
-                <form action="../functions/student/update_student.php" method="post" enctype="multipart/form-data" class="p-3">
-
+                <form action="../functions/student/update-st.php" method="post" enctype="multipart/form-data" class="p-3">
+                <input type="hidden" name="student_id" id="student_id">
+                <!-- <input type="hidden" name="student_id" id="studentId" value="<?php echo $student['id'] ?? ''; ?>"> -->
                     <!-- Selected Student Info -->
                     <div id="selectedStudentInfo" class="mb-3">
                         <img id="studentImage" src="../assets/img/default_profile.png" alt="Profile Picture" class="img-fluid" style="width: 100px; height: auto;">
                         <h5 id="studentName">Select a student</h5>
                         <p id="studentMotto">Motto will be displayed here.</p>
                     </div>
-                            <!-- Hidden Field to Store Selected Student ID -->
-                <input type="hidden" name="student_id" id="studentId" value="">
-                    <!-- Hidden Field to Store Selected Student ID -->
-                    <input type="hidden" name="student_id" id="studentId" value=""> 
+
 
                     <!-- Achievement Dropdown -->
                     <div class="mb-3">
                         <label for="achievementSelect" class="form-label">Achievement:</label>
                         <select id="achievementSelect" class="form-select" name="achievement_id">
                             <option value="">Select an Achievement (Optional)</option>
-                            <?php foreach ($achievements as $achievement) : ?>
-                                <option value="<?php echo $achievement['id']; ?>" <?php echo ($achievement['id'] == $student['achievement_id']) ? 'selected' : ''; ?>>
-                                    <?php echo $achievement['name']; ?>
-                                </option>
-                            <?php endforeach; ?>
+                            <?php if (!empty($achievements)) : ?>
+                                <?php foreach ($achievements as $achievement) : ?>
+                                    <option value="<?php echo $achievement['id']; ?>" <?php echo ($achievement['id'] == ($student['achievement_id'] ?? '')) ? 'selected' : ''; ?>>
+                                        <?php echo $achievement['name']; ?>
+                                    </option>
+                                <?php endforeach; ?>
+                            <?php else : ?>
+                                <option value="">No achievements available</option>
+                            <?php endif; ?>
+
                         </select>
                     </div>
 
@@ -356,13 +307,14 @@ div#selectedStudentInfo {
                     <div class="row">
                         <div class="col">
                             <div class="form-floating mb-3">
-                                <input class="form-control" id="firstname" type="text" name="firstname" value="<?php echo $student['firstname']; ?>" required>
+                            <input type="text" name="firstname" id="firstname" class="form-control" value="<?= htmlspecialchars($student_data['firstname'] ?? '') ?>" required>
                                 <label class="form-label" for="firstname">Firstname:</label>
                             </div>
                         </div>
                         <div class="col">
                             <div class="form-floating mb-3">
-                                <input class="form-control" id="lastname" type="text" name="lastname" value="<?php echo $student['lastname']; ?>" required>
+                                <input class="form-control" id="lastname" type="text" name="lastname" 
+                                value="<?php echo $student['lastname'] ?? ''; ?>" >
                                 <label class="form-label" for="lastname">Lastname:</label>
                             </div>
                         </div>
@@ -371,13 +323,15 @@ div#selectedStudentInfo {
                     <div class="row">
                         <div class="col">
                             <div class="form-floating mb-3">
-                                <input class="form-control" name="birthdate" type="date" value="<?php echo $student['birthdate']; ?>" required>
+                                <input class="form-control" id="birthdate" type="date" name="birthdate" 
+                                value="<?php echo $student['birthdate'] ?? ''; ?>" >
                                 <label class="form-label">Birthdate:</label>
                             </div>
                         </div>
                         <div class="col">
                             <div class="form-floating mb-3">
-                                <input class="form-control" id="present_address" type="text" name="present_address" value="<?php echo $student['present_address']; ?>" required>
+                            <input class="form-control" id="present_address" type="text" name="present_address" 
+                            value="<?php echo $student['present_address'] ?? ''; ?>" >
                                 <label class="form-label">Address:</label>
                             </div>
                         </div>
@@ -386,7 +340,7 @@ div#selectedStudentInfo {
                     <div class="row">
                         <div class="col">
                             <div class="form-floating mb-3">
-                                <select class="form-select" required name="course" id="course">
+                                <select class="form-select"  name="course" id="course">
                                     <optgroup label="Course">
                                         <?php get_courses(); ?>
                                     </optgroup>
@@ -405,7 +359,7 @@ div#selectedStudentInfo {
                     <div class="row">
                         <div class="col">
                             <div class="form-floating mb-3">
-                            <select class="form-select" required name="civil">
+                            <select class="form-select"  name="civil">
                                 <optgroup label="Status">
                                     <option value="Single" <?php echo (($student['civil'] ?? '') === 'Single') ? 'selected' : ''; ?>>Single</option>
                                     <option value="Married" <?php echo (($student['civil'] ?? '') === 'Married') ? 'selected' : ''; ?>>Married</option>
@@ -418,7 +372,7 @@ div#selectedStudentInfo {
                         </div>
                         <div class="col">
                             <div class="form-floating mb-3">
-                                <select class="form-select" required name="batch">
+                                <select class="form-select"  name="batch">
                                     <optgroup label="Batch">
                                         <?php get_batches(); ?>
                                     </optgroup>
@@ -719,78 +673,19 @@ div#selectedStudentInfo {
     <script>
 
 
-function openUpdateModal(studentId) {
-    loadStudentData(studentId); // Load the student's current information
-    const modal = new bootstrap.Modal(document.getElementById('update'));
-    modal.show(); // Show the modal
+function selectStudent(student) {
+    console.log("Selected student:", student);  // Log the entire student object
+    document.getElementById('student_id').value = student.id || '';
+    document.getElementById('firstname').value = student.firstname || '';
+    document.getElementById('lastname').value = student.lastname || '';  // Check if lastname is empty
+    document.getElementById('birthdate').value = student.birthdate || '';
+    document.getElementById('present_address').value = student.present_address || '';
+    document.getElementById('studentImage').src = student.profile_pic 
+        ? `../assets/img/${student.profile_pic}` 
+        : '../assets/img/default_profile.png';
+    document.getElementById('studentName').innerText = `${student.firstname || ''} ${student.lastname || 'Unknown Last Name'}`;
+    document.getElementById('studentMotto').innerText = student.motto || 'Motto will be displayed here.';
 }
-
-function selectStudent(studentId, studentName) {
-    // Set the selected student's name to the dropdown button
-    document.getElementById('dropdownStudent').innerText = studentName;
-    
-    // Store the student ID in the hidden input
-    document.getElementById('studentId').value = studentId;
-    
-    // Optionally, update the student information display or profile pic preview
-    updateStudentInfo();
-}
-
-function updateStudentInfo() {
-    const studentId = document.getElementById('studentId').value;
-
-    const students = [
-        <?php
-        foreach ($students as $student) {
-            echo "{
-                id: {$student['id']},
-                firstname: '{$student['firstname']}',
-                lastname: '{$student['lastname']}',
-                profile_pic: '{$student['profile_pic']}',
-                batch: '{$student['batch']}',
-                course: '{$student['course']}'
-            },"; 
-        }
-        ?>
-    ];
-
-    const selectedStudent = students.find(student => student.id == studentId);
-    const infoSection = document.getElementById('studentInfo');
-
-    if (selectedStudent) {
-        const profilePicSrc = `../student/images/${selectedStudent.profile_pic}`;
-        infoSection.innerHTML = `
-            <div class="card mt-3">
-                <img src="${profilePicSrc}" id="studentImage" class="card-img-top" alt="${selectedStudent.firstname} ${selectedStudent.lastname}" style="width: 50%; height: auto; margin: auto;">
-                <div class="card-body text-center">
-                    <h5 class="card-title">${selectedStudent.firstname} ${selectedStudent.lastname}</h5>
-                    <p class="card-text">Batch: ${selectedStudent.batch}</p>
-                    <p class="card-text">Course: ${selectedStudent.course}</p>
-                </div>
-            </div>
-        `;
-    } else {
-        infoSection.innerHTML = '';
-        document.getElementById('studentImage').style.display = 'none';
-    }
-}
-
-
-
-
-
-function selectStudent(studentId, studentName, studentMotto, profilePic) {
-    // Update the hidden input with the selected student ID
-    document.getElementById('studentId').value = studentId;
-
-    // Update the student name and motto displayed in the modal
-    document.getElementById('studentName').innerText = studentName;
-    document.getElementById('studentMotto').innerText = studentMotto;
-
-    // Update the profile picture source
-    document.getElementById('studentImage').src = profilePic ? `../student/images/${profilePic}` : '../assets/img/default_profile.png';
-}
-
 
 
 
@@ -903,68 +798,6 @@ document.getElementById('searchInput').addEventListener('keyup', function() {
     });
 
 
-</script>
-<script>
-// document.getElementById('course').addEventListener('change', function() {
-//     const courseId = this.value;
-//     fetch(`../functions/get_majors.php?course_id=${courseId}`)
-//         .then(response => response.json())
-//         .then(data => {
-//             const majorsContainer = document.getElementById('majors-container');
-//             majorsContainer.innerHTML = ''; // Clear existing content
-
-//             if (data.status === 'success') {
-//                 data.majors.forEach(major => {
-//                     // Create a checkbox element for each major
-//                     const checkbox = document.createElement('input');
-//                     checkbox.type = 'checkbox';
-//                     checkbox.name = 'majors[]';
-//                     checkbox.value = major.id;
-//                     checkbox.id = `major-${major.id}`;
-                    
-//                     // Create a label for the checkbox
-//                     const label = document.createElement('label');
-//                     label.htmlFor = `major-${major.id}`;
-//                     label.textContent = major.major_name;
-                    
-//                     // Append the checkbox and label to the container
-//                     majorsContainer.appendChild(checkbox);
-//                     majorsContainer.appendChild(label);
-//                     majorsContainer.appendChild(document.createElement('br')); // Line break for spacing
-//                 });
-//             } else {
-//                 majorsContainer.innerHTML = '<p>No majors available for this course.</p>';
-//             }
-//         })
-//         .catch(error => {
-//             console.error('Error:', error);
-//             document.getElementById('majors-container').innerHTML = '<p>Error loading majors.</p>';
-//         });
-// });
-
-
-function selectStudent(studentId, fullName, motto, profilePic, firstname, lastname) {
-    // Log student details
-    console.log("Student ID:", studentId);
-
-    // Update the modal fields with the student information
-    document.getElementById('studentId').value = studentId;
-    document.getElementById('studentName').textContent = fullName;
-    document.getElementById('studentMotto').textContent = motto;
-    document.getElementById('studentImage').src = profilePic || '../assets/img/default_profile.png';
-
-    // Set firstname and lastname in the form fields
-    document.getElementById('firstname').value = firstname;
-    document.getElementById('lastname').value = lastname;
-    document.getElementById('present_address').value = present_address;
-    document.getElementById('batch').value = batch;
-
-    // Optional: check if the modal is shown
-    var modal = document.getElementById('addStudentModal');
-    console.log("Add Student Modal:", modal);
-}
-
-let selectedStudentId = null; // Declare the variable at the top
 
 // Function to set the student ID for deletion
 function setDeleteId(studentId) {
