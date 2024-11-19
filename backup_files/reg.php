@@ -75,7 +75,7 @@ $stmt->bindParam(':qrimage', $qrcode);
 $stmt->bindParam(':major_id', $major_id);
 
 if ($stmt->execute()) {
-    header('Location: ../../administrator/gallery.php?type=success&message=' . urlencode('Successfully Registered - Please check your email and wait for the administrator\'s approval.'));
+    header('Location: ../../administrator/gallery.php?type=success&message=' . urlencode('Successfully Registered.'));
     exit;
 } else {
     $errorInfo = $stmt->errorInfo();
