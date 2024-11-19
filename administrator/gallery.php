@@ -165,25 +165,25 @@ div#selectedStudentInfo {
                 </div>
                 <div class="mb-3">
                     <label for="motto" class="form-label mt-3">Motto:</label>
-                    <input class="form-control" type="text" name="motto" id="motto" placeholder="Enter Motto">
+                    <input class="form-control" type="text" name="motto" id="motto1" placeholder="Enter Motto">
                 </div>
                 <!-- Profile Picture Upload -->
                 <div class="mb-3">
                     <label for="profilePic" class="form-label">Change Profile Picture:</label>
-                    <input class="form-control" type="file" id="profilePic" name="profile_pic" accept="image/*" onchange="previewProfilePic()">
+                    <input class="form-control" type="file" id="profilePic1" name="profile_pic" accept="image/*" onchange="previewProfilePic()">
                 </div>
 
                 <!-- Submit Button -->
                     <div class="row">
                         <div class="col">
                             <div class="form-floating mb-3">
-                                <input class="form-control" id="firstname" type="text" name="firstname" placeholder="Firstname" required>
+                                <input class="form-control" id="firstname1" type="text" name="firstname" placeholder="Firstname" required>
                                 <label class="form-label" for="firstname">Firstname:</label>
                             </div>
                         </div>
                         <div class="col">
                             <div class="form-floating mb-3">
-                                <input class="form-control" id="lastname" type="text" name="lastname" placeholder="Lastname" required>
+                                <input class="form-control" id="lastname1" type="text" name="lastname" placeholder="Lastname" required>
                                 <label class="form-label" for="lastname">Lastname:</label>
                             </div>
                         </div>
@@ -197,7 +197,7 @@ div#selectedStudentInfo {
                         </div>
                         <div class="col">
                             <div class="form-floating mb-3">
-                                <input class="form-control" id="present_address" type="text" name="present_address" placeholder="Address" required>
+                                <input class="form-control" id="present_address1" type="text" name="present_address" placeholder="Address" required>
                                 <label class="form-label">Address:</label>
                             </div>
                         </div>
@@ -687,6 +687,20 @@ function selectStudent(student) {
     document.getElementById('studentMotto').innerText = student.motto || 'Motto will be displayed here.';
 }
 
+
+function previewProfilePic() {
+    const profilePicInput = document.getElementById('profilePic');
+
+    if (profilePicInput.files && profilePicInput.files[0]) {
+        const reader = new FileReader();
+        reader.onload = function(e) {
+            const studentImage = document.getElementById('studentImage');
+            studentImage.src = e.target.result; // Update the image with the new file
+            studentImage.style.display = 'block'; // Show the uploaded image
+        };
+        reader.readAsDataURL(profilePicInput.files[0]);
+    }
+}
 
 
  //majors
