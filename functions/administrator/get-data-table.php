@@ -217,17 +217,6 @@ function get_students_pending(){
                 </button>
 
 
-                <!-- Edit Button -->
-                <button class="btn btn-outline-warning mx-1" type="button" data-bs-target="#update" data-bs-toggle="modal" 
-                data-id="<?php echo htmlspecialchars($student['user_id']); ?>"
-                data-username="<?php echo htmlspecialchars($student['username']); ?>"
-                data-firstname="<?php echo htmlspecialchars($student['firstname']); ?>"
-                data-lastname="<?php echo htmlspecialchars($student['lastname']); ?>"
-                data-course="<?php echo htmlspecialchars($student['course_name']); ?>"
-                data-batch="<?php echo htmlspecialchars($student['batch_name']); ?>"
-                data-present="<?php echo htmlspecialchars($student['present_address']); ?>"
-                ><i class="fas fa-edit"></i></button>
-
                 <!-- Delete Button -->
                 <button class="btn btn-outline-danger mx-1" type="button" data-bs-target="#delete" data-bs-toggle="modal" 
                 data-id="<?php echo htmlspecialchars($student['user_id']); ?>"

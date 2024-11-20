@@ -225,132 +225,7 @@ img#view-file-pic {
             </div>
         </div>
     </div>
-    <div class="modal fade" role="dialog" tabindex="-1" id="update">
-    <div class="modal-dialog modal-lg modal-dialog-centered modal-dialog-scrollable" role="document">
-        <div class="modal-content">
-            <div class="modal-header">
-                <img src="../assets/img/navbar.jpg" style="width: 10em;">
-                <button class="btn-close" type="button" aria-label="Close" data-bs-dismiss="modal"></button>
-            </div>
-            <div class="modal-body">
-                <form class="needs-validation" action="../functions/administrator/update-student.php" method="post" enctype="multipart/form-data" novalidate>
-                    <input type="hidden" name="id">
-                    <!-- Username and Password -->
-                    <div class="row">
-                        <div class="col">
-                            <div class="form-floating mb-3">
-                                <input class="form-control" type="text" name="username" placeholder="Username">
-                                <label class="form-label">Student Number : </label>
-                            </div>
-                        </div>
-                        <div class="col">
-                            <div class="form-floating mb-3">
-                                <input class="form-control" type="password" name="password" placeholder="Password">
-                                <label class="form-label">Password : </label>
-                            </div>
-                        </div>
-                    </div>
-                    <!-- Firstname and Lastname -->
-                    <div class="row">
-                        <div class="col">
-                            <div class="form-floating mb-3">
-                                <input class="form-control" type="text" name="firstname" placeholder="Firstname" >
-                                <label class="form-label">Firstname : </label>
-                            </div>
-                        </div>
-                        <div class="col">
-                            <div class="form-floating mb-3">
-                                <input class="form-control" type="text" name="lastname" placeholder="Lastname" >
-                                <label class="form-label">Lastname : </label>
-                            </div>
-                        </div>
-                    </div>
-                    <!-- Birthdate and Email -->
-                    <div class="row">
-                        <div class="col">
-                            <div class="form-floating mb-3">
-                                <input class="form-control" name="birthdate" type="date" >
-                                <label class="form-label">Birthdate : </label>
-                            </div>
-                        </div>
-                        <div class="col">
-                            <div class="form-floating mb-3">
-                                <input class="form-control" type="email" name="email" placeholder="Email" >
-                                <label class="form-label">Email : </label>
-                            </div>
-                        </div>
-                    </div>
-                    <!-- Course and Civil Status -->
-                    <div class="row">
-                        <div class="col">
-                            <div class="form-floating mb-3">
-                                <select class="form-select" name="course">
-                                    <optgroup label="Course">
-                                        <?php get_courses(); ?>
-                                    </optgroup>
-                                </select>
-                                <label class="form-label">Course : </label>
-                            </div>
-                        </div>
-                        <div class="col">
-                            <div class="form-floating mb-3">
-                                <select class="form-select" name="civil">
-                                    <optgroup label="Status">
-                                        <option value="Single" selected>Single</option>
-                                        <option value="Married">Married</option>
-                                        <option value="Widow">Widow</option>
-                                    </optgroup>
-                                </select>
-                                <label class="form-label">Civil Status : </label>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="col">
-                            <div class="form-floating mb-3">
-                                <input class="form-control" type="tel" name="phone" placeholder="Phone">
-                                <label class="form-label">Contact # : </label>
-                            </div>
-                        </div>
-                    </div>
-                    <!-- Present Address -->
-                    <div class="form-floating mb-3">
-                        <input class="form-control" type="text" name="present_address" placeholder="Present Address">
-                        <label class="form-label">Present Address : </label>
-                    </div>
-                    <!-- Batch -->
-                    <!-- Add this select input for batch in your form -->
-                    <div class="row">
-                        <div class="col">
-                            <div class="form-floating mb-3">
-                                <select class="form-select" name="batch">
-                                    <optgroup label="Batch">
-                                        <?php get_batches(); ?>
-                                    </optgroup>
-                                </select>
-                                <label class="form-label" for="floatingInput">Batch :&nbsp;</label>
-                            </div>
-                        </div>
-                    </div>
-                    <!-- Profile Picture and QR Image -->
-                    <div class="row">
-                        <div class="col">
-                            <div class="form-floating mb-3">
-                                <input class="form-control" type="file" name="profile_pic">
-                                <label class="form-label">Profile Picture : </label>
-                            </div>
-                        </div>
-                    </div>
-                    <!-- Submit Button -->
-                    <button class="btn btn-primary w-100 mb-3" type="submit">Update Student</button>
-                </form>
-            </div>
-            <div class="modal-footer">
-                <button class="btn btn-light" type="button" data-bs-dismiss="modal">Close</button>
-            </div>
-        </div>
-    </div>
-</div>
+    
 
     
     <div class="modal fade" role="dialog" tabindex="-1" id="delete">
@@ -463,8 +338,7 @@ img#view-file-pic {
                 <p><strong>Course:</strong> <span id="modalCourse"></span></p>
                 <p><strong>Batch:</strong> <span id="modalBatch"></span></p>
                 <p><strong>Email:</strong> <span id="modalEmail"></span></p>
-                <p><strong>Present Address:</strong> <span id="modalPresentAddress"></span></p>
-                <p><strong>Work Address:</strong> <span id="modalWorkAddress"></span></p>
+                <p><strong>Address:</strong> <span id="modalPresentAddress"></span></p>
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
@@ -484,6 +358,61 @@ img#view-file-pic {
     <script src="../assets/js/main.js"></script>
     <script src="../assets/js/vanta.fog.min.js"></script>
     <script>
+
+$("#dataTable").DataTable({
+        // dom: 'Blfrtip',
+        dom: "Bfrtip",
+        responsive: true,
+        buttons: [
+        //   {
+        //     extend: "excel",
+        //     title: "ALUMNI ASSOCIATION",
+        //     className: "btn btn-primary text-primary",
+        //     text: '<i class="fa fa-file-excel"></i> EXCEL',
+        //     exportOptions: {
+        //       columns: [0, 1, 2, 3, 4, 5, 6, 7, 8],
+        //     },
+        //   },
+        //   {
+        //     extend: "pdf",
+        //     title: "ALUMNI ASSOCIATION",
+        //     className: "btn btn-primary text-danger",
+        //     text: '<i class="fa fa-file-pdf"></i> PDF',
+        //     exportOptions: {
+        //       columns: [0, 1, 2, 3, 4, 5, 6, 7, 8],
+        //     },
+        //   },
+        //   {
+        //     extend: "print",
+        //     className: "btn btn-primary text-info",
+        //     text: '<i class="fa fa-print"></i> Print',
+        //     title: "ALUMNI ASSOCIATION",
+        //     autoPrint: true,
+        //     exportOptions: {
+        //       columns: ":visible",
+        //       columns: [0, 1, 2, 3, 4, 5, 6, 7, 8],
+        //     },
+        //     customize: function (win) {
+        //       $(win.document.body)
+        //         .find("table")
+        //         .addClass("display")
+        //         .css("font-size", "9px");
+        //       $(win.document.body)
+        //         .find("tr:nth-child(odd) td")
+        //         .each(function (index) {
+        //           $(this).css("background-color", "#D0D0D0");
+        //         });
+        //       $(win.document.body).find("h1").css("text-align", "center");
+        //     },
+        //   },
+        ],
+      });
+      $('button[data-bs-target="#approve"]').on("click", function () {
+        var id = $(this).data("id");
+        $('input[name="id"]').val(id);
+        console.log(id);
+      });  
+
      document.addEventListener('DOMContentLoaded', function () {
     // Approve modal
     var approveModal = document.getElementById('approveModal');
@@ -548,8 +477,7 @@ studentDetailsModal.addEventListener('show.bs.modal', function (event) {
     var course = button.getAttribute('data-course');
     var batch = button.getAttribute('data-batch');
     var email = button.getAttribute('data-email');
-    var presentAddress = button.getAttribute('data-present_address');
-    var workAddress = button.getAttribute('data-work_address');
+    var present_address = button.getAttribute('data-present_address');
 
     // Update the modal's content
     var modalUsername = document.getElementById('modalUsername');
@@ -561,7 +489,6 @@ studentDetailsModal.addEventListener('show.bs.modal', function (event) {
     var modalBatch = document.getElementById('modalBatch');
     var modalEmail = document.getElementById('modalEmail');
     var modalPresentAddress = document.getElementById('modalPresentAddress');
-    var modalWorkAddress = document.getElementById('modalWorkAddress');
 
     modalUsername.textContent = username;
     modalFirstName.textContent = firstname;
@@ -571,8 +498,7 @@ studentDetailsModal.addEventListener('show.bs.modal', function (event) {
     modalCourse.textContent = course;
     modalBatch.textContent = batch;
     modalEmail.textContent = email;
-    modalPresentAddress.textContent = presentAddress;
-    modalWorkAddress.textContent = workAddress;
+    modalPresentAddress.textContent = present_address;
 });
 
     </script>

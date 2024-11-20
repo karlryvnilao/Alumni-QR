@@ -72,7 +72,7 @@ if (isset($_SESSION['username'])) {
             <div id="logo">
                 <a href="index.php">
                     <img src="https://student.lemerycolleges.edu.ph/images/favicon.png" alt="Lemery College Logo">
-                    Lemery College Alumni
+                    Web-based Alumni Yearbook
                 </a>
             </div>
             <div class="right">
@@ -353,7 +353,7 @@ if (isset($_SESSION['username'])) {
                     <div class="row">          
                         <div class="col">
                             <div class="form-floating mb-3">
-                                <input class="form-control" type="tel" name="phone" placeholder="Phone" required maxlength="11" pattern="\d{11}">
+                                <input class="form-control" type="number" name="phone" placeholder="Phone" maxlength="11" oninput="this.value = this.value.slice(0, 11)">
                                 <label class="form-label">Contact #:</label>
                             </div>
                         </div>

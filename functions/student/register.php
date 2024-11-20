@@ -100,7 +100,7 @@ $stmt->bindParam(':profile_pic', $profile_pic);
 
 if ($stmt->execute()) {
     QRcode::png($username, $qrcode, 'H', 4, 4);
-    header('Location: ../../index.php?type=success&message=' . urlencode('Successfully Registered - Please check your email and wait for the administrator &apos; s approval. '));
+    header('Location: ../../index.php?type=success&message=' . urlencode('Successfully Registered - Please check your email and wait for the administrators approval. '));
 } else {
     $errorInfo = $stmt->errorInfo();
     echo "Error inserting student: " . $errorInfo[2];

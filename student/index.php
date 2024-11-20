@@ -147,7 +147,7 @@ button.btn.btn-primary.form-control:hover {
             <!-- Left Column: Another Picture -->
             <div class="col-md-6 d-flex justify-content-center align-items-center">
                 <div class="profile-pic-container text-center">
-                    <img src="../assets/img/bg.jpg" alt="Another Picture" class="img-fluid rounded" style="width: auto; height: 550px;">
+                    <img src="" alt="Another Picture" class="img-fluid rounded" style="width: auto; height: 550px;">
                 </div>
             </div>
 

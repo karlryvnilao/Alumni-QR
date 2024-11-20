@@ -545,24 +545,21 @@ function sortTable(n) {
 
 //searchbar
 document.getElementById('searchInput').addEventListener('keyup', function() {
-        const filter = this.value.toUpperCase();
-        const table = document.getElementById('dataTable');
-        const tr = table.getElementsByTagName('tr');
-        
-        for (let i = 1; i < tr.length; i++) {  // Skip header row
-            let td = tr[i].getElementsByTagName('td');
-            let match = false;
-
-            for (let j = 0; j < td.length - 1; j++) {  // Skip 'Action' column
-                if (td[j] && td[j].textContent.toUpperCase().indexOf(filter) > -1) {
-                    match = true;
-                    break;
-                }
-            }
-
-            tr[i].style.display = match ? '' : 'none';
+    let searchQuery = this.value.toLowerCase();
+    let rows = document.querySelectorAll('#dataTable tbody tr');
+    rows.forEach(function(row) {
+        let name = row.cells[0].textContent.toLowerCase();
+        let course = row.cells[1].textContent.toLowerCase();
+        let batch = row.cells[2].textContent.toLowerCase();
+        let status = row.cells[3].textContent.toLowerCase();
+        if (name.includes(searchQuery) || course.includes(searchQuery) || batch.includes(searchQuery) || status.includes(searchQuery)) {
+            row.style.display = '';
+        } else {
+            row.style.display = 'none';
         }
     });
+});
+
 
 
 

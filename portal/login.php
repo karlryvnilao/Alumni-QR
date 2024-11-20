@@ -27,7 +27,7 @@ if (isset($_POST['username'])) {
             if ($row['username'] === $username) {
             	$_SESSION['username'] = $row['username'];
             	$_SESSION['id'] = $row['id'];
-            	header("Location: home.php");
+            	header("Location: ../student/yearbook.php");
 		        exit();
             }else{
 				header("Location: index.php?error=INCORRECT QR CODE");
