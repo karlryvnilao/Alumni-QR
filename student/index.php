@@ -144,15 +144,10 @@ button.btn.btn-primary.form-control:hover {
             <section id="contact" class="py-4 py-xl-5">
     <div class="container-fluid"> <!-- Changed to container-fluid -->
         <div class="row">
-            <!-- Left Column: Another Picture -->
-            <div class="col-md-6 d-flex justify-content-center align-items-center">
-                <div class="profile-pic-container text-center">
-                    <img src="" alt="Another Picture" class="img-fluid rounded" style="width: auto; height: 550px;">
-                </div>
-            </div>
+           
 
             <!-- Right Column: Form -->
-            <div class="col-md-6">
+            <div class="col-md-12">
                     <form action="update-profile.php" method="post" enctype="multipart/form-data">
                         <div class="row">
                             <!-- Left Column -->
