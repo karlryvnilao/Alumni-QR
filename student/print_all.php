@@ -202,8 +202,11 @@ mysqli_close($conn);
                         <div class="card h-100">
                             <div class="card-img-top img-fluid" style="background-image: url('<?= !empty($student['profile_pic']) ? (preg_match('/data:image/i', $student['profile_pic']) ? $student['profile_pic'] : '../student/images/'.$student['profile_pic']) : 'default-avatar.jpg' ?>'); background-size: cover; background-position: center; height: 250px;"></div>
                             <div class="card-body text-center">
-                                <h5 class="card-title"><?= htmlspecialchars($student['lastname'] . ' ' . $student['firstname']) ?></h5>
-                                <p class="card-text"><?= htmlspecialchars($student['major_name']) ?></p>
+                            <h5 class="card-title"><?= htmlspecialchars($student['lastname']) ?>, <?= htmlspecialchars($student['firstname']) ?></h5>
+                                    <p class="card-text"><em><?= htmlspecialchars($student['present_address']) ?></em></p>
+                                    <p class="card-text"><em><?= htmlspecialchars($student['birthdate']) ?></em></p>
+                                    <p class="card-text"><em><?= htmlspecialchars($student['motto']) ?></em></p>
+                                    <p class="card-text"><?= htmlspecialchars($student['major_name']) ?></p>
                             </div>
                         </div>
                         </div>

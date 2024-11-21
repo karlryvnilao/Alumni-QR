@@ -142,11 +142,11 @@ div#selectedStudentInfo {
                 <div class="d-flex flex-column align-items-center mb-4"></div>
                 
                 <!-- Selected Student Info -->
-                <div id="selectedStudentInfo" class="mb-3">
+                <!-- <div id="selectedStudentInfo" class="mb-3">
                     <img id="studentImage" src="../assets/img/default_profile.png" alt="Profile Picture" class="img-fluid" style="width: 100px; height: auto;">
                     <h5 id="studentName">Select a student</h5>
                     <p id="studentMotto">Motto will be displayed here.</p>
-                </div>
+                </div> -->
 
                 <!-- Hidden Field to Store Selected Student ID -->
                 <input type="hidden" name="student_id" id="studentId" value="">
@@ -267,7 +267,7 @@ div#selectedStudentInfo {
                 <!-- <input type="hidden" name="student_id" id="studentId" value="<?php echo $student['id'] ?? ''; ?>"> -->
                     <!-- Selected Student Info -->
                     <div id="selectedStudentInfo" class="mb-3">
-                        <img id="studentImage" src="../assets/img/default_profile.png" alt="Profile Picture" class="img-fluid" style="width: 100px; height: auto;">
+                        <img id="studentImage" src="../assets/img/profile.png" alt="Alumni Profile" class="img-fluid" style="width: 100px; height: auto;">
                         <h5 id="studentName">Select a student</h5>
                         <p id="studentMotto">Motto will be displayed here.</p>
                     </div>
@@ -434,26 +434,26 @@ function selectStudent(student) {
     document.getElementById('birthdate').value = student.birthdate || '';
     document.getElementById('present_address').value = student.present_address || '';
     document.getElementById('studentImage').src = student.profile_pic 
-        ? `../assets/img/${student.profile_pic}` 
-        : '../assets/img/default_profile.png';
+        ? `../student/images/${student.profile_pic}` 
+        : '../assets/img/profile.png';
     document.getElementById('studentName').innerText = `${student.firstname || ''} ${student.lastname || 'Unknown Last Name'}`;
     document.getElementById('studentMotto').innerText = student.motto || 'Motto will be displayed here.';
 }
 
 
-function previewProfilePic() {
-    const profilePicInput = document.getElementById('profilePic');
+// function previewProfilePic() {
+//     const profilePicInput = document.getElementById('profilePic');
 
-    if (profilePicInput.files && profilePicInput.files[0]) {
-        const reader = new FileReader();
-        reader.onload = function(e) {
-            const studentImage = document.getElementById('studentImage');
-            studentImage.src = e.target.result; // Update the image with the new file
-            studentImage.style.display = 'block'; // Show the uploaded image
-        };
-        reader.readAsDataURL(profilePicInput.files[0]);
-    }
-}
+//     if (profilePicInput.files && profilePicInput.files[0]) {
+//         const reader = new FileReader();
+//         reader.onload = function(e) {
+//             const studentImage = document.getElementById('studentImage');
+//             studentImage.src = e.target.result; // Update the image with the new file
+//             studentImage.style.display = 'block'; // Show the uploaded image
+//         };
+//         reader.readAsDataURL(profilePicInput.files[0]);
+//     }
+// }
 
 
  //majors
